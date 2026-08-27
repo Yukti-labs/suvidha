@@ -3,7 +3,7 @@
 
   const appName = 'Suvidha';
   const appNameLong = 'Suvidha Tools';
-  const companyName = 'Zenskar Labs';
+  const companyName = 'Yukti Labs';
   const companyTagline = 'Ancient Wisdom. Modern Innovation';
   const themeStorageKey = 'suvidha-theme';
   const normalizedPath = decodeURIComponent(location.pathname.replace(/\\/g, '/')).toLowerCase();
@@ -604,7 +604,7 @@
           </div>
         </div>
         <div class="gf-bottom">
-          <span>© ${year} Zenskar Labs</span>
+          <span>© ${year} Yukti Labs</span>
           <span>Ancient Wisdom. Modern Innovation</span>
         </div>
       </footer>
