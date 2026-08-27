@@ -29,11 +29,24 @@
 :root{--bg:#09090c;--surface:#121217;--surface2:#1b1c23;--surface3:#232532;--border:#2b2d39;--text:#f5f2ec;--muted:#9999ab;--accent:#8b5cf6;--accent2:#f59e0b;--accent3:#22c55e;--radius:20px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:radial-gradient(circle at top,rgba(139,92,246,0.16),transparent 28%),radial-gradient(circle at right top,rgba(245,158,11,0.12),transparent 24%),var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;padding:0 0 88px}
+body{background:radial-gradient(circle at top,rgba(139,92,246,0.16),transparent 28%),radial-gradient(circle at right top,rgba(245,158,11,0.12),transparent 24%),var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;padding:80px 0 88px}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(circle at center,black 45%,transparent 100%);opacity:.22;pointer-events:none}
 a{color:inherit}
 .home-shell{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 24px}
-.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:26px 0 32px}
+.sticky-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(9,9,12,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;transition:all 0.3s ease}
+.sticky-nav.hidden{transform:translateY(-100%);opacity:0}
+.sticky-nav-content{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sticky-nav-logo{font-size:18px;font-weight:700;letter-spacing:-0.03em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+.sticky-nav-logo span{background:linear-gradient(135deg,#c4b5fd 0%,#f59e0b 55%,#f97316 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sticky-nav-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sticky-nav-link{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--muted);text-decoration:none;font-size:12px;font-family:'Syne Mono',monospace;transition:all 0.2s ease}
+.sticky-nav-link:hover{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,0.12)}
+.sticky-nav-link.active{background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.3);color:#d9c7ff}
+.sticky-nav-search{position:relative;flex:1;max-width:280px}
+.sticky-nav-search input{width:100%;padding:10px 14px 10px 36px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text);font-size:13px;font-family:'Syne',sans-serif;transition:all 0.2s ease}
+.sticky-nav-search input:focus{outline:none;background:var(--surface2);border-color:rgba(139,92,246,0.3)}
+.sticky-nav-search::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:26px 0 32px;position:relative}
 .hero-inner{max-width:700px;width:100%}
 .hero-copy{background:none;border:none;box-shadow:none;padding:0}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font:11px 'Syne Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#d7d2ff;margin-bottom:20px}
@@ -43,23 +56,30 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 .accent{background:linear-gradient(135deg,#c4b5fd 0%,#f59e0b 55%,#f97316 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{max-width:52ch;margin:0 auto 22px;color:var(--muted);font-size:16px;line-height:1.7}
 .hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:24px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:16px;text-decoration:none;font-weight:700;transition:transform .2s ease,background .2s ease,border-color .2s ease}
-.btn-primary{background:linear-gradient(135deg,var(--accent),#6d28d9);color:#fff}
-.btn-primary:hover{transform:translateY(-2px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:16px;text-decoration:none;font-weight:700;transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);opacity:0;transition:opacity .2s ease}
+.btn:hover::before{opacity:1}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6d28d9);color:#fff;box-shadow:0 4px 15px rgba(139,92,246,0.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(139,92,246,0.4)}
+.btn-primary:active{transform:translateY(0)}
 .btn-secondary{background:rgba(255,255,255,.03);border:1px solid var(--border);color:var(--text)}
-.btn-secondary:hover{background:var(--surface2)}
-.hero-stat-strip{display:flex;align-items:center;justify-content:center;margin:0 auto 22px;padding:16px 28px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border:1px solid var(--border);border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,.22);width:100%}
+.btn-secondary:hover{background:var(--surface2);border-color:rgba(255,255,255,0.12)}
+.hero-stat-strip{display:flex;align-items:center;justify-content:center;margin:0 auto 22px;padding:16px 28px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border:1px solid var(--border);border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,.22);width:100%;transition:transform 0.3s ease,box-shadow 0.3s ease}
+.hero-stat-strip:hover{transform:translateY(-2px);box-shadow:0 16px 50px rgba(0,0,0,.3)}
 .hstat{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0}
 .hstat-val{font-size:1.75rem;font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#c4b5fd,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
 .hstat-lbl{font:10px 'Syne Mono',monospace;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
 .hstat-div{width:1px;height:36px;background:var(--border);flex-shrink:0;margin:0 4px}
 .hero-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--muted);font:12px 'Syne Mono',monospace}
-.workflow-card,.section-panel,.tool-card,.cta-band{background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--muted);font:12px 'Syne Mono',monospace;transition:all 0.2s ease}
+.pill:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);transform:translateY(-1px)}
+.workflow-card,.section-panel,.tool-card,.cta-band{background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.22);backdrop-filter:blur(10px)}
 .workflow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}
 .workflow-card{padding:24px;border-radius:24px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;transition:transform .2s ease,border-color .2s ease,background .2s ease}
-.workflow-icon{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:var(--surface2);font-size:24px}
-.workflow-card:hover,.tool-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03))}
+.workflow-icon{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:var(--surface2);font-size:24px;animation:float 3s ease-in-out infinite}
+.workflow-card:nth-child(2) .workflow-icon{animation-delay:0.5s}
+.workflow-card:nth-child(3) .workflow-icon{animation-delay:1s}
+.workflow-card:hover,.tool-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));box-shadow:0 12px 40px rgba(0,0,0,.3)}
 .panel-kicker,.section-kicker{font:11px 'Syne Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .workflow-title{font-size:1.15rem;letter-spacing:-.03em}
 .workflow-copy{color:var(--muted);font-size:14px;line-height:1.6}
@@ -90,8 +110,13 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 .tool-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);font-size:13px;font-weight:600}
 .tool-footer span:last-child{color:#d9c7ff}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.hero,.workflow-grid,.section,.cta-band{animation:fadeUp .5s ease both}
-.section:nth-of-type(2){animation-delay:.08s}.section:nth-of-type(3){animation-delay:.16s}.section:nth-of-type(4){animation-delay:.24s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero,.workflow-grid,.section,.cta-band{animation:fadeUp .6s ease both}
+.section:nth-of-type(2){animation-delay:.1s}.section:nth-of-type(3){animation-delay:.2s}.section:nth-of-type(4){animation-delay:.3s}.section:nth-of-type(5){animation-delay:.4s}.section:nth-of-type(6){animation-delay:.5s}.section:nth-of-type(7){animation-delay:.6s}.section:nth-of-type(8){animation-delay:.7s}
 #pdf-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(239,68,68,.3),0 24px 60px rgba(239,68,68,.12)}
 #image-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(245,158,11,.3),0 24px 60px rgba(245,158,11,.12)}
 #utility-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(56,189,248,.3),0 24px 60px rgba(56,189,248,.12)}
@@ -145,6 +170,12 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
   .pill,.section-count{width:max-content}
   .cta-band{flex-direction:column;padding:24px}
   .cta-title{font-size:clamp(1.5rem,7vw,1.9rem)}
+  .sticky-nav{padding:10px 16px}
+  .sticky-nav-content{flex-direction:column;align-items:stretch;gap:12px}
+  .sticky-nav-search{max-width:100%;order:2}
+  .sticky-nav-links{justify-content:center;order:3}
+  .sticky-nav-link{font-size:10px;padding:5px 10px}
+  .sticky-nav-logo{order:1;justify-content:center}
 }
 @media (max-width: 520px){
   .home-shell{padding:0 12px}
@@ -159,6 +190,9 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
   .workflow-card{flex-direction:row;align-items:center;gap:14px}
   .workflow-copy{display:none}
   .workflow-link{font-size:11px}
+  .sticky-nav-links{gap:4px}
+  .sticky-nav-link{padding:4px 8px;font-size:9px}
+  .hero-search input{padding:14px 16px;padding-right:80px}
 }
 </style>
 <style id="search-dropdown-styles">
@@ -168,88 +202,118 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     left: 0;
     right: 0;
     margin-top: 8px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    max-height: 300px;
+    background: rgba(18,18,23,0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    max-height: 320px;
     overflow-y: auto;
     z-index: 1000;
     display: none;
+    animation: scaleIn 0.2s ease both
   }
   .search-dropdown-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
+    padding: 14px 16px;
     text-decoration: none;
     color: var(--text);
-    border-radius: 8px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    margin: 4px 8px
   }
   .search-dropdown-item:hover {
-    background: var(--surface2);
+    background: rgba(255,255,255,0.06);
+    transform: translateX(4px)
   }
   .search-dropdown-item-icon {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     display: grid;
     place-items: center;
-    background: var(--surface2);
-    border-radius: 8px;
-    font-size: 18px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    font-size: 20px;
+    flex-shrink: 0
   }
   .search-dropdown-item-info {
     flex: 1;
+    min-width: 0
   }
   .search-dropdown-item-title {
     font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px
   }
   .search-dropdown-item-sub {
     font-size: 12px;
     color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
   }
   .search-dropdown-item-meta {
     font-size: 11px;
     color: var(--muted);
+    font-family: 'Syne Mono', monospace;
+    background: rgba(255,255,255,0.04);
+    padding: 4px 8px;
+    border-radius: 6px
   }
   .search-dropdown-empty {
-    padding: 16px;
+    padding: 24px;
     color: var(--muted);
     text-align: center;
+    font-size: 14px
   }
+.hero-search{position:relative;width:100%;max-width:480px;margin:0 auto 22px}
+.hero-search input{width:100%;padding:16px 20px;padding-right:100px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text);font-size:15px;font-family:'Syne',sans-serif;transition:all 0.3s ease}
+.hero-search input:focus{outline:none;background:var(--surface2);border-color:rgba(139,92,246,0.4);box-shadow:0 0 0 4px rgba(139,92,246,0.1)}
+.hero-search input::placeholder{color:var(--muted)}
+.hero-search-buttons{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;gap:6px}
+.hero-search button{min-height:36px;padding:0 14px;border-radius:12px;font-size:13px}
+.hero-search button .search-icon{font-size:14px}
 </style>
 </head>
 <body id="top">
+<nav class="sticky-nav" id="stickyNav">
+  <div class="sticky-nav-content">
+    <a href="#" class="sticky-nav-logo">
+      <span>⚡</span>
+      <span>Suvidha</span>
+    </a>
+    <div class="sticky-nav-search">
+      <input type="text" id="nav-search" placeholder="Search tools..." autocomplete="off">
+    </div>
+    <div class="sticky-nav-links">
+      <a href="#pdf-tools" class="sticky-nav-link">PDF</a>
+      <a href="#image-tools" class="sticky-nav-link">Images</a>
+      <a href="#finance-tools" class="sticky-nav-link">Finance</a>
+      <a href="#json-tools" class="sticky-nav-link">JSON</a>
+      <a href="#seo-tools" class="sticky-nav-link">SEO</a>
+    </div>
+  </div>
+</nav>
 <main class="home-shell">
   <section class="hero">
     <div class="hero-inner">
       <div class="eyebrow">Private by design · built for web</div>
-      <h1>Suvidha for your <span class="accent">daily tools</span></h1>
-      <p class="hero-sub">A private browser-based toolkit for documents, images, QR codes, finance, resumes, JSON, SEO, and account lookups. Nothing ever leaves your device.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#pdf-tools">Explore tools</a>
-        <a class="btn btn-secondary" href="#finance-tools">Calculators</a>
-      </div>
+      <h1>Suvidha <span class="accent">Tools</span></h1>
+      <p class="hero-sub">A private browser-based toolkit. Nothing ever leaves your device.</p>
       <div class="hero-search">
-        <input type="text" id="global-search" placeholder="Search tools (e.g., resume, pdf, json)..." autocomplete="off">
-        <button id="search-btn" class="btn btn-secondary">Search</button>
-        <button id="voice-btn" class="btn btn-secondary" title="Voice search"><span>🎤</span></button>
+        <input type="text" id="global-search" placeholder="Search tools..." autocomplete="off">
+        <div class="hero-search-buttons">
+          <button id="search-btn" class="btn btn-secondary"><span class="search-icon">🔍</span></button>
+        </div>
         <div id="search-dropdown" class="search-dropdown"></div>
-      </div>
-      <div class="hero-stat-strip">
-        <div class="hstat"><span class="hstat-val">24</span><span class="hstat-lbl">Tools</span></div>
-        <div class="hstat-div"></div>
-        <div class="hstat"><span class="hstat-val">8</span><span class="hstat-lbl">Categories</span></div>
-        <div class="hstat-div"></div>
-        <div class="hstat"><span class="hstat-val">0 KB</span><span class="hstat-lbl">Uploaded</span></div>
-        <div class="hstat-div"></div>
-        <div class="hstat"><span class="hstat-val">Free</span><span class="hstat-lbl">Always</span></div>
       </div>
       <div class="hero-pills">
         <span class="pill">🔒 Zero uploads</span>
-        <span class="pill">⚡ Fast on mobile</span>
+        <span class="pill">⚡ Fast & private</span>
         <span class="pill">♻ No signup</span>
-        <span class="pill">🖥️ Works offline</span>
       </div>
     </div>
   </section>
@@ -535,6 +599,73 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 
 </main>
 <script>
+// Sticky Navigation
+const stickyNav = document.getElementById('stickyNav');
+let lastScrollY = 0;
+
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+  
+  if (currentScrollY > 100) {
+    stickyNav.classList.remove('hidden');
+  } else {
+    stickyNav.classList.add('hidden');
+  }
+  
+  lastScrollY = currentScrollY;
+});
+
+// Initial state
+stickyNav.classList.add('hidden');
+
+// Active section detection
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.sticky-nav-link');
+
+const observerOptions = {
+  root: null,
+  rootMargin: '-20% 0px -80% 0px',
+  threshold: 0
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${id}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, observerOptions);
+
+sections.forEach(section => observer.observe(section));
+
+// Smooth scroll for nav links
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute('href');
+    const targetSection = document.querySelector(targetId);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+// Sync nav search with global search
+const navSearch = document.getElementById('nav-search');
+const globalSearch = document.getElementById('global-search');
+if (navSearch && globalSearch) {
+  navSearch.addEventListener('input', (e) => {
+    globalSearch.value = e.target.value;
+    globalSearch.dispatchEvent(new Event('input'));
+  });
+}
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").then(registration => {
