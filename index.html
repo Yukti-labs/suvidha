@@ -33,7 +33,7 @@ body{background:radial-gradient(circle at top,rgba(139,92,246,0.16),transparent 
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(circle at center,black 45%,transparent 100%);opacity:.22;pointer-events:none}
 a{color:inherit}
 .home-shell{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 24px}
-.sticky-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(9,9,12,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;transition:all 0.3s ease}
+.sticky-nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(9,9,12,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 24px;transition:all 0.3s ease}
 .sticky-nav.hidden{transform:translateY(-100%);opacity:0}
 .sticky-nav-content{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .sticky-nav-logo{font-size:18px;font-weight:700;letter-spacing:-0.03em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
@@ -42,9 +42,9 @@ a{color:inherit}
 .sticky-nav-link{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--muted);text-decoration:none;font-size:12px;font-family:'Syne Mono',monospace;transition:all 0.2s ease}
 .sticky-nav-link:hover{background:var(--surface2);color:var(--text);border-color:rgba(255,255,255,0.12)}
 .sticky-nav-link.active{background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.3);color:#d9c7ff}
-.sticky-nav-search{position:relative;flex:1;max-width:280px}
-.sticky-nav-search input{width:100%;padding:10px 14px 10px 36px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text);font-size:13px;font-family:'Syne',sans-serif;transition:all 0.2s ease}
-.sticky-nav-search input:focus{outline:none;background:var(--surface2);border-color:rgba(139,92,246,0.3)}
+.sticky-nav-search{position:relative;flex:1;max-width:280px;z-index:1000}
+.sticky-nav-search input{width:100%;padding:10px 14px 10px 36px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text);font-size:13px;font-family:'Syne',sans-serif;transition:all 0.2s ease;position:relative;z-index:1}
+.sticky-nav-search input:focus{outline:none;background:var(--surface2);border-color:rgba(139,92,246,0.3);z-index:1001}
 .sticky-nav-search::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
 .hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 0 48px;position:relative}
 .hero-inner{max-width:700px;width:100%}
@@ -193,14 +193,14 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     left: 0;
     right: 0;
     margin-top: 8px;
-    background: rgba(18,18,23,0.95);
+    background: var(--surface);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid var(--border);
     border-radius: 16px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.4);
     max-height: 320px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 10000;
     display: none;
     animation: scaleIn 0.2s ease both
   }
@@ -216,7 +216,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     margin: 4px 8px
   }
   .search-dropdown-item:hover {
-    background: rgba(255,255,255,0.06);
+    background: var(--surface2);
     transform: translateX(4px)
   }
   .search-dropdown-item-icon {
@@ -224,8 +224,8 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     height: 40px;
     display: grid;
     place-items: center;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--surface2);
+    border: 1px solid var(--border);
     border-radius: 12px;
     font-size: 20px;
     flex-shrink: 0
@@ -260,10 +260,11 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     text-align: center;
     font-size: 14px
   }
-.hero-search{position:relative;width:100%;max-width:480px;margin:0 auto 22px}
-.hero-search input{width:100%;padding:16px 20px;padding-right:100px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text);font-size:15px;font-family:'Syne',sans-serif;transition:all 0.3s ease}
+.hero-search{position:relative;width:100%;max-width:480px;margin:0 auto 22px;z-index:1000}
+.hero-search input{width:100%;padding:16px 20px;padding-right:100px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text);font-size:15px;font-family:'Syne',sans-serif;transition:all 0.3s ease;position:relative;z-index:1}
 .hero-search input:focus{outline:none;background:var(--surface2);border-color:rgba(139,92,246,0.4);box-shadow:0 0 0 4px rgba(139,92,246,0.1)}
 .hero-search input::placeholder{color:var(--muted)}
+.hero-search input:focus{z-index:1001}
 .hero-search-buttons{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;gap:6px}
 .hero-search button{min-height:36px;padding:0 14px;border-radius:12px;font-size:13px}
 .hero-search button .search-icon{font-size:14px}
@@ -278,6 +279,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     </a>
     <div class="sticky-nav-search">
       <input type="text" id="nav-search" placeholder="Search tools..." autocomplete="off">
+      <div id="nav-search-dropdown" class="search-dropdown"></div>
     </div>
     <div class="sticky-nav-links">
       <a href="#pdf-tools" class="sticky-nav-link">PDF</a>
@@ -631,12 +633,33 @@ const allTools = [
 const globalSearch = document.getElementById('global-search');
 const searchDropdown = document.getElementById('search-dropdown');
 const searchBtn = document.getElementById('search-btn');
+const navSearch = document.getElementById('nav-search');
+const navSearchDropdown = document.getElementById('nav-search-dropdown');
 
-function performSearch(query) {
+function showDropdown(dropdown) {
+  const target = dropdown || searchDropdown;
+  if (target) {
+    target.style.display = 'block';
+    target.style.zIndex = '10000';
+  }
+}
+
+function hideDropdown() {
+  if (searchDropdown) {
+    searchDropdown.style.display = 'none';
+  }
+  if (navSearchDropdown) {
+    navSearchDropdown.style.display = 'none';
+  }
+}
+
+function performSearch(query, targetDropdown) {
   const normalizedQuery = query.toLowerCase().trim();
+  const dropdown = targetDropdown || searchDropdown;
   
   if (!normalizedQuery) {
-    searchDropdown.style.display = 'none';
+    hideDropdown();
+    if (navSearchDropdown) navSearchDropdown.style.display = 'none';
     return;
   }
   
@@ -645,10 +668,9 @@ function performSearch(query) {
     tool.category.toLowerCase().includes(normalizedQuery)
   );
   
-  if (filteredTools.length === 0) {
-    searchDropdown.innerHTML = '<div class="search-dropdown-empty">No tools found</div>';
-  } else {
-    searchDropdown.innerHTML = filteredTools.map(tool => `
+  const resultsHTML = filteredTools.length === 0 
+    ? '<div class="search-dropdown-empty">No tools found</div>'
+    : filteredTools.map(tool => `
       <a href="${tool.url}" class="search-dropdown-item">
         <div class="search-dropdown-item-icon">${tool.icon}</div>
         <div class="search-dropdown-item-info">
@@ -658,25 +680,32 @@ function performSearch(query) {
         <div class="search-dropdown-item-meta">Open →</div>
       </a>
     `).join('');
-  }
   
-  searchDropdown.style.display = 'block';
+  dropdown.innerHTML = resultsHTML;
+  showDropdown(dropdown);
 }
 
 if (globalSearch) {
   globalSearch.addEventListener('input', (e) => {
-    performSearch(e.target.value);
+    performSearch(e.target.value, searchDropdown);
   });
   
   globalSearch.addEventListener('focus', () => {
     if (globalSearch.value.trim()) {
-      performSearch(globalSearch.value);
+      performSearch(globalSearch.value, searchDropdown);
     }
+    globalSearch.style.zIndex = '1001';
+  });
+  
+  globalSearch.addEventListener('blur', () => {
+    setTimeout(() => {
+      globalSearch.style.zIndex = '1';
+    }, 200);
   });
   
   globalSearch.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      searchDropdown.style.display = 'none';
+      hideDropdown();
       globalSearch.blur();
     }
   });
@@ -685,7 +714,7 @@ if (globalSearch) {
 if (searchBtn) {
   searchBtn.addEventListener('click', () => {
     if (globalSearch) {
-      performSearch(globalSearch.value);
+      performSearch(globalSearch.value, searchDropdown);
     }
   });
 }
@@ -693,23 +722,36 @@ if (searchBtn) {
 // Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.hero-search') && !e.target.closest('.sticky-nav-search')) {
-    if (searchDropdown) {
-      searchDropdown.style.display = 'none';
-    }
+    hideDropdown();
+    if (navSearchDropdown) navSearchDropdown.style.display = 'none';
   }
 });
 
 // Sync nav search with global search
-const navSearch = document.getElementById('nav-search');
 if (navSearch && globalSearch) {
   navSearch.addEventListener('input', (e) => {
     globalSearch.value = e.target.value;
-    performSearch(e.target.value);
+    performSearch(e.target.value, navSearchDropdown);
   });
   
   navSearch.addEventListener('focus', () => {
     if (navSearch.value.trim()) {
-      performSearch(navSearch.value);
+      performSearch(navSearch.value, navSearchDropdown);
+    }
+    navSearch.style.zIndex = '1001';
+  });
+  
+  navSearch.addEventListener('blur', () => {
+    setTimeout(() => {
+      navSearch.style.zIndex = '1';
+      if (navSearchDropdown) navSearchDropdown.style.display = 'none';
+    }, 200);
+  });
+  
+  navSearch.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (navSearchDropdown) navSearchDropdown.style.display = 'none';
+      navSearch.blur();
     }
   });
 }
