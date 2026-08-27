@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Suvidha Tools — by Zenskar Labs</title>
 <script type="module" src="assets/js/shared-ui.js"></script>
+<link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#8b5cf6">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Suvidha Tools — by Zenskar Labs">
+  <meta property="og:description" content="A private browser-based toolkit for documents, images, QR codes, finance, resumes, JSON, SEO, and account lookups. Nothing ever leaves your device.">
+  <meta property="og:url" content="https://suvidha.tools/">
+  <meta property="og:site_name" content="Suvidha Tools">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:image" content="https://suvidha.tools/icon-512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Suvidha Tools icon">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Suvidha Tools — by Zenskar Labs">
+  <meta name="twitter:description" content="A private browser-based toolkit for documents, images, QR codes, finance, resumes, JSON, SEO, and account lookups. Nothing ever leaves your device.">
+  <meta name="twitter:image" content="https://suvidha.tools/icon-512.png" />
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&display=swap');
 :root{--bg:#09090c;--surface:#121217;--surface2:#1b1c23;--surface3:#232532;--border:#2b2d39;--text:#f5f2ec;--muted:#9999ab;--accent:#8b5cf6;--accent2:#f59e0b;--accent3:#22c55e;--radius:20px}
@@ -60,6 +79,10 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 .chip-image{background:rgba(245,158,11,.09);border-color:rgba(245,158,11,.16);color:#fcd34d}
 .chip-util{background:rgba(56,189,248,.09);border-color:rgba(56,189,248,.16);color:#7dd3fc}
 .chip-finance{background:rgba(34,197,94,.09);border-color:rgba(34,197,94,.16);color:#86efac}
+.chip-career{background:rgba(168,85,247,.09);border-color:rgba(168,85,247,.16);color:#d8b4fe}
+.chip-json{background:rgba(16,185,129,.09);border-color:rgba(16,185,129,.16);color:#a7f3d0}
+.chip-seo{background:rgba(249,115,22,.09);border-color:rgba(249,115,22,.16);color:#fdba74}
+.chip-lookup{background:rgba(107,114,128,.09);border-color:rgba(107,114,128,.16);color:#d1d5db}
 .tool-name{font-size:1.1rem;font-weight:700;letter-spacing:-.03em}
 .tool-desc{color:var(--muted);font-size:14px;line-height:1.7;flex:1}
 .tool-meta{display:flex;flex-wrap:wrap;gap:8px}
@@ -81,6 +104,18 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 #image-tools .section-kicker{color:#fcd34d}
 #utility-tools .section-kicker{color:#7dd3fc}
 #finance-tools .section-kicker{color:#86efac}
+#career-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(168,85,247,.3),0 24px 60px rgba(168,85,247,.12)}
+#career-tools .section-panel{border-top:2px solid rgba(168,85,247,.32)}
+#career-tools .section-kicker{color:#a855f7}
+#json-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(16,185,129,.3),0 24px 60px rgba(16,185,129,.12)}
+#json-tools .section-panel{border-top:2px solid rgba(16,185,129,.32)}
+#json-tools .section-kicker{color:#10b981}
+#seo-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(249,115,22,.3),0 24px 60px rgba(249,115,22,.12)}
+#seo-tools .section-panel{border-top:2px solid rgba(249,115,22,.32)}
+#seo-tools .section-kicker{color:#f97316}
+#lookup-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(107,114,128,.3),0 24px 60px rgba(107,114,128,.12)}
+#lookup-tools .section-panel{border-top:2px solid rgba(107,114,128,.32)}
+#lookup-tools .section-kicker{color:#6b7280}
 .cta-band{margin-top:24px;padding:40px 40px;border-radius:30px;display:grid;grid-template-columns:minmax(0,1.2fr) auto;gap:24px;align-items:center;background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(245,158,11,0.06));border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.22);position:relative;overflow:hidden}
 .cta-band::before{content:'';position:absolute;inset:-1px;border-radius:30px;background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(245,158,11,.08),transparent 60%);pointer-events:none}
 .cta-title{font-size:clamp(1.7rem,3vw,2.3rem);letter-spacing:-.04em;margin-bottom:10px}
@@ -126,6 +161,64 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
   .workflow-link{font-size:11px}
 }
 </style>
+</style>
+<style id="search-dropdown-styles">
+  .search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+  }
+  .search-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: var(--text);
+    border-radius: 8px;
+  }
+  .search-dropdown-item:hover {
+    background: var(--surface2);
+  }
+  .search-dropdown-item-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: var(--surface2);
+    border-radius: 8px;
+    font-size: 18px;
+  }
+  .search-dropdown-item-info {
+    flex: 1;
+  }
+  .search-dropdown-item-title {
+    font-weight: 600;
+  }
+  .search-dropdown-item-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .search-dropdown-item-meta {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .search-dropdown-empty {
+    padding: 16px;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
 </head>
 <body id="top">
 <main class="home-shell">
@@ -133,15 +226,21 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     <div class="hero-inner">
       <div class="eyebrow">Private by design · built for web</div>
       <h1>Suvidha for your <span class="accent">daily tools</span></h1>
-      <p class="hero-sub">A private browser-based toolkit for documents, images, QR codes, and finance. Nothing ever leaves your device.</p>
+      <p class="hero-sub">A private browser-based toolkit for documents, images, QR codes, finance, resumes, JSON, SEO, and account lookups. Nothing ever leaves your device.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#pdf-tools">Explore tools</a>
         <a class="btn btn-secondary" href="#finance-tools">Calculators</a>
       </div>
+      <div class="hero-search">
+        <input type="text" id="global-search" placeholder="Search tools (e.g., resume, pdf, json)..." autocomplete="off">
+        <button id="search-btn" class="btn btn-secondary">Search</button>
+        <button id="voice-btn" class="btn btn-secondary" title="Voice search"><span>🎤</span></button>
+        <div id="search-dropdown" class="search-dropdown"></div>
+      </div>
       <div class="hero-stat-strip">
-        <div class="hstat"><span class="hstat-val">9</span><span class="hstat-lbl">Tools</span></div>
+        <div class="hstat"><span class="hstat-val">24</span><span class="hstat-lbl">Tools</span></div>
         <div class="hstat-div"></div>
-        <div class="hstat"><span class="hstat-val">4</span><span class="hstat-lbl">Categories</span></div>
+        <div class="hstat"><span class="hstat-val">8</span><span class="hstat-lbl">Categories</span></div>
         <div class="hstat-div"></div>
         <div class="hstat"><span class="hstat-val">0 KB</span><span class="hstat-lbl">Uploaded</span></div>
         <div class="hstat-div"></div>
@@ -300,11 +399,134 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
     </div>
   </section>
 
+  <section class="section" id="career-tools">
+    <div class="section-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Career workspace</div>
+          <h2 class="section-title">Build professional resumes in minutes</h2>
+          <p class="section-copy">Create ATS-friendly resumes with live preview, multiple templates, and export to PDF.</p>
+        </div>
+        <div class="section-count">1 tool</div>
+      </div>
+    </div>
+    <div class="tools-grid">
+      <a href="pages/resume/resume-builder.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">📄</span><span class="tool-chip chip-career">Career</span></div>
+        <div class="tool-name">Resume Builder</div>
+        <div class="tool-desc">Design, customize, and download your resume without leaving the browser.</div>
+        <div class="tool-meta"><span class="meta-pill">Live preview</span><span class="meta-pill">PDF export</span></div>
+        <div class="tool-footer"><span>Professional output</span><span>Open →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="json-tools">
+    <div class="section-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">JSON workspace</div>
+          <h2 class="section-title">Validate, format, and transform JSON data</h2>
+          <p class="section-copy">Instantly check syntax, beautify code, and convert JSON to CSV or Excel.</p>
+        </div>
+        <div class="section-count">3 tools</div>
+      </div>
+    </div>
+    <div class="tools-grid">
+      <a href="pages/json/json-validator.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">🔍</span><span class="tool-chip chip-json">JSON</span></div>
+        <div class="tool-name">JSON Validator</div>
+        <div class="tool-desc">Check JSON syntax, highlight errors, and view a structured tree view.</div>
+        <div class="tool-meta"><span class="meta-pill">Real-time validation</span><span class="meta-pill">Error details</span></div>
+        <div class="tool-footer"><span>Secure parsing</span><span>Open →</span></div>
+      </a>
+      <a href="pages/json/json-formatter.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">🎨</span><span class="tool-chip chip-json">JSON</span></div>
+        <div class="tool-name">JSON Formatter</div>
+        <div class="tool-desc">Beautify JSON with customizable indentation and syntax highlighting.</div>
+        <div class="tool-meta"><span class="meta-pill">Indent options</span><span class="meta-pill">Copy to clipboard</span></div>
+        <div class="tool-footer"><span>Ready for sharing</span><span>Open →</span></div>
+      </a>
+      <a href="pages/json/json-to-csv.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">📊</span><span class="tool-chip chip-json">JSON</span></div>
+        <div class="tool-name">JSON to CSV Converter</div>
+        <div class="tool-desc">Transform JSON arrays into CSV format for spreadsheet use.</div>
+        <div class="tool-meta"><span class="meta-pill">Array detection</span><span class="meta-pill">Download CSV</span></div>
+        <div class="tool-footer"><span>Data export</span><span>Open →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="seo-tools">
+    <div class="section-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">SEO workspace</div>
+          <h2 class="section-title">Generate SEO meta tags and analyze page optimization</h2>
+          <p class="section-copy">Create Open Graph, Twitter cards, and sitemaps. Check keyword density and readability.</p>
+        </div>
+        <div class="section-count">3 tools</div>
+      </div>
+    </div>
+    <div class="tools-grid">
+      <a href="pages/seo/meta-tag-generator.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">🏷️</span><span class="tool-chip chip-seo">SEO</span></div>
+        <div class="tool-name">Meta Tag Generator</div>
+        <div class="tool-desc">Generate HTML meta tags, Open Graph, and Twitter card snippets for any URL.</div>
+        <div class="tool-meta"><span class="meta-pill">Live preview</span><span class="meta-pill">Copy to clipboard</span></div>
+        <div class="tool-footer"><span>Boost visibility</span><span>Open →</span></div>
+      </a>
+      <a href="pages/seo/sitemap-generator.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">🗺️</span><span class="tool-chip chip-seo">SEO</span></div>
+        <div class="tool-name">Sitemap Generator</div>
+        <div class="tool-desc">Create XML sitemaps from a list of URLs or crawl a simple site map.</div>
+        <div class="tool-meta"><span class="meta-pill">XML format</span><span class="meta-pill">Lastmod dates</span></div>
+        <div class="tool-footer"><span>SEO essential</span><span>Open →</span></div>
+      </a>
+      <a href="pages/seo/keyword-analyzer.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">🔑</span><span class="tool-chip chip-seo">SEO</span></div>
+        <div class="tool-name">Keyword Analyzer</div>
+        <div class="tool-desc">Paste content to see keyword frequency, density, and suggestions for improvement.</div>
+        <div class="tool-meta"><span class="meta-pill">Frequency count</span><span class="meta-pill">Readability score</span></div>
+        <div class="tool-footer"><span>Content insight</span><span>Open →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="lookup-tools">
+    <div class="section-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Lookup workspace</div>
+          <h2 class="section-title">Check linked accounts and UPI IDs from email or phone</h2>
+          <p class="section-copy">Enter an email address to see how many accounts are linked, or a mobile number to view associated UPI IDs.</p>
+        </div>
+        <div class="section-count">2 tools</div>
+      </div>
+    </div>
+    <div class="tools-grid">
+      <a href="pages/lookup/email-lookup.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">📧</span><span class="tool-chip chip-lookup">Lookup</span></div>
+        <div class="tool-name">Email Account Lookup</div>
+        <div class="tool-desc">Enter an email address to discover linked accounts across services (simulated privacy-safe lookup).</div>
+        <div class="tool-meta"><span class="meta-pill">Privacy first</span><span class="meta-pill">No storage</span></div>
+        <div class="tool-footer"><span>Informational</span><span>Open →</span></div>
+      </a>
+      <a href="pages/lookup/money-upi-lookup.html" class="tool-card">
+        <div class="tool-top"><span class="tool-icon">📱</span><span class="tool-chip chip-lookup">Lookup</span></div>
+        <div class="tool-name">Mobile UPI Lookup</div>
+        <div class="tool-desc">Enter a mobile number to see which UPI IDs are registered to it (for verification purposes).</div>
+        <div class="tool-meta"><span class="meta-pill">Verification aid</span><span class="meta-pill">No data stored</span></div>
+        <div class="tool-footer"><span>Lookup only</span><span>Open →</span></div>
+      </a>
+    </div>
+  </section>
+
   <div class="cta-band">
     <div>
       <h2 class="cta-title">Everything runs <span class="accent">in your browser</span></h2>
       <p class="cta-copy">No accounts, no server uploads, no trackers. Your files stay on your device — by design, not by promise.</p>
-      <p class="cta-meta">9 tools &nbsp;·&nbsp; 4 categories &nbsp;·&nbsp; zero data sent</p>
+      <p class="cta-meta">24 tools &nbsp;·&nbsp; 8 categories &nbsp;·&nbsp; zero data sent</p>
     </div>
     <div style="display:flex;flex-direction:column;gap:12px;align-items:center;flex-shrink:0">
       <a class="btn btn-primary" href="#pdf-tools" style="min-width:180px">Start using tools</a>
@@ -313,5 +535,16 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
   </div>
 
 </main>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").then(registration => {
+      // console.log("SW registered: ", registration);
+    }).catch(registrationError => {
+      // console.log("SW registration failed: ", registrationError);
+    });
+  });
+}
+</script>
 </body>
 </html>

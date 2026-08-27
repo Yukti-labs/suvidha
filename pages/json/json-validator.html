@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON Validator — Suvidha Tools</title>
+<script type="module" src="../../../assets/js/shared-ui.js"></script>
+<style>
+  .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+  textarea { width: 100%; height: 200px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-family: monospace; }
+  .result { margin-top: 20px; padding: 15px; border-radius: 8px; background: var(--surface); }
+  .valid { border-left: 4px solid var(--accent3); }
+  .invalid { border-left: 4px solid #ef4444; }
+  pre { background: var(--surface2); padding: 10px; overflow: auto; }
+  button { margin-top: 10px; padding: 10px 15px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>JSON Validator</h1>
+<p>Check JSON syntax, highlight errors, and view a structured tree view.</p>
+<textarea id="jsonInput" placeholder="Paste your JSON here..."></textarea>
+<div>
+<button id="validateBtn">Validate JSON</button>
+<button id="formatBtn">Format JSON</button>
+</button>
+</div>
+<div id="result" class="result"></div>
+</div>
+<script>
+const input = document.getElementById('jsonInput');
+const resultDiv = document.getElementById('result');
+const validateBtn = document.getElementById('validateBtn');
+const formatBtn = document.getElementById('formatBtn');
+
+validateBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Please enter JSON';
+    resultDiv.className = 'result invalid';
+    return;
+  }
+  try {
+    const obj = JSON.parse(text);
+    resultDiv.innerHTML = '<h3>Valid JSON</h3><pre>' + JSON.stringify(obj, null, 2) + '</pre>';
+    resultDiv.className = 'result valid';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+  }
+});
+
+formatBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Please enter JSON';
+    resultDiv.className = 'result invalid';
+    return;
+  }
+  try {
+    const obj = JSON.parse(text);
+    const formatted = JSON.stringify(obj, null, 2);
+    input.value = formatted;
+    resultDiv.textContent = 'JSON formatted successfully';
+    resultDiv.className = 'result valid';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+  }
+});
+</script>
+</body>
+</html>

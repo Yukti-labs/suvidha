@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keyword Analyzer — Suvidha Tools</title>
+<script type="module" src="../../../assets/js/shared-ui.js"></script>
+<style>
+  .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+  textarea { width: 100%; height: 200px; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: monospace; }
+  .row { display: flex; gap: 15px; margin-top: 15px; align-items: end; }
+  button { padding: 10px 15px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  th, td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: var(--surface2); }
+  tr:hover { background: var(--surface); }
+  .output { margin-top: 20px; }
+  .hint { font-size: 0.9em; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Keyword Analyzer</h1>
+<p>Paste content to see keyword frequency, density, and suggestions for improvement.</p>
+<textarea id="textInput" placeholder="Paste your article, blog post, or any text here..."></textarea>
+<div class="row">
+  <button id="analyzeBtn">Analyze Keywords</button>
+</div>
+<div class="output" id="output"></div>
+<div class="hint">Stop words (like "the", "and", "of") are excluded from frequency counts.</div>
+</div>
+<script>
+const textInput = document.getElementById('textInput');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const outputDiv = document.getElementById('output');
+
+const STOP_WORDS = new Set([
+  'the','and','of','to','in','is','it','you','that','he','was','for','on','are','as','with','his','they','i','at','be','this','have','from','or','one','had','by','word','but','not','what','all','were','we','when','your','can','said','there','use','an','each','which','she','do','how','their','if'
+]);
+
+function tokenize(str) {
+  return str.toLowerCase().match(/\b[a-z']+\b/g) || [];
+}
+
+function analyze() {
+  const text = textInput.value.trim();
+  if (!text) {
+    outputDiv.innerHTML = '<p>Please enter some text.</p>';
+    return;
+  }
+  const tokens = tokenize(text);
+  const total = tokens.length;
+  const freqMap = {};
+  for (const t of tokens) {
+    if (STOP_WORDS.has(t)) continue;
+    freqMap[t] = (freqMap[t] || 0) + 1;
+  }
+  // Convert to array and sort by count descending
+  const freqArr = Object.entries(freqMap).map(([word, count]) => ({word, count}));
+  freqArr.sort((a,b) => b.count - a.count);
+  // Build table
+  let html = '<h3>Keyword Frequency (excluding stop words)</h3>';
+  if (freqArr.length === 0) {
+    html += '<p>No significant keywords found.</p>';
+  } else {
+    html += '<table><thead><tr><th>Keyword</th><th>Count</th><th>Density (%)</th></tr></thead><tbody>';
+    for (const {word, count} of freqArr.slice(0,20)) {
+      const density = ((count / total) * 100).toFixed(2);
+      html += `<tr><td>${word}</td><td>${count}</td><td>${density}</td></tr>`;
+    }
+    html += '</tbody></table>';
+    // Suggestions: suggest adding more varied keywords if top keyword too dense
+    const topCount = freqArr[0]?.count || 0;
+    const topDensity = (topCount / total) * 100;
+    if (topDensity > 10) {
+      html += `<p><strong>Suggestion:</strong> The top keyword appears at ${topDensity.toFixed(1)}% density. Consider diversifying content to avoid over‑optimization.</p>`;
+    }
+    if (freqArr.length < 5) {
+      html += `<p><strong>Suggestion:</strong> Try to include more varied vocabulary to improve SEO.</p>`;
+    }
+  }
+  outputDiv.innerHTML = html;
+}
+
+analyzeBtn.addEventListener('click', analyze);
+</script>
+</body>
+</html>

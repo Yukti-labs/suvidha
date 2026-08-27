@@ -46,6 +46,39 @@
         { path: 'pages/finance/gst-calculator.html', file: 'gst-calculator.html', label: 'GST Calculator', icon: '🧾' },
         { path: 'pages/finance/sip-calculator.html', file: 'sip-calculator.html', label: 'SIP Calculator', icon: '📈' }
       ]
+    },
+    {
+      label: 'Career',
+      anchor: '#career-tools',
+      pages: [
+        { path: 'pages/resume/resume-builder.html', file: 'resume-builder.html', label: 'Resume Builder', icon: '📄' }
+      ]
+    },
+    {
+      label: 'JSON',
+      anchor: '#json-tools',
+      pages: [
+        { path: 'pages/json/json-validator.html', file: 'json-validator.html', label: 'JSON Validator', icon: '🔍' },
+        { path: 'pages/json/json-formatter.html', file: 'json-formatter.html', label: 'JSON Formatter', icon: '🎨' },
+        { path: 'pages/json/json-to-csv.html', file: 'json-to-csv.html', label: 'JSON to CSV', icon: '📊' }
+      ]
+    },
+    {
+      label: 'SEO',
+      anchor: '#seo-tools',
+      pages: [
+        { path: 'pages/seo/meta-tag-generator.html', file: 'meta-tag-generator.html', label: 'Meta Tag Generator', icon: '🏷️' },
+        { path: 'pages/seo/sitemap-generator.html', file: 'sitemap-generator.html', label: 'Sitemap Generator', icon: '🗺️' },
+        { path: 'pages/seo/keyword-analyzer.html', file: 'keyword-analyzer.html', label: 'Keyword Analyzer', icon: '🔑' }
+      ]
+    },
+    {
+      label: 'Lookup',
+      anchor: '#lookup-tools',
+      pages: [
+        { path: 'pages/lookup/email-lookup.html', file: 'email-lookup.html', label: 'Email Account Lookup', icon: '📧' },
+        { path: 'pages/lookup/money-upi-lookup.html', file: 'money-upi-lookup.html', label: 'Mobile UPI Lookup', icon: '📱' }
+      ]
     }
   ];
 
@@ -137,7 +170,7 @@
     .site-brand-title{font-size:15px;font-weight:700;letter-spacing:-0.02em;color:var(--text);white-space:nowrap}
     .site-nav-desktop{display:flex;align-items:center;gap:10px}
     .site-nav-link,.site-tools-trigger{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border-radius:999px;border:1px solid transparent;text-decoration:none;background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s ease;font-family:inherit}
-    .site-nav-link:hover,.site-nav-link.is-active,.site-tools-trigger:hover,.site-tools-trigger[aria-expanded='true']{color:var(--text);background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border-color:color-mix(in srgb,var(--border) 70%, transparent)}
+    .site-nav-link:hover,.site-nav-link.is-active,.site-tools-trigger:hover,.site-tools-trigger[aria-expanded='true']{color:var(--text);background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border-color:color-mix(in srgb,var(--border) 70%, transparent);transform:translateY(-2px)}
     .site-tools-menu{position:relative}
     .site-tools-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:min(440px,calc(100vw - 48px));padding:16px;border-radius:20px;border:1px solid color-mix(in srgb,var(--border) 82%, transparent);background:color-mix(in srgb,var(--surface, #141416) 96%, transparent);backdrop-filter:blur(20px);box-shadow:0 22px 60px rgba(0,0,0,.22);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;opacity:0;visibility:hidden;transform:translateY(8px);transition:all .2s ease;pointer-events:none}
     .site-tools-menu:hover .site-tools-dropdown,.site-tools-menu.is-open .site-tools-dropdown{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
@@ -219,6 +252,217 @@
       .global-footer{padding:18px 16px 14px;border-radius:18px}
       .global-footer-top{grid-template-columns:1fr}
       .gf-links{grid-template-columns:1fr}
+    }
+
+    /* Eye-catching UI enhancements */
+    .workflow-card,.tool-card,.section-panel,.cta-band{
+      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change:transform;
+      position:relative;
+      z-index:1;
+    }
+    .workflow-card:hover,.tool-card:hover{
+      transform:translateY(-8px) scale(1.03);
+      border-color:rgba(255,255,255,.3);
+      background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));
+      box-shadow:0 32px 80px rgba(0,0,0,.35);
+    }
+    .workflow-card:hover::before,.tool-card:hover::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);
+      z-index:-1;
+    }
+    .section-panel:hover{
+      transform:translateY(-6px);
+      box-shadow:0 28px 70px rgba(0,0,0,.3);
+    }
+    .cta-band:hover{
+      transform:translateY(-4px);
+      box-shadow:0 28px 70px rgba(0,0,0,.3);
+    }
+    .btn{
+      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position:relative;
+      overflow:hidden;
+      z-index:1;
+    }
+    .btn:hover{
+      transform:translateY(-3px);
+    }
+    .btn:active{
+      transform:translateY(-1px);
+    }
+    .btn::after{
+      content:'';
+      position:absolute;
+      top:-50%;
+      left:-50%;
+      width:200%;
+      height:200%;
+      background:radial-gradient(circle,rgba(255,255,255,.15) 0%,transparent 70%);
+      transition:all .6s ease;
+      opacity:0;
+      pointer-events:none;
+    }
+    .btn:hover::after{
+      animation:ripple .8s ease-out;
+    }
+    .btn:active::after{
+      background:radial-gradient(circle,rgba(255,255,255,.25) 0%,transparent 70%);
+      animation:none;
+    }
+    @keyframes ripple{
+      0%{
+        transform:scale(0);
+        opacity:.3;
+      }
+      100%{
+        transform:scale(2.5);
+        opacity:0;
+      }
+    }
+    .workflow-icon,.tool-icon,.site-tool-icon{
+      transition:transform .4s ease;
+      display:inline-flex;
+    }
+    .workflow-card:hover .workflow-icon,.tool-card:hover .tool-icon,.site-tool-link:hover .site-tool-icon{
+      transform:rotate(12deg) scale(1.2);
+      transition:transform .4s ease;
+    }
+    .input-row input,.input-row select,.input-row textarea{
+      transition:all .3s ease;
+      border:none;
+      border-radius:8px;
+      padding:12px 16px;
+    }
+    .input-row input:focus,.input-row select:focus,.input-row textarea:focus{
+      outline:none;
+      box-shadow:0 0 0 3px rgba(59,130,246,.5);
+      background:var(--surface);
+    }
+    .theme-toggle{
+      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position:relative;
+      overflow:hidden;
+    }
+    .theme-toggle:hover{
+      transform:scale(1.05);
+    }
+    .theme-toggle::after{
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:0;
+      height:0;
+      background:rgba(255,255,255,.2);
+      border-radius:50%;
+      transition:width .3s ease, height .3s ease;
+      transform:translate(-50%,-50%);
+    }
+    .theme-toggle:hover::after{
+      width:100px;
+      height:100px;
+    }
+    .focus-visible:focus{
+      outline:none;
+      box-shadow:0 0 0 3px rgba(59,130,246,.5);
+      border-radius:4px;
+    }
+    /* Animated gradient background for headers */
+    .hero{
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:'';
+      position:absolute;
+      top:-50%;
+      left:-50%;
+      width:200%;
+      height:200%;
+      background:linear-gradient(45deg,transparent 30%,rgba(139,92,246,.08) 50%,transparent 70%);
+      animation:gradientShift 15s ease infinite;
+      z-index:0;
+    }
+    @keyframes gradientShift{
+      0%{
+        transform:rotate(0deg);
+      }
+      100%{
+        transform:rotate(360deg);
+      }
+    }
+    /* Floating animation for icons */
+    .floating-icon{
+      display:inline-block;
+      animation:float 6s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%{
+        transform:translateY(0px);
+      }
+      50%{
+        transform:translateY(-10px);
+      }
+      100%{
+        transform:translateY(0px);
+      }
+    }
+    /* Pulse animation for stats */
+    .hstat-val{
+      animation:pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%{
+        transform:scale(1);
+      }
+      50%{
+        transform:scale(1.05);
+      }
+      100%{
+        transform:scale(1);
+      }
+    }
+    /* Staggered animation for tools grid on fade-in */
+    .tools-grid .tool-card,.workflow-grid .workflow-card{
+      opacity:0;
+      transform:translateY(30px);
+    }
+    .tools-grid .tool-card:nth-child(1),
+    .workflow-grid .workflow-card:nth-child(1){
+      animation:fadeUpSlide .6s forwards;
+    }
+    .tools-grid .tool-card:nth-child(2),
+    .workflow-grid .workflow-card:nth-child(2){
+      animation:fadeUpSlide .6s forwards .1s;
+    }
+    .tools-grid .tool-card:nth-child(3),
+    .workflow-grid .workflow-card:nth-child(3){
+      animation:fadeUpSlide .6s forwards .2s;
+    }
+    .tools-grid .tool-card:nth-child(4),
+    .workflow-grid .workflow-card:nth-child(4){
+      animation:fadeUpSlide .6s forwards .3s;
+    }
+    .tools-grid .tool-card:nth-child(5),
+    .workflow-grid .workflow-card:nth-child(5){
+      animation:fadeUpSlide .6s forwards .4s;
+    }
+    .tools-grid .tool-card:nth-child(6),
+    .workflow-grid .workflow-card:nth-child(6){
+      animation:fadeUpSlide .6s forwards .5s;
+    }
+    @keyframes fadeUpSlide{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
     }
   `;
   document.head.appendChild(style);

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON to CSV Converter — Suvidha Tools</title>
+<script type="module" src="../../../assets/js/shared-ui.js"></script>
+<style>
+  .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+  textarea { width: 100%; height: 200px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-family: monospace; }
+  .result { margin-top: 20px; padding: 15px; border-radius: 8px; background: var(--surface); }
+  .valid { border-left: 4px solid var(--accent3); }
+  .invalid { border-left: 4px solid #ef4444; }
+  pre { background: var(--surface2); padding: 10px; overflow: auto; }
+  button { margin-top: 10px; padding: 10px 15px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  a.button { display: inline-block; margin-top: 10px; padding: 10px 15px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 6px; text-align: center; }
+  a.button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>JSON to CSV Converter</h1>
+<p>Transform JSON arrays into CSV format for spreadsheet use.</p>
+<textarea id="jsonInput" placeholder='[{"name":"John","age":30},{"name":"Jane","age":25}]'></textarea>
+<div>
+<button id="convertBtn">Convert to CSV</button>
+<a href="#" id="downloadLink" class="button" download="data.csv">Download CSV</a>
+</div>
+<div id="result" class="result"></div>
+</div>
+<script>
+const input = document.getElementById('jsonInput');
+const resultDiv = document.getElementById('result');
+const convertBtn = document.getElementById('convertBtn');
+const downloadLink = document.getElementById('downloadLink');
+
+convertBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Please enter JSON';
+    resultDiv.className = 'result invalid';
+    downloadLink.style.display = 'none';
+    return;
+  }
+  try {
+    const data = JSON.parse(text);
+    if (!Array.isArray(data)) {
+      resultDiv.textContent = 'JSON must be an array of objects';
+      resultDiv.className = 'result invalid';
+      downloadLink.style.display = 'none';
+      return;
+    }
+    if (data.length === 0) {
+      resultDiv.textContent = 'Empty array';
+      resultDiv.className = 'result valid';
+      downloadLink.style.display = 'none';
+      return;
+    }
+    // Determine headers from first object
+    const first = data[0];
+    if (typeof first !== 'object' || first === null) {
+      resultDiv.textContent = 'Array elements must be objects';
+      resultDiv.className = 'result invalid';
+      downloadLink.style.display = 'none';
+      return;
+    }
+    const headers = Object.keys(first);
+    // Build CSV
+    const csvRows = [];
+    csvRows.push(headers.map(h => `"${String(h).replace(/"/g, '""')}"`).join(','));
+    for (const row of data) {
+      const values = headers.map(h => {
+        const val = row[h];
+        return typeof val === 'undefined' || val === null ? '' : `"${String(val).replace(/"/g, '""')}"`;
+      });
+      csvRows.push(values.join(','));
+    }
+    const csv = csvRows.join('\n');
+    // Show preview
+    resultDiv.innerHTML = `<h3>CSV Preview (first 5 lines)</h3><pre>${csvRows.slice(0,6).join('\n')}</pre>`;
+    resultDiv.className = 'result valid';
+    // Set download link
+    const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.style.display = 'inline-block';
+    downloadLink.textContent = 'Download CSV';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+    downloadLink.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>

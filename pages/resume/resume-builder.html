@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Builder — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui.js"></script>
+<style>
+  .container { max-width: 800px; margin: 40px auto; padding: 20px; }
+  h1 { text-align: center; }
+  .form-group { margin-bottom: 1rem; }
+  label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+  input, textarea, select { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface2); color: var(--text); }
+  button { background: var(--accent); color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  .preview { margin-top: 2rem; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Resume Builder</h1>
+  <p>Create ATS-friendly resumes with live preview, multiple templates, and export to PDF.</p>
+  <form id="resumeForm">
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" id="fullName" placeholder="John Doe" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="john@example.com" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" placeholder="+1 (555) 123-4567">
+    </div>
+    <div class="form-group">
+      <label for="title">Professional Title</label>
+      <input type="text" id="title" placeholder="Software Engineer">
+    </div>
+    <div class="form-group">
+      <label for="summary">Summary</label>
+      <textarea id="summary" rows="3" placeholder="Brief professional summary..."></textarea>
+    </div>
+    <div class="form-group">
+      <label for="experience">Experience (one per line)</label>
+      <textarea id="experience" rows="4" placeholder="Job Title at Company - Dates&#10;• Achievement 1&#10;• Achievement 2"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="education">Education (one per line)</label>
+      <textarea id="education" rows="3" placeholder="Degree - Institution - Year"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="skills">Skills (comma separated)</label>
+      <input type="text" id="skills" placeholder="JavaScript, React, Node.js, SQL">
+    </div>
+    <button type="submit">Generate Preview</button>
+  </form>
+  <div class="preview" id="preview">
+    <h2>Live Preview</h2>
+    <p>Fill the form above to see your resume preview.</p>
+  </div>
+</div>
+<script>
+  const form = document.getElementById('resumeForm');
+  const preview = document.getElementById('preview');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const title = document.getElementById('title').value;
+    const summary = document.getElementById('summary').value;
+    const experience = document.getElementById('experience').value;
+    const education = document.getElementById('education').value;
+    const skills = document.getElementById('skills').value;
+
+    preview.innerHTML = `
+      <h2>${name || 'Your Name'}</h2>
+      <div><strong>${title || 'Professional Title'}</strong></div>
+      <div>${email} • ${phone}</div>
+      <hr>
+      <h3>Summary</h3>
+      <p>${summary || 'Add a professional summary...'}</p>
+      <h3>Experience</h3>
+      <p>${experience || 'Add your work experience...'}</p>
+      <h3>Education</h3>
+      <p>${education || 'Add your education...'}</p>
+      <h3>Skills</h3>
+      <p>${skills || 'Add your skills...'}</p>
+    `;
+  });
+</script>
+</body>
+</html>

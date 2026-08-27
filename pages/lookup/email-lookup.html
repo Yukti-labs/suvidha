@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Account Lookup — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui.js"></script>
+<style>
+  .container { max-width: 500px; margin: 40px auto; padding: 20px; }
+  input[type="email"] { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; margin-bottom: 15px; background: var(--surface2); color: var(--text); }
+  button { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  .result { margin-top: 20px; padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; text-align: center; }
+  .result.success { border-left: 4px solid var(--accent3); }
+  .result.info { border-left: 4px solid var(--accent2); }
+  .result.none { border-left: 4px solid #94a3b8; }
+  .icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .note { font-size: 0.9rem; color: var(--muted); margin-top: 20px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Email Account Lookup</h1>
+<p>Enter an email address to discover linked accounts across services (simulated privacy-safe lookup).</p>
+<input type="email" id="emailInput" placeholder="you@example.com" required>
+<button id="lookupBtn">Lookup</button>
+<div class="result" id="result" style="display:none;">
+  <div class="icon" id="resultIcon"></div>
+  <div id="resultText"></div>
+</div>
+<p class="note">No data is stored or sent to any server. This is a client‑side demo only.</p>
+</div>
+<script>
+const emailInput = document.getElementById('emailInput');
+const lookupBtn = document.getElementById('lookupBtn');
+const resultDiv = document.getElementById('result');
+const resultIcon = document.getElementById('resultIcon');
+const resultText = document.getElementById('resultText');
+
+// Mock database: map email domain to random count
+const mockData = {
+  'gmail.com': { min: 2, max: 8 },
+  'yahoo.com': { min: 1, max: 5 },
+  'outlook.com': { min: 1, max: 4 },
+  'icloud.com': { min: 1, max: 3 },
+  'protonmail.com': { min: 0, max: 2 },
+  // default
+};
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+lookupBtn.addEventListener('click', () => {
+  const email = emailInput.value.trim();
+  if (!email) {
+    alert('Please enter an email address');
+    return;
+  }
+  const domain = email.split('@')[1].toLowerCase();
+  const data = mockData[domain] || { min: 0, max: 3 };
+  const count = getRandomInt(data.min, data.max);
+  resultDiv.style.display = 'block';
+  if (count === 0) {
+    resultIcon.textContent = '❌';
+    resultIcon.style.color = '#94a3b8';
+    resultText.textContent = 'No linked accounts found.';
+    resultDiv.className = 'result none';
+  } else if (count <= 3) {
+    resultIcon.textContent = '⚠️';
+    resultIcon.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim();
+    resultText.textContent = `Found ${count} linked account${count === 1 ? '' : 's'}.`;
+    resultDiv.className = 'result info';
+  } else {
+    resultIcon.textContent = '✅';
+    resultIcon.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent3').trim();
+    resultText.textContent = `Found ${count} linked accounts.`;
+    resultDiv.className = 'result success';
+  }
+});
+
+// Allow pressing Enter
+emailInput.addEventListener('keyup', e => {
+  if (e.key === 'Enter') lookupBtn.click();
+});
+</script>
+</body>
+</html>
