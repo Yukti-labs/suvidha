@@ -46,7 +46,7 @@ a{color:inherit}
 .sticky-nav-search input{width:100%;padding:10px 14px 10px 36px;border-radius:999px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text);font-size:13px;font-family:'Syne',sans-serif;transition:all 0.2s ease}
 .sticky-nav-search input:focus{outline:none;background:var(--surface2);border-color:rgba(139,92,246,0.3)}
 .sticky-nav-search::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px}
-.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:26px 0 32px;position:relative}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 0 48px;position:relative}
 .hero-inner{max-width:700px;width:100%}
 .hero-copy{background:none;border:none;box-shadow:none;padding:0}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font:11px 'Syne Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#d7d2ff;margin-bottom:20px}
@@ -73,7 +73,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 .hero-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--muted);font:12px 'Syne Mono',monospace;transition:all 0.2s ease}
 .pill:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);transform:translateY(-1px)}
-.workflow-card,.section-panel,.tool-card,.cta-band{background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.22);backdrop-filter:blur(10px)}
+.workflow-card,.section-panel,.tool-card{background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.22);backdrop-filter:blur(10px)}
 .workflow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}
 .workflow-card{padding:24px;border-radius:24px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;transition:transform .2s ease,border-color .2s ease,background .2s ease}
 .workflow-icon{width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:var(--surface2);font-size:24px;animation:float 3s ease-in-out infinite}
@@ -105,17 +105,14 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 .chip-lookup{background:rgba(107,114,128,.09);border-color:rgba(107,114,128,.16);color:#d1d5db}
 .tool-name{font-size:1.1rem;font-weight:700;letter-spacing:-.03em}
 .tool-desc{color:var(--muted);font-size:14px;line-height:1.7;flex:1}
-.tool-meta{display:flex;flex-wrap:wrap;gap:8px}
-.meta-pill{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.05);font:11px 'Syne Mono',monospace;color:var(--muted)}
-.tool-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);font-size:13px;font-weight:600}
-.tool-footer span:last-child{color:#d9c7ff}
+.tool-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);font-size:13px;font-weight:600;color:#d9c7ff}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-.hero,.workflow-grid,.section,.cta-band{animation:fadeUp .6s ease both}
+.hero,.workflow-grid,.section{animation:fadeUp .6s ease both}
 .section:nth-of-type(2){animation-delay:.1s}.section:nth-of-type(3){animation-delay:.2s}.section:nth-of-type(4){animation-delay:.3s}.section:nth-of-type(5){animation-delay:.4s}.section:nth-of-type(6){animation-delay:.5s}.section:nth-of-type(7){animation-delay:.6s}.section:nth-of-type(8){animation-delay:.7s}
 #pdf-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(239,68,68,.3),0 24px 60px rgba(239,68,68,.12)}
 #image-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(245,158,11,.3),0 24px 60px rgba(245,158,11,.12)}
@@ -141,11 +138,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
 #lookup-tools .tool-card:hover{box-shadow:0 0 0 1px rgba(107,114,128,.3),0 24px 60px rgba(107,114,128,.12)}
 #lookup-tools .section-panel{border-top:2px solid rgba(107,114,128,.32)}
 #lookup-tools .section-kicker{color:#6b7280}
-.cta-band{margin-top:24px;padding:40px 40px;border-radius:30px;display:grid;grid-template-columns:minmax(0,1.2fr) auto;gap:24px;align-items:center;background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(245,158,11,0.06));border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.22);position:relative;overflow:hidden}
-.cta-band::before{content:'';position:absolute;inset:-1px;border-radius:30px;background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(245,158,11,.08),transparent 60%);pointer-events:none}
-.cta-title{font-size:clamp(1.7rem,3vw,2.3rem);letter-spacing:-.04em;margin-bottom:10px}
-.cta-copy{color:var(--muted);line-height:1.7;max-width:58ch;font-size:15px}
-.cta-meta{font:11px 'Syne Mono',monospace;color:var(--muted);margin-top:16px;letter-spacing:.08em}
+
 @media (max-width: 1024px){.workflow-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.cta-band{grid-template-columns:1fr}}
 @media (max-width: 760px){
   .home-shell{padding:0 16px}
@@ -161,15 +154,13 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
   .btn{min-height:44px;padding:0 18px;font-size:14px;border-radius:14px}
   .pill{font-size:11px;padding:6px 10px}
   .workflow-grid{grid-template-columns:1fr;gap:10px;margin-bottom:16px}
-  .workflow-card,.section-panel,.tool-card,.cta-band{padding:18px;border-radius:18px}
+  .workflow-card,.section-panel,.tool-card{padding:18px;border-radius:18px}
   .tools-grid{grid-template-columns:1fr;gap:12px}
   .section{margin-top:16px}
   .section-title{font-size:clamp(1.5rem,6vw,1.9rem)}
   .section-copy{font-size:14px}
   .section-head{align-items:flex-start}
   .pill,.section-count{width:max-content}
-  .cta-band{flex-direction:column;padding:24px}
-  .cta-title{font-size:clamp(1.5rem,7vw,1.9rem)}
   .sticky-nav{padding:10px 16px}
   .sticky-nav-content{flex-direction:column;align-items:stretch;gap:12px}
   .sticky-nav-search{max-width:100%;order:2}
@@ -321,21 +312,18 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
   <section class="workflow-grid" aria-label="Popular workflows">
     <a class="workflow-card" href="pages/pdf/pdf-merger.html">
       <div class="workflow-icon" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.18)">📎</div>
-      <div class="workflow-title">Manage PDFs faster</div>
-      <p class="workflow-copy">Unlock, merge, or compress files without leaving the browser.</p>
-      <div class="workflow-link">Open PDF tools →</div>
+      <div class="workflow-title">PDF Tools</div>
+      <div class="workflow-link">Unlock, Merge, Compress →</div>
     </a>
     <a class="workflow-card" href="pages/image/image-compressor.html">
       <div class="workflow-icon" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.18)">🖼️</div>
-      <div class="workflow-title">Optimize images instantly</div>
-      <p class="workflow-copy">Compress photos or convert multiple images into a single shareable PDF.</p>
-      <div class="workflow-link">Open image tools →</div>
+      <div class="workflow-title">Image Tools</div>
+      <div class="workflow-link">Compress, Convert →</div>
     </a>
     <a class="workflow-card" href="pages/finance/sip-calculator.html">
       <div class="workflow-icon" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.18)">📈</div>
-      <div class="workflow-title">Run finance calculations</div>
-      <p class="workflow-copy">Check EMI, GST, and SIP projections with clear summaries and charts.</p>
-      <div class="workflow-link">Open calculators →</div>
+      <div class="workflow-title">Finance Tools</div>
+      <div class="workflow-link">EMI, GST, SIP →</div>
     </a>
   </section>
 
@@ -344,8 +332,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">PDF workspace</div>
-          <h2 class="section-title">Quick document actions without server uploads</h2>
-          <p class="section-copy">Handle protected files, combine reports, and generate lighter PDFs from one clean dashboard.</p>
+          <h2 class="section-title">PDF Tools</h2>
         </div>
         <div class="section-count">3 tools</div>
       </div>
@@ -354,23 +341,20 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/pdf/pdf-unlock.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🔓</span><span class="tool-chip chip-pdf">PDF</span></div>
         <div class="tool-name">PDF Unlocker</div>
-        <div class="tool-desc">Remove passwords from PDFs in the browser and download a fresh unlocked copy.</div>
-        <div class="tool-meta"><span class="meta-pill">pdf.js</span><span class="meta-pill">pdf-lib</span></div>
-        <div class="tool-footer"><span>Private unlock flow</span><span>Open →</span></div>
+        <div class="tool-desc">Remove passwords from PDFs in the browser.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/pdf/pdf-merger.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">📎</span><span class="tool-chip chip-pdf">PDF</span></div>
         <div class="tool-name">PDF Merger</div>
-        <div class="tool-desc">Combine multiple PDFs into one file and reorder them before export.</div>
-        <div class="tool-meta"><span class="meta-pill">Drag reorder</span><span class="meta-pill">pdf-lib</span></div>
-        <div class="tool-footer"><span>Fast merge flow</span><span>Open →</span></div>
+        <div class="tool-desc">Combine multiple PDFs into one file.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/pdf/pdf-compressor.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">📉</span><span class="tool-chip chip-pdf">PDF</span></div>
         <div class="tool-name">PDF Compressor</div>
-        <div class="tool-desc">Shrink file size with quality presets and a clear before/after summary.</div>
-        <div class="tool-meta"><span class="meta-pill">Quality presets</span><span class="meta-pill">Responsive</span></div>
-        <div class="tool-footer"><span>Optimize exports</span><span>Open →</span></div>
+        <div class="tool-desc">Shrink file size with quality presets.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -380,8 +364,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">Image workspace</div>
-          <h2 class="section-title">Convert and compress visuals from the same toolkit</h2>
-          <p class="section-copy">Built for quick mobile-friendly edits, lighter image exports, and instant image-to-document conversion.</p>
+          <h2 class="section-title">Image Tools</h2>
         </div>
         <div class="section-count">2 tools</div>
       </div>
@@ -390,16 +373,14 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/image/image-to-pdf.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🖼️</span><span class="tool-chip chip-image">Image</span></div>
         <div class="tool-name">Image to PDF</div>
-        <div class="tool-desc">Add JPG, PNG, or WEBP images, reorder pages, and export one polished PDF.</div>
-        <div class="tool-meta"><span class="meta-pill">Multi-file</span><span class="meta-pill">Page controls</span></div>
-        <div class="tool-footer"><span>Convert photo sets</span><span>Open →</span></div>
+        <div class="tool-desc">Convert images to PDF document.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/image/image-compressor.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🗜️</span><span class="tool-chip chip-image">Image</span></div>
         <div class="tool-name">Image Compressor</div>
-        <div class="tool-desc">Preview original and compressed versions side by side with format switching.</div>
-        <div class="tool-meta"><span class="meta-pill">Preview compare</span><span class="meta-pill">JPEG · PNG · WEBP</span></div>
-        <div class="tool-footer"><span>Save storage space</span><span>Open →</span></div>
+        <div class="tool-desc">Compress images with format switching.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -409,8 +390,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">Utility</div>
-          <h2 class="section-title">Generate shareable QR codes with a cleaner workflow</h2>
-          <p class="section-copy">Switch between URL, plain text, UPI, and contact data with a touch-friendly interface that scales well on small screens.</p>
+          <h2 class="section-title">Utility Tools</h2>
         </div>
         <div class="section-count">1 tool</div>
       </div>
@@ -419,9 +399,8 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/utility/qr-generator.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">▦</span><span class="tool-chip chip-util">Utility</span></div>
         <div class="tool-name">QR Code Generator</div>
-        <div class="tool-desc">Create QR codes for URLs, text, payment requests, and contacts, then download or copy the result.</div>
-        <div class="tool-meta"><span class="meta-pill">UPI ready</span><span class="meta-pill">PNG export</span></div>
-        <div class="tool-footer"><span>Share info instantly</span><span>Open →</span></div>
+        <div class="tool-desc">Create QR codes for URLs, text, and contacts.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -431,8 +410,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">Finance calculators</div>
-          <h2 class="section-title">Track borrowing, tax, and investments in one place</h2>
-          <p class="section-copy">Responsive calculators with sliders, breakdown cards, and charts that stay readable across phones and tablets.</p>
+          <h2 class="section-title">Finance Tools</h2>
         </div>
         <div class="section-count">3 tools</div>
       </div>
@@ -441,23 +419,20 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/finance/emi-calculator.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🏦</span><span class="tool-chip chip-finance">Finance</span></div>
         <div class="tool-name">EMI Calculator</div>
-        <div class="tool-desc">Estimate monthly EMI, total interest, and an amortization schedule with chart support.</div>
-        <div class="tool-meta"><span class="meta-pill">Chart.js</span><span class="meta-pill">Schedule table</span></div>
-        <div class="tool-footer"><span>Loan planning</span><span>Open →</span></div>
+        <div class="tool-desc">Estimate monthly EMI with amortization schedule.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/finance/gst-calculator.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🧾</span><span class="tool-chip chip-finance">Finance</span></div>
         <div class="tool-name">GST Calculator</div>
-        <div class="tool-desc">Add or remove GST with immediate CGST and SGST breakdown values.</div>
-        <div class="tool-meta"><span class="meta-pill">Reverse GST</span><span class="meta-pill">Custom rates</span></div>
-        <div class="tool-footer"><span>Tax checks</span><span>Open →</span></div>
+        <div class="tool-desc">Add or remove GST with breakdown values.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/finance/sip-calculator.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">📈</span><span class="tool-chip chip-finance">Finance</span></div>
         <div class="tool-name">SIP Calculator</div>
-        <div class="tool-desc">Project investment growth, returns, and corpus with a clear year-by-year chart.</div>
-        <div class="tool-meta"><span class="meta-pill">Growth chart</span><span class="meta-pill">Corpus estimate</span></div>
-        <div class="tool-footer"><span>Investment planning</span><span>Open →</span></div>
+        <div class="tool-desc">Project investment growth with charts.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -467,8 +442,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">Career workspace</div>
-          <h2 class="section-title">Build professional resumes in minutes</h2>
-          <p class="section-copy">Create ATS-friendly resumes with live preview, multiple templates, and export to PDF.</p>
+          <h2 class="section-title">Career Tools</h2>
         </div>
         <div class="section-count">1 tool</div>
       </div>
@@ -477,9 +451,8 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/resume/resume-builder.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">📄</span><span class="tool-chip chip-career">Career</span></div>
         <div class="tool-name">Resume Builder</div>
-        <div class="tool-desc">Design, customize, and download your resume without leaving the browser.</div>
-        <div class="tool-meta"><span class="meta-pill">Live preview</span><span class="meta-pill">PDF export</span></div>
-        <div class="tool-footer"><span>Professional output</span><span>Open →</span></div>
+        <div class="tool-desc">Design and download professional resumes.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -489,8 +462,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">JSON workspace</div>
-          <h2 class="section-title">Validate, format, and transform JSON data</h2>
-          <p class="section-copy">Instantly check syntax, beautify code, and convert JSON to CSV or Excel.</p>
+          <h2 class="section-title">JSON Tools</h2>
         </div>
         <div class="section-count">3 tools</div>
       </div>
@@ -499,23 +471,20 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/json/json-validator.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🔍</span><span class="tool-chip chip-json">JSON</span></div>
         <div class="tool-name">JSON Validator</div>
-        <div class="tool-desc">Check JSON syntax, highlight errors, and view a structured tree view.</div>
-        <div class="tool-meta"><span class="meta-pill">Real-time validation</span><span class="meta-pill">Error details</span></div>
-        <div class="tool-footer"><span>Secure parsing</span><span>Open →</span></div>
+        <div class="tool-desc">Check JSON syntax and highlight errors.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/json/json-formatter.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🎨</span><span class="tool-chip chip-json">JSON</span></div>
         <div class="tool-name">JSON Formatter</div>
-        <div class="tool-desc">Beautify JSON with customizable indentation and syntax highlighting.</div>
-        <div class="tool-meta"><span class="meta-pill">Indent options</span><span class="meta-pill">Copy to clipboard</span></div>
-        <div class="tool-footer"><span>Ready for sharing</span><span>Open →</span></div>
+        <div class="tool-desc">Beautify JSON with syntax highlighting.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/json/json-to-csv.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">📊</span><span class="tool-chip chip-json">JSON</span></div>
         <div class="tool-name">JSON to CSV Converter</div>
-        <div class="tool-desc">Transform JSON arrays into CSV format for spreadsheet use.</div>
-        <div class="tool-meta"><span class="meta-pill">Array detection</span><span class="meta-pill">Download CSV</span></div>
-        <div class="tool-footer"><span>Data export</span><span>Open →</span></div>
+        <div class="tool-desc">Transform JSON arrays into CSV format.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -525,8 +494,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">SEO workspace</div>
-          <h2 class="section-title">Generate SEO meta tags and analyze page optimization</h2>
-          <p class="section-copy">Create Open Graph, Twitter cards, and sitemaps. Check keyword density and readability.</p>
+          <h2 class="section-title">SEO Tools</h2>
         </div>
         <div class="section-count">3 tools</div>
       </div>
@@ -535,23 +503,20 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/seo/meta-tag-generator.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🏷️</span><span class="tool-chip chip-seo">SEO</span></div>
         <div class="tool-name">Meta Tag Generator</div>
-        <div class="tool-desc">Generate HTML meta tags, Open Graph, and Twitter card snippets for any URL.</div>
-        <div class="tool-meta"><span class="meta-pill">Live preview</span><span class="meta-pill">Copy to clipboard</span></div>
-        <div class="tool-footer"><span>Boost visibility</span><span>Open →</span></div>
+        <div class="tool-desc">Generate HTML meta tags and Open Graph.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/seo/sitemap-generator.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🗺️</span><span class="tool-chip chip-seo">SEO</span></div>
         <div class="tool-name">Sitemap Generator</div>
-        <div class="tool-desc">Create XML sitemaps from a list of URLs or crawl a simple site map.</div>
-        <div class="tool-meta"><span class="meta-pill">XML format</span><span class="meta-pill">Lastmod dates</span></div>
-        <div class="tool-footer"><span>SEO essential</span><span>Open →</span></div>
+        <div class="tool-desc">Create XML sitemaps from URLs.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/seo/keyword-analyzer.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">🔑</span><span class="tool-chip chip-seo">SEO</span></div>
         <div class="tool-name">Keyword Analyzer</div>
-        <div class="tool-desc">Paste content to see keyword frequency, density, and suggestions for improvement.</div>
-        <div class="tool-meta"><span class="meta-pill">Frequency count</span><span class="meta-pill">Readability score</span></div>
-        <div class="tool-footer"><span>Content insight</span><span>Open →</span></div>
+        <div class="tool-desc">Analyze keyword frequency and density.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -561,8 +526,7 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <div class="section-head">
         <div>
           <div class="section-kicker">Lookup workspace</div>
-          <h2 class="section-title">Check linked accounts and UPI IDs from email or phone</h2>
-          <p class="section-copy">Enter an email address to see how many accounts are linked, or a mobile number to view associated UPI IDs.</p>
+          <h2 class="section-title">Lookup Tools</h2>
         </div>
         <div class="section-count">2 tools</div>
       </div>
@@ -571,31 +535,17 @@ h1{font-size:clamp(2.8rem,6vw,4.8rem);line-height:.96;letter-spacing:-.06em;marg
       <a href="pages/lookup/email-lookup.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">📧</span><span class="tool-chip chip-lookup">Lookup</span></div>
         <div class="tool-name">Email Account Lookup</div>
-        <div class="tool-desc">Enter an email address to discover linked accounts across services (simulated privacy-safe lookup).</div>
-        <div class="tool-meta"><span class="meta-pill">Privacy first</span><span class="meta-pill">No storage</span></div>
-        <div class="tool-footer"><span>Informational</span><span>Open →</span></div>
+        <div class="tool-desc">Check linked accounts by email.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
       <a href="pages/lookup/money-upi-lookup.html" class="tool-card">
         <div class="tool-top"><span class="tool-icon">📱</span><span class="tool-chip chip-lookup">Lookup</span></div>
         <div class="tool-name">Mobile UPI Lookup</div>
-        <div class="tool-desc">Enter a mobile number to see which UPI IDs are registered to it (for verification purposes).</div>
-        <div class="tool-meta"><span class="meta-pill">Verification aid</span><span class="meta-pill">No data stored</span></div>
-        <div class="tool-footer"><span>Lookup only</span><span>Open →</span></div>
+        <div class="tool-desc">Check UPI IDs by mobile number.</div>
+        <div class="tool-footer"><span>Open →</span></div>
       </a>
     </div>
   </section>
-
-  <div class="cta-band">
-    <div>
-      <h2 class="cta-title">Everything runs <span class="accent">in your browser</span></h2>
-      <p class="cta-copy">No accounts, no server uploads, no trackers. Your files stay on your device — by design, not by promise.</p>
-      <p class="cta-meta">24 tools &nbsp;·&nbsp; 8 categories &nbsp;·&nbsp; zero data sent</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px;align-items:center;flex-shrink:0">
-      <a class="btn btn-primary" href="#pdf-tools" style="min-width:180px">Start using tools</a>
-      <a class="btn btn-secondary" href="#finance-tools" style="min-width:180px">Jump to calculators</a>
-    </div>
-  </div>
 
 </main>
 <script>
@@ -656,13 +606,111 @@ navLinks.forEach(link => {
   });
 });
 
+// Search functionality
+const allTools = [
+  { name: 'PDF Unlocker', url: 'pages/pdf/pdf-unlock.html', category: 'PDF', icon: '🔓' },
+  { name: 'PDF Merger', url: 'pages/pdf/pdf-merger.html', category: 'PDF', icon: '📎' },
+  { name: 'PDF Compressor', url: 'pages/pdf/pdf-compressor.html', category: 'PDF', icon: '📉' },
+  { name: 'Image to PDF', url: 'pages/image/image-to-pdf.html', category: 'Image', icon: '🖼️' },
+  { name: 'Image Compressor', url: 'pages/image/image-compressor.html', category: 'Image', icon: '🗜️' },
+  { name: 'QR Code Generator', url: 'pages/utility/qr-generator.html', category: 'Utility', icon: '▦' },
+  { name: 'EMI Calculator', url: 'pages/finance/emi-calculator.html', category: 'Finance', icon: '🏦' },
+  { name: 'GST Calculator', url: 'pages/finance/gst-calculator.html', category: 'Finance', icon: '🧾' },
+  { name: 'SIP Calculator', url: 'pages/finance/sip-calculator.html', category: 'Finance', icon: '📈' },
+  { name: 'Resume Builder', url: 'pages/resume/resume-builder.html', category: 'Career', icon: '📄' },
+  { name: 'JSON Validator', url: 'pages/json/json-validator.html', category: 'JSON', icon: '🔍' },
+  { name: 'JSON Formatter', url: 'pages/json/json-formatter.html', category: 'JSON', icon: '🎨' },
+  { name: 'JSON to CSV Converter', url: 'pages/json/json-to-csv.html', category: 'JSON', icon: '📊' },
+  { name: 'Meta Tag Generator', url: 'pages/seo/meta-tag-generator.html', category: 'SEO', icon: '🏷️' },
+  { name: 'Sitemap Generator', url: 'pages/seo/sitemap-generator.html', category: 'SEO', icon: '🗺️' },
+  { name: 'Keyword Analyzer', url: 'pages/seo/keyword-analyzer.html', category: 'SEO', icon: '🔑' },
+  { name: 'Email Account Lookup', url: 'pages/lookup/email-lookup.html', category: 'Lookup', icon: '📧' },
+  { name: 'Mobile UPI Lookup', url: 'pages/lookup/money-upi-lookup.html', category: 'Lookup', icon: '📱' }
+];
+
+const globalSearch = document.getElementById('global-search');
+const searchDropdown = document.getElementById('search-dropdown');
+const searchBtn = document.getElementById('search-btn');
+
+function performSearch(query) {
+  const normalizedQuery = query.toLowerCase().trim();
+  
+  if (!normalizedQuery) {
+    searchDropdown.style.display = 'none';
+    return;
+  }
+  
+  const filteredTools = allTools.filter(tool => 
+    tool.name.toLowerCase().includes(normalizedQuery) ||
+    tool.category.toLowerCase().includes(normalizedQuery)
+  );
+  
+  if (filteredTools.length === 0) {
+    searchDropdown.innerHTML = '<div class="search-dropdown-empty">No tools found</div>';
+  } else {
+    searchDropdown.innerHTML = filteredTools.map(tool => `
+      <a href="${tool.url}" class="search-dropdown-item">
+        <div class="search-dropdown-item-icon">${tool.icon}</div>
+        <div class="search-dropdown-item-info">
+          <div class="search-dropdown-item-title">${tool.name}</div>
+          <div class="search-dropdown-item-sub">${tool.category}</div>
+        </div>
+        <div class="search-dropdown-item-meta">Open →</div>
+      </a>
+    `).join('');
+  }
+  
+  searchDropdown.style.display = 'block';
+}
+
+if (globalSearch) {
+  globalSearch.addEventListener('input', (e) => {
+    performSearch(e.target.value);
+  });
+  
+  globalSearch.addEventListener('focus', () => {
+    if (globalSearch.value.trim()) {
+      performSearch(globalSearch.value);
+    }
+  });
+  
+  globalSearch.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      searchDropdown.style.display = 'none';
+      globalSearch.blur();
+    }
+  });
+}
+
+if (searchBtn) {
+  searchBtn.addEventListener('click', () => {
+    if (globalSearch) {
+      performSearch(globalSearch.value);
+    }
+  });
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.hero-search') && !e.target.closest('.sticky-nav-search')) {
+    if (searchDropdown) {
+      searchDropdown.style.display = 'none';
+    }
+  }
+});
+
 // Sync nav search with global search
 const navSearch = document.getElementById('nav-search');
-const globalSearch = document.getElementById('global-search');
 if (navSearch && globalSearch) {
   navSearch.addEventListener('input', (e) => {
     globalSearch.value = e.target.value;
-    globalSearch.dispatchEvent(new Event('input'));
+    performSearch(e.target.value);
+  });
+  
+  navSearch.addEventListener('focus', () => {
+    if (navSearch.value.trim()) {
+      performSearch(navSearch.value);
+    }
   });
 }
 
