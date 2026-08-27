@@ -47,6 +47,7 @@
       <input type="text" id="nav-search" placeholder="Search tools..." autocomplete="off">
       <div id="nav-search-dropdown" class="search-dropdown"></div>
     </div>
+    <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme">🌙</button>
     <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
   </div>
 </nav>
@@ -87,6 +88,21 @@
       <div class="workflow-title">Finance Tools</div>
       <div class="workflow-link">EMI, GST, SIP →</div>
     </a>
+  </section>
+
+  <section class="section" id="recent-tools" style="display:none;">
+    <div class="section-panel">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Recent</div>
+          <h2 class="section-title">Recently Used</h2>
+        </div>
+        <button class="clear-history-btn" id="clearHistoryBtn" style="padding:6px 12px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted);font-size:11px;cursor:pointer;transition:all 0.2s ease;">Clear History</button>
+      </div>
+    </div>
+    <div class="tools-grid" id="recentToolsGrid">
+      <!-- Recent tools will be populated here -->
+    </div>
   </section>
 
   <section class="section" id="pdf-tools">
@@ -348,6 +364,131 @@ if (mobileMenuBtn && stickyNavLinks) {
     }
   });
 }
+
+// Theme Toggle
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+// Check for saved theme preference or default to dark
+const savedTheme = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+updateThemeIcon(savedTheme);
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+  });
+}
+
+function updateThemeIcon(theme) {
+  if (themeToggleBtn) {
+    themeToggleBtn.textContent = theme === 'dark' ? '🌙' : '☀️';
+  }
+}
+
+// Recent Tools History
+const MAX_RECENT_TOOLS = 6;
+const RECENT_TOOLS_KEY = 'suvidha_recent_tools';
+
+function getRecentTools() {
+  try {
+    return JSON.parse(localStorage.getItem(RECENT_TOOLS_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentTools(tools) {
+  localStorage.setItem(RECENT_TOOLS_KEY, JSON.stringify(tools));
+}
+
+function addToRecentTools(tool) {
+  const recentTools = getRecentTools();
+  
+  // Remove if already exists (to move to top)
+  const filteredTools = recentTools.filter(t => t.url !== tool.url);
+  
+  // Add new tool to beginning
+  filteredTools.unshift(tool);
+  
+  // Keep only max tools
+  const limitedTools = filteredTools.slice(0, MAX_RECENT_TOOLS);
+  
+  saveRecentTools(limitedTools);
+  renderRecentTools();
+}
+
+function renderRecentTools() {
+  const recentTools = getRecentTools();
+  const recentSection = document.getElementById('recent-tools');
+  const recentGrid = document.getElementById('recentToolsGrid');
+  
+  if (recentTools.length === 0) {
+    if (recentSection) recentSection.style.display = 'none';
+    return;
+  }
+  
+  if (recentSection) recentSection.style.display = 'block';
+  
+  if (recentGrid) {
+    recentGrid.innerHTML = recentTools.map(tool => `
+      <a href="${tool.url}" class="tool-card" data-tool-url="${tool.url}">
+        <div class="tool-top"><span class="tool-icon">${tool.icon}</span><span class="tool-chip chip-${tool.category.toLowerCase()}">${tool.category}</span></div>
+        <div class="tool-name">${tool.name}</div>
+        <div class="tool-desc">${tool.desc}</div>
+        <div class="tool-footer"><span>Open →</span></div>
+      </a>
+    `).join('');
+    
+    // Add click listeners to track usage
+    recentGrid.querySelectorAll('.tool-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        const toolUrl = card.getAttribute('data-tool-url');
+        const tool = recentTools.find(t => t.url === toolUrl);
+        if (tool) {
+          addToRecentTools(tool);
+        }
+      });
+    });
+  }
+}
+
+// Clear history
+const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+if (clearHistoryBtn) {
+  clearHistoryBtn.addEventListener('click', () => {
+    if (confirm('Clear your recent tools history?')) {
+      localStorage.removeItem(RECENT_TOOLS_KEY);
+      renderRecentTools();
+    }
+  });
+}
+
+// Initialize recent tools on page load
+renderRecentTools();
+
+// Track tool visits from all tool cards
+document.querySelectorAll('.tool-card').forEach(card => {
+  card.addEventListener('click', (e) => {
+    const toolUrl = card.getAttribute('href');
+    const toolName = card.querySelector('.tool-name').textContent;
+    const toolIcon = card.querySelector('.tool-icon').textContent;
+    const toolCategory = card.querySelector('.tool-chip').textContent;
+    const toolDesc = card.querySelector('.tool-desc').textContent;
+    
+    addToRecentTools({
+      url: toolUrl,
+      name: toolName,
+      icon: toolIcon,
+      category: toolCategory,
+      desc: toolDesc
+    });
+  });
+});
 
 // Active section detection
 const sections = document.querySelectorAll('.section[id]');
