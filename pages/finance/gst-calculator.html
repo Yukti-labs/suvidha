@@ -2,16 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>GST Calculator</title>
-<script type="module" src="../../assets/js/shared-ui.js"></script>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
 :root{--bg:#eef2f7;--surface:#fff;--border:#dde3ec;--accent:#1a56db;--accent2:#f59e0b;--text:#1e2a3b;--muted:#6b7a99;--success:#15803d;--radius:12px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;padding:40px 20px 80px;display:flex;flex-direction:column;align-items:center}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;padding:80px 20px 80px;display:flex;flex-direction:column;align-items:center}
 .content{width:100%;max-width:520px}
 .header{margin-bottom:36px;animation:fadeUp 0.4s ease both}
+.tool-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(238,242,247,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 20px;transition:all 0.3s ease}
+.tool-nav-content{max-width:520px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.tool-nav-title{font-size:16px;font-weight:500;letter-spacing:-0.02em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s ease}
+.tool-nav-title:hover{color:var(--accent)}
+.tool-nav-links{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tool-nav-link{padding:6px 12px;border-radius:999px;background:rgba(26,86,219,0.04);border:1px solid rgba(26,86,219,0.08);color:var(--muted);text-decoration:none;font-size:11px;font-family:'Space Mono',monospace;transition:all 0.2s ease}
+.tool-nav-link:hover{background:var(--surface);color:var(--text);border-color:rgba(26,86,219,0.12)}
+.tool-nav-link.active{background:rgba(26,86,219,0.1);border-color:rgba(26,86,219,0.2);color:var(--accent)}
 .eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
 h1{font-size:clamp(2rem,5vw,2.6rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em}
 h1 span{color:var(--accent)}

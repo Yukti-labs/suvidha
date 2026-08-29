@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Resume Builder — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">Career</div>
+    <h1>Resume Builder</h1>
+    <p class="tool-lead">Fill the fields for a live preview. Everything stays in this browser.</p>
+  </header>
+  <form class="tool-panel" id="resumeForm">
+    <div class="tool-grid">
+      <div class="tool-field">
+        <label class="tool-label" for="fullName">Full name</label>
+        <input type="text" id="fullName" placeholder="Ada Lovelace" required>
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="email">Email</label>
+        <input type="email" id="email" placeholder="ada@example.com" required>
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="phone">Phone</label>
+        <input type="tel" id="phone" placeholder="+91 90000 00000">
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="title">Title</label>
+        <input type="text" id="title" placeholder="Software engineer">
+      </div>
+    </div>
+    <div class="tool-field">
+      <label class="tool-label" for="summary">Summary</label>
+      <textarea id="summary" rows="3" placeholder="Brief professional summary"></textarea>
+    </div>
+    <div class="tool-field">
+      <label class="tool-label" for="experience">Experience</label>
+      <textarea id="experience" rows="4" placeholder="Role at Company — dates"></textarea>
+    </div>
+    <div class="tool-field">
+      <label class="tool-label" for="education">Education</label>
+      <textarea id="education" rows="3" placeholder="Degree — Institution — year"></textarea>
+    </div>
+    <div class="tool-field">
+      <label class="tool-label" for="skills">Skills</label>
+      <input type="text" id="skills" placeholder="JavaScript, React, SQL">
+    </div>
+    <div class="tool-actions">
+      <button type="submit" class="tool-btn">Update preview</button>
+    </div>
+  </form>
+  <div class="preview" id="preview">
+    <strong>Live preview</strong>
+    <p class="tool-note">Fill the form to see your resume here.</p>
+  </div>
+</div>
+<script>
+  const form = document.getElementById('resumeForm');
+  const preview = document.getElementById('preview');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const title = document.getElementById('title').value;
+    const summary = document.getElementById('summary').value;
+    const experience = document.getElementById('experience').value;
+    const education = document.getElementById('education').value;
+    const skills = document.getElementById('skills').value;
+
+    preview.innerHTML = `
+      <h2>${name || 'Your name'}</h2>
+      <div><strong>${title || 'Professional title'}</strong></div>
+      <div>${email} · ${phone}</div>
+      <hr>
+      <h3>Summary</h3>
+      <p>${summary || 'Add a professional summary…'}</p>
+      <h3>Experience</h3>
+      <p>${experience || 'Add work experience…'}</p>
+      <h3>Education</h3>
+      <p>${education || 'Add education…'}</p>
+      <h3>Skills</h3>
+      <p>${skills || 'Add skills…'}</p>
+    `;
+  });
+</script>
+</body>
+</html>

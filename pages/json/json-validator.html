@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>JSON Validator — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">JSON</div>
+    <h1>JSON Validator</h1>
+    <p class="tool-lead">Check syntax and pretty-print JSON. Parsing happens only in this browser.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="jsonInput">JSON</label>
+      <textarea id="jsonInput" placeholder='{"ok": true}'></textarea>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="validateBtn">Validate</button>
+      <button type="button" class="tool-btn tool-btn-ghost" id="formatBtn">Format</button>
+    </div>
+  </div>
+  <div id="result" class="result"></div>
+</div>
+<script>
+const input = document.getElementById('jsonInput');
+const resultDiv = document.getElementById('result');
+const validateBtn = document.getElementById('validateBtn');
+const formatBtn = document.getElementById('formatBtn');
+
+validateBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Paste JSON first.';
+    resultDiv.className = 'result invalid';
+    return;
+  }
+  try {
+    const obj = JSON.parse(text);
+    resultDiv.innerHTML = '<strong>Valid JSON</strong><pre>' + JSON.stringify(obj, null, 2) + '</pre>';
+    resultDiv.className = 'result valid';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+  }
+});
+
+formatBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Paste JSON first.';
+    resultDiv.className = 'result invalid';
+    return;
+  }
+  try {
+    const obj = JSON.parse(text);
+    input.value = JSON.stringify(obj, null, 2);
+    resultDiv.textContent = 'Formatted in the editor.';
+    resultDiv.className = 'result valid';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+  }
+});
+</script>
+</body>
+</html>

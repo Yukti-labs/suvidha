@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Word Counter — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+<style>
+  .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+  .stat { padding: 14px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); }
+  .stat span { display: block; color: var(--muted); font-size: 12px; }
+  .stat strong { display: block; margin-top: 4px; font-size: 22px; }
+  @media (min-width: 640px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+</style>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">Utility</div>
+    <h1>Word Counter</h1>
+    <p class="tool-lead">Count words, characters, sentences, and reading time. Nothing is uploaded.</p>
+  </header>
+  <div class="tool-panel">
+    <label class="tool-label" for="textInput">Text</label>
+    <textarea id="textInput" placeholder="Paste or type here…"></textarea>
+    <div class="stats">
+      <div class="stat"><span>Words</span><strong id="words">0</strong></div>
+      <div class="stat"><span>Characters</span><strong id="chars">0</strong></div>
+      <div class="stat"><span>Sentences</span><strong id="sentences">0</strong></div>
+      <div class="stat"><span>Read time</span><strong id="read">0 min</strong></div>
+    </div>
+  </div>
+</div>
+<script>
+const el = document.getElementById('textInput');
+function count() {
+  const text = el.value;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const chars = text.length;
+  const sentences = (text.match(/[.!?]+(\s|$)/g) || []).length;
+  const minutes = words ? Math.max(1, Math.round(words / 200)) : 0;
+  document.getElementById('words').textContent = words;
+  document.getElementById('chars').textContent = chars;
+  document.getElementById('sentences').textContent = sentences;
+  document.getElementById('read').textContent = minutes ? minutes + ' min' : '0 min';
+}
+el.addEventListener('input', count);
+count();
+</script>
+</body>
+</html>

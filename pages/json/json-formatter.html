@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>JSON Formatter — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">JSON</div>
+    <h1>JSON Formatter</h1>
+    <p class="tool-lead">Pretty-print or minify JSON with a chosen indent. Nothing leaves this device.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="indentSelect">Indent</label>
+      <select id="indentSelect">
+        <option value="2">2 spaces</option>
+        <option value="4">4 spaces</option>
+        <option value="tab">Tab</option>
+      </select>
+    </div>
+    <div class="tool-field">
+      <label class="tool-label" for="jsonInput">JSON</label>
+      <textarea id="jsonInput" placeholder="Paste your JSON here…"></textarea>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="formatBtn">Format</button>
+      <button type="button" class="tool-btn tool-btn-ghost" id="minifyBtn">Minify</button>
+    </div>
+  </div>
+  <div id="result" class="result"></div>
+</div>
+<script>
+const input = document.getElementById('jsonInput');
+const resultDiv = document.getElementById('result');
+const formatBtn = document.getElementById('formatBtn');
+const minifyBtn = document.getElementById('minifyBtn');
+const indentSelect = document.getElementById('indentSelect');
+
+function getIndent() {
+  const val = indentSelect.value;
+  return val === 'tab' ? '\t' : Number(val);
+}
+
+formatBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Paste JSON first.';
+    resultDiv.className = 'result invalid';
+    return;
+  }
+  try {
+    const obj = JSON.parse(text);
+    input.value = JSON.stringify(obj, null, getIndent());
+    resultDiv.textContent = 'Formatted in the editor.';
+    resultDiv.className = 'result valid';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+  }
+});
+
+minifyBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Paste JSON first.';
+    resultDiv.className = 'result invalid';
+    return;
+  }
+  try {
+    const obj = JSON.parse(text);
+    input.value = JSON.stringify(obj);
+    resultDiv.textContent = 'Minified in the editor.';
+    resultDiv.className = 'result valid';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+  }
+});
+</script>
+</body>
+</html>

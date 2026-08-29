@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sitemap Generator — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+<style>
+  .check-row { display:flex; align-items:center; gap:10px; margin: 4px 0 12px; }
+  .check-row label { margin:0; color: var(--text); }
+  .check-row input { width:auto; min-height:20px; }
+</style>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">SEO</div>
+    <h1>Sitemap Generator</h1>
+    <p class="tool-lead">Turn a list of URLs into a sitemap.xml file. Runs locally in this tab.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="urlsInput">URLs (one per line)</label>
+      <textarea id="urlsInput" placeholder="https://example.com/&#10;https://example.com/about"></textarea>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="addLastmod">
+      <label for="addLastmod">Include lastmod (today)</label>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="generateBtn">Generate sitemap</button>
+      <a href="#" class="tool-btn tool-btn-ghost" id="downloadLink" download="sitemap.xml" style="display:none;">Download XML</a>
+      <button type="button" class="tool-btn tool-btn-ghost" id="copyBtn" style="display:none;">Copy</button>
+    </div>
+  </div>
+  <p class="tool-note">Leave the list blank to use this page URL as the only entry.</p>
+  <div class="tool-output" id="output"></div>
+</div>
+<script>
+const urlsInput = document.getElementById('urlsInput');
+const addLastmod = document.getElementById('addLastmod');
+const generateBtn = document.getElementById('generateBtn');
+const outputDiv = document.getElementById('output');
+const downloadLink = document.getElementById('downloadLink');
+const copyBtn = document.getElementById('copyBtn');
+
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+generateBtn.addEventListener('click', () => {
+  const text = urlsInput.value.trim();
+  let lines = text ? text.split('\n').map(l => l.trim()).filter(l => l.length > 0) : [window.location.href];
+  if (lines.length === 0) lines = [window.location.href];
+
+  const today = new Date().toISOString().slice(0,10);
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  for (const url of lines) {
+    xml += '  <url>\n';
+    xml += `    <loc>${escapeXml(url)}</loc>\n`;
+    if (addLastmod.checked) {
+      xml += `    <lastmod>${today}</lastmod>\n`;
+    }
+    xml += '  </url>\n';
+  }
+  xml += '</urlset>';
+
+  outputDiv.textContent = xml;
+  const blob = new Blob([xml], {type: 'application/xml;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  downloadLink.href = url;
+  downloadLink.style.display = 'inline-flex';
+  copyBtn.style.display = 'inline-flex';
+});
+
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(outputDiv.textContent).then(() => {
+    copyBtn.textContent = 'Copied';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+  });
+});
+</script>
+</body>
+</html>

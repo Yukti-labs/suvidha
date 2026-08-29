@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Email Validator — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">Utility</div>
+    <h1>Email Validator</h1>
+    <p class="tool-lead">Check format, common typos, and disposable-looking domains. Runs only in your browser.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="emailInput">Email</label>
+      <input type="email" id="emailInput" placeholder="name@gmail.com" autocomplete="email" inputmode="email">
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="checkBtn">Validate</button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+  <p class="tool-note">This does not contact mail servers or prove an inbox exists. It checks structure and well-known patterns only.</p>
+</div>
+<script>
+const TYPOs = { 'gmal.com':'gmail.com','gmial.com':'gmail.com','gamil.com':'gmail.com','yahooo.com':'yahoo.com','outlok.com':'outlook.com','hotmial.com':'hotmail.com' };
+const DISPOSABLE = new Set(['mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','yopmail.com','trashmail.com','sharklasers.com']);
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+function check(email) {
+  const issues = [];
+  let level = 'ok';
+  if (!emailRe.test(email)) {
+    return { level: 'bad', title: 'Invalid format', issues: ['Use name@domain.tld with no spaces.'] };
+  }
+  const domain = email.split('@')[1].toLowerCase();
+  if (TYPOs[domain]) {
+    level = 'warn';
+    issues.push(`Did you mean ${email.split('@')[0]}@${TYPOs[domain]}?`);
+  }
+  if (DISPOSABLE.has(domain)) {
+    level = 'warn';
+    issues.push('This looks like a disposable mailbox domain.');
+  }
+  if (email.includes('..') || email.startsWith('.') || email.includes('@.')) {
+    level = 'bad';
+    issues.push('Dots are placed incorrectly.');
+  }
+  return {
+    level,
+    title: level === 'ok' ? 'Looks valid' : (level === 'warn' ? 'Valid, with a warning' : 'Invalid'),
+    issues: issues.length ? issues : ['Format matches a normal email address.']
+  };
+}
+
+function render() {
+  const email = document.getElementById('emailInput').value.trim();
+  const box = document.getElementById('result');
+  if (!email) {
+    box.className = 'result show bad';
+    box.innerHTML = '<strong>Enter an email address</strong>';
+    return;
+  }
+  const out = check(email);
+  box.className = `result show ${out.level}`;
+  box.innerHTML = `<strong>${out.title}</strong><ul>${out.issues.map(i => `<li>${i}</li>`).join('')}</ul>`;
+}
+
+document.getElementById('checkBtn').addEventListener('click', render);
+document.getElementById('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+</script>
+</body>
+</html>

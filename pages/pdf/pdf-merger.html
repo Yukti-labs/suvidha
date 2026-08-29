@@ -2,18 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PDF Merger</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-<script type="module" src="../../assets/js/shared-ui.js"></script>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Syne+Mono&display=swap');
 :root{--bg:#f7f4ef;--surface:#fff;--border:#e2ddd6;--accent:#1a1a2e;--accent2:#e63946;--text:#1a1a2e;--muted:#8a8478;--success:#2d6a4f;--error:#e63946;--radius:12px}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;padding:40px 20px 80px;display:flex;flex-direction:column;align-items:center}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;padding:80px 20px 80px;display:flex;flex-direction:column;align-items:center}
 body::after{content:'';position:fixed;top:0;right:0;width:40vw;height:100vh;background:linear-gradient(135deg,transparent 60%,rgba(230,57,70,0.04));pointer-events:none;z-index:0}
 .content{position:relative;z-index:1;width:100%;max-width:580px}
 .header{margin-bottom:40px}
+.tool-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(247,244,239,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 20px;transition:all 0.3s ease}
+.tool-nav-content{max-width:580px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.tool-nav-title{font-size:16px;font-weight:700;letter-spacing:-0.02em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s ease}
+.tool-nav-title:hover{color:var(--accent2)}
+.tool-nav-links{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tool-nav-link{padding:6px 12px;border-radius:999px;background:rgba(26,26,46,0.04);border:1px solid rgba(26,26,46,0.08);color:var(--muted);text-decoration:none;font-size:11px;font-family:'Syne Mono',monospace;transition:all 0.2s ease}
+.tool-nav-link:hover{background:var(--surface);color:var(--text);border-color:rgba(26,26,46,0.12)}
+.tool-nav-link.active{background:rgba(230,57,70,0.1);border-color:rgba(230,57,70,0.2);color:var(--accent2)}
 .eyebrow{font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--accent2);text-transform:uppercase;margin-bottom:12px}
 h1{font-size:clamp(2rem,5vw,3rem);font-weight:700;line-height:1.05;letter-spacing:-0.03em;color:var(--text)}
 h1 span{color:var(--accent2)}
