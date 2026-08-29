@@ -30,7 +30,7 @@
 </div>
 <div class="row">
   <button id="generateBtn">Generate Sitemap</button>
-  <a href="#" id="downloadLink" class="button" download="sitemap.xml">Download XML</a>
+  <a href="#" id="downloadLink" style="display:none;" download="sitemap.xml">Download XML</a>
 </div>
 <div class="hint">Tip: Leave blank to use current page URL as single entry.</div>
 <div class="output" id="output"></div>
@@ -45,7 +45,12 @@ const downloadLink = document.getElementById('downloadLink');
 const copyBtn = document.getElementById('copyBtn');
 
 function escapeXml(str) {
-  return String(str).replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>').replace(/"/g, '"').replace(/'/g, '&apos;');
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
 
 generateBtn.addEventListener('click', () => {
@@ -67,10 +72,10 @@ generateBtn.addEventListener('click', () => {
   xml += '</urlset>';
 
   outputDiv.textContent = xml;
-  downloadLink.style.display = 'inline-block';
   const blob = new Blob([xml], {type: 'application/xml;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   downloadLink.href = url;
+  downloadLink.style.display = 'inline-block';
   copyBtn.style.display = 'inline-block';
 });
 

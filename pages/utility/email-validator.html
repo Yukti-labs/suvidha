@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Email Validator — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+<style>
+  .container { max-width: 560px; margin: 0 auto; padding: 8px 16px 96px; }
+  .header { margin-bottom: 20px; }
+  h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); letter-spacing: -.03em; }
+  p { color: var(--muted); line-height: 1.6; margin-top: 8px; }
+  input, button { min-height: 48px; font-size: 16px; }
+  input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface2); color: var(--text); }
+  button { width: 100%; margin-top: 12px; border: 0; border-radius: 14px; background: var(--accent); color: #fff; font-weight: 700; cursor: pointer; }
+  .result { display: none; margin-top: 16px; padding: 16px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); }
+  .result.show { display: block; }
+  .ok { border-left: 4px solid var(--accent3); }
+  .warn { border-left: 4px solid #f59e0b; }
+  .bad { border-left: 4px solid #ef4444; }
+  ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); }
+  .note { font-size: 13px; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Email Validator</h1>
+    <p>Check format, common typos, and disposable-looking domains. Runs only in your browser.</p>
+  </div>
+  <input type="email" id="emailInput" placeholder="name@gmail.com" autocomplete="email" inputmode="email">
+  <button type="button" id="checkBtn">Validate</button>
+  <div class="result" id="result"></div>
+  <p class="note">This does not contact mail servers or prove an inbox exists. It checks structure and well-known patterns only.</p>
+</div>
+<script>
+const TYPOs = { 'gmal.com':'gmail.com','gmial.com':'gmail.com','gamil.com':'gmail.com','yahooo.com':'yahoo.com','outlok.com':'outlook.com','hotmial.com':'hotmail.com' };
+const DISPOSABLE = new Set(['mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','yopmail.com','trashmail.com','sharklasers.com']);
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+function check(email) {
+  const issues = [];
+  let level = 'ok';
+  if (!emailRe.test(email)) {
+    return { level: 'bad', title: 'Invalid format', issues: ['Use name@domain.tld with no spaces.'] };
+  }
+  const domain = email.split('@')[1].toLowerCase();
+  if (TYPOs[domain]) {
+    level = 'warn';
+    issues.push(`Did you mean ${email.split('@')[0]}@${TYPOs[domain]}?`);
+  }
+  if (DISPOSABLE.has(domain)) {
+    level = 'warn';
+    issues.push('This looks like a disposable mailbox domain.');
+  }
+  if (email.includes('..') || email.startsWith('.') || email.includes('@.')) {
+    level = 'bad';
+    issues.push('Dots are placed incorrectly.');
+  }
+  return {
+    level,
+    title: level === 'ok' ? 'Looks valid' : (level === 'warn' ? 'Valid, with a warning' : 'Invalid'),
+    issues: issues.length ? issues : ['Format matches a normal email address.']
+  };
+}
+
+function render() {
+  const email = document.getElementById('emailInput').value.trim();
+  const box = document.getElementById('result');
+  if (!email) {
+    box.className = 'result show bad';
+    box.innerHTML = '<strong>Enter an email address</strong>';
+    return;
+  }
+  const out = check(email);
+  box.className = `result show ${out.level}`;
+  box.innerHTML = `<strong>${out.title}</strong><ul>${out.issues.map(i => `<li>${i}</li>`).join('')}</ul>`;
+}
+
+document.getElementById('checkBtn').addEventListener('click', render);
+document.getElementById('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+</script>
+</body>
+</html>

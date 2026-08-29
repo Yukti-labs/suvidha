@@ -51,11 +51,15 @@ export function initMobileNavigation(mobileToggle, mobileDrawer, mobileOverlay, 
     document.body.style.overflow = 'hidden';
   };
 
-  if (mobileToggle) mobileToggle.addEventListener('click', openMobile);
+  document.querySelectorAll('[data-open-drawer]').forEach(btn => {
+    btn.addEventListener('click', openMobile);
+  });
+  if (mobileToggle && !mobileToggle.hasAttribute('data-open-drawer')) {
+    mobileToggle.addEventListener('click', openMobile);
+  }
   if (mobileClose) mobileClose.addEventListener('click', closeMobile);
   if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobile);
   
-  // Close mobile menu when clicking links
   if (mobileDrawer) {
     mobileDrawer.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobile));
   }

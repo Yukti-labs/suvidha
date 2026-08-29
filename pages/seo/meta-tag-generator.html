@@ -57,7 +57,7 @@
   <div>
     <label for="url">Canonical URL</label>
     <input type="text" id="url" placeholder="https://example.com/page">
-  </div>.
+  </div>
 </div>
 <button id="generateBtn">Generate Meta Tags</button>
 <div class="output" id="output"></div>
@@ -76,7 +76,12 @@ const outputDiv = document.getElementById('output');
 const copyBtn = document.getElementById('copyBtn');
 
 function escapeHtml(str) {
-  return String(str).replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>').replace(/"/g, '"').replace(/'/g, '&#039;');
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 generateBtn.addEventListener('click', () => {

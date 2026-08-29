@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Suvidha Tools — by Yukti Labs</title>
 <script type="module" src="assets/js/shared-ui-new.js"></script>
 <link rel="manifest" href="manifest.json">
@@ -10,7 +10,7 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Suvidha Tools — by Yukti Labs">
-  <meta property="og:description" content="A private browser-based toolkit for documents, images, QR codes, finance, resumes, JSON, SEO, and account lookups. Nothing ever leaves your device.">
+  <meta property="og:description" content="A private browser-based toolkit for PDFs, images, QR codes, finance, resumes, JSON, and SEO. Nothing ever leaves your device.">
   <meta property="og:url" content="https://suvidha.tools/">
   <meta property="og:site_name" content="Suvidha Tools">
   <meta property="og:locale" content="en_IN">
@@ -21,56 +21,51 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Suvidha Tools — by Yukti Labs">
-  <meta name="twitter:description" content="A private browser-based toolkit for documents, images, QR codes, finance, resumes, JSON, SEO, and account lookups. Nothing ever leaves your device.">
+  <meta name="twitter:description" content="A private browser-based toolkit for PDFs, images, QR codes, finance, resumes, JSON, and SEO. Nothing ever leaves your device.">
   <meta name="twitter:image" content="https://suvidha.tools/icon-512.png" />
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body id="top">
-<nav class="sticky-nav" id="stickyNav">
-  <div class="sticky-nav-content">
-    <a href="#" class="sticky-nav-logo">
-      <span>⚡</span>
-      <span>Suvidha</span>
-    </a>
-    <div class="sticky-nav-links" id="stickyNavLinks">
-      <a href="#pdf-tools" class="sticky-nav-link">PDF</a>
-      <a href="#image-tools" class="sticky-nav-link">Images</a>
-      <a href="#finance-tools" class="sticky-nav-link">Finance</a>
-      <a href="#json-tools" class="sticky-nav-link">JSON</a>
-      <a href="#seo-tools" class="sticky-nav-link">SEO</a>
-      <div class="mobile-search-container">
-        <input type="text" id="mobile-search" placeholder="Search tools..." autocomplete="off">
-        <div id="mobile-search-dropdown" class="search-dropdown"></div>
-      </div>
-    </div>
-    <div class="sticky-nav-search">
-      <input type="text" id="nav-search" placeholder="Search tools..." autocomplete="off">
-      <div id="nav-search-dropdown" class="search-dropdown"></div>
-    </div>
-    <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle theme">🌙</button>
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">☰</button>
-  </div>
-</nav>
 <main class="home-shell">
   <section class="hero">
     <div class="hero-inner">
-      <div class="eyebrow">Private by design · built for web</div>
-      <h1>Suvidha <span class="accent">Tools</span></h1>
-      <p class="hero-sub">A private browser-based toolkit. Nothing ever leaves your device.</p>
+      <div class="hero-badge">Privacy-First Toolkit</div>
+      <h1 class="hero-title">Transform Your Documents & Data Without Leaving Your Browser</h1>
+      <p class="hero-description">A comprehensive suite of tools for PDFs, images, finance, and more. 100% private. Zero uploads. No data ever leaves your device.</p>
       <div class="hero-search" id="heroSearchContainer">
-        <input type="text" id="global-search" placeholder="Search tools..." autocomplete="off">
+        <input type="search" id="global-search" placeholder="Search 20 tools" autocomplete="off" enterkeyhint="search">
         <div class="hero-search-buttons">
           <button id="search-btn" class="btn btn-secondary"><span class="search-icon">🔍</span></button>
         </div>
         <div id="search-dropdown" class="search-dropdown"></div>
       </div>
-      <div class="hero-pills">
-        <span class="pill">🔒 Zero uploads</span>
-        <span class="pill">⚡ Fast & private</span>
-        <span class="pill">♻ No signup</span>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <span class="trust-icon">🔒</span>
+          <span class="trust-text">Processed Locally</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">⚡</span>
+          <span class="trust-text">Instant Results</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">🛡️</span>
+          <span class="trust-text">No Sign-up Required</span>
+        </div>
       </div>
     </div>
   </section>
+
+  <div class="home-filters" id="homeFilters" role="tablist" aria-label="Filter tools">
+    <button type="button" class="home-filter is-active" data-filter="all">All</button>
+    <button type="button" class="home-filter" data-filter="pdf-tools">PDF</button>
+    <button type="button" class="home-filter" data-filter="image-tools">Images</button>
+    <button type="button" class="home-filter" data-filter="utility-tools">Utility</button>
+    <button type="button" class="home-filter" data-filter="finance-tools">Finance</button>
+    <button type="button" class="home-filter" data-filter="career-tools">Career</button>
+    <button type="button" class="home-filter" data-filter="json-tools">JSON</button>
+    <button type="button" class="home-filter" data-filter="seo-tools">SEO</button>
+  </div>
 
   <section class="workflow-grid" aria-label="Popular workflows">
     <a class="workflow-card" href="pages/pdf/pdf-merger.html">
@@ -109,30 +104,34 @@
     <div class="section-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">PDF workspace</div>
+          <div class="section-kicker">Document Workspace</div>
           <h2 class="section-title">PDF Tools</h2>
+          <p class="section-copy">Unlock, merge, and compress PDFs without uploading files.</p>
         </div>
         <div class="section-count">3 tools</div>
       </div>
     </div>
     <div class="tools-grid">
       <a href="pages/pdf/pdf-unlock.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🔓</span><span class="tool-chip chip-pdf">PDF</span></div>
         <div class="tool-name">PDF Unlocker</div>
-        <div class="tool-desc">Remove passwords from PDFs in the browser.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Remove passwords from PDFs instantly. Files never leave your browser.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/pdf/pdf-merger.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">📎</span><span class="tool-chip chip-pdf">PDF</span></div>
         <div class="tool-name">PDF Merger</div>
-        <div class="tool-desc">Combine multiple PDFs into one file.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Combine multiple PDFs into one document. Secure and fast.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/pdf/pdf-compressor.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">📉</span><span class="tool-chip chip-pdf">PDF</span></div>
         <div class="tool-name">PDF Compressor</div>
-        <div class="tool-desc">Shrink file size with quality presets.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Reduce PDF file size while maintaining quality. No uploads.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -141,24 +140,27 @@
     <div class="section-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Image workspace</div>
+          <div class="section-kicker">Visual Workspace</div>
           <h2 class="section-title">Image Tools</h2>
+          <p class="section-copy">Convert and compress images with privacy-first processing.</p>
         </div>
         <div class="section-count">2 tools</div>
       </div>
     </div>
     <div class="tools-grid">
       <a href="pages/image/image-to-pdf.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🖼️</span><span class="tool-chip chip-image">Image</span></div>
         <div class="tool-name">Image to PDF</div>
-        <div class="tool-desc">Convert images to PDF document.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Convert images to PDF documents. No server uploads.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/image/image-compressor.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🗜️</span><span class="tool-chip chip-image">Image</span></div>
         <div class="tool-name">Image Compressor</div>
-        <div class="tool-desc">Compress images with format switching.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Compress images with format conversion. Privacy-focused.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -167,18 +169,48 @@
     <div class="section-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Utility</div>
+          <div class="section-kicker">Utility Workspace</div>
           <h2 class="section-title">Utility Tools</h2>
+          <p class="section-copy">QR, passwords, word count, and format checks — all on-device.</p>
         </div>
-        <div class="section-count">1 tool</div>
+        <div class="section-count">5 tools</div>
       </div>
     </div>
     <div class="tools-grid">
       <a href="pages/utility/qr-generator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">▦</span><span class="tool-chip chip-util">Utility</span></div>
         <div class="tool-name">QR Code Generator</div>
-        <div class="tool-desc">Create QR codes for URLs, text, and contacts.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Create QR codes for URLs, text, and contacts. Instant generation.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
+      </a>
+      <a href="pages/utility/password-generator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
+        <div class="tool-top"><span class="tool-icon">🔐</span><span class="tool-chip chip-util">Utility</span></div>
+        <div class="tool-name">Password Generator</div>
+        <div class="tool-desc">Create strong random passwords locally. Nothing is stored.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
+      </a>
+      <a href="pages/utility/word-counter.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
+        <div class="tool-top"><span class="tool-icon">✍️</span><span class="tool-chip chip-util">Utility</span></div>
+        <div class="tool-name">Word Counter</div>
+        <div class="tool-desc">Count words, characters, and reading time as you type.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
+      </a>
+      <a href="pages/utility/email-validator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
+        <div class="tool-top"><span class="tool-icon">📧</span><span class="tool-chip chip-util">Utility</span></div>
+        <div class="tool-name">Email Validator</div>
+        <div class="tool-desc">Check format and common typos. No mailbox lookup.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
+      </a>
+      <a href="pages/utility/upi-validator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
+        <div class="tool-top"><span class="tool-icon">📱</span><span class="tool-chip chip-util">Utility</span></div>
+        <div class="tool-name">UPI ID Validator</div>
+        <div class="tool-desc">Validate VPA format like name@okaxis. No NPCI lookup.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -187,30 +219,34 @@
     <div class="section-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Finance calculators</div>
+          <div class="section-kicker">Financial Workspace</div>
           <h2 class="section-title">Finance Tools</h2>
+          <p class="section-copy">Calculate EMIs, GST, and SIP returns with detailed breakdowns.</p>
         </div>
         <div class="section-count">3 tools</div>
       </div>
     </div>
     <div class="tools-grid">
       <a href="pages/finance/emi-calculator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🏦</span><span class="tool-chip chip-finance">Finance</span></div>
         <div class="tool-name">EMI Calculator</div>
-        <div class="tool-desc">Estimate monthly EMI with amortization schedule.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Estimate monthly EMI with detailed amortization schedule.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/finance/gst-calculator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🧾</span><span class="tool-chip chip-finance">Finance</span></div>
         <div class="tool-name">GST Calculator</div>
-        <div class="tool-desc">Add or remove GST with breakdown values.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Add or remove GST with complete breakdown values.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/finance/sip-calculator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">📈</span><span class="tool-chip chip-finance">Finance</span></div>
         <div class="tool-name">SIP Calculator</div>
-        <div class="tool-desc">Project investment growth with charts.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Project investment growth with interactive charts.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -219,18 +255,20 @@
     <div class="section-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">Career workspace</div>
+          <div class="section-kicker">Career Workspace</div>
           <h2 class="section-title">Career Tools</h2>
+          <p class="section-copy">Build professional resumes with customizable templates.</p>
         </div>
         <div class="section-count">1 tool</div>
       </div>
     </div>
     <div class="tools-grid">
       <a href="pages/resume/resume-builder.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">📄</span><span class="tool-chip chip-career">Career</span></div>
         <div class="tool-name">Resume Builder</div>
-        <div class="tool-desc">Design and download professional resumes.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Design and download professional resumes. Data stays local.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -239,30 +277,34 @@
     <div class="section-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">JSON workspace</div>
+          <div class="section-kicker">Developer Workspace</div>
           <h2 class="section-title">JSON Tools</h2>
+          <p class="section-copy">Validate, format, and convert JSON data with syntax highlighting.</p>
         </div>
         <div class="section-count">3 tools</div>
       </div>
     </div>
     <div class="tools-grid">
       <a href="pages/json/json-validator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🔍</span><span class="tool-chip chip-json">JSON</span></div>
         <div class="tool-name">JSON Validator</div>
-        <div class="tool-desc">Check JSON syntax and highlight errors.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Check JSON syntax and highlight errors instantly.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/json/json-formatter.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🎨</span><span class="tool-chip chip-json">JSON</span></div>
         <div class="tool-name">JSON Formatter</div>
-        <div class="tool-desc">Beautify JSON with syntax highlighting.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Beautify JSON with syntax highlighting. No server.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/json/json-to-csv.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">📊</span><span class="tool-chip chip-json">JSON</span></div>
         <div class="tool-name">JSON to CSV Converter</div>
-        <div class="tool-desc">Transform JSON arrays into CSV format.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Transform JSON arrays into CSV format. Secure.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
     </div>
   </section>
@@ -271,125 +313,40 @@
     <div class="section-panel">
       <div class="section-head">
         <div>
-          <div class="section-kicker">SEO workspace</div>
+          <div class="section-kicker">SEO Workspace</div>
           <h2 class="section-title">SEO Tools</h2>
+          <p class="section-copy">Generate meta tags, sitemaps, and analyze keywords for better rankings.</p>
         </div>
         <div class="section-count">3 tools</div>
       </div>
     </div>
     <div class="tools-grid">
       <a href="pages/seo/meta-tag-generator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🏷️</span><span class="tool-chip chip-seo">SEO</span></div>
         <div class="tool-name">Meta Tag Generator</div>
-        <div class="tool-desc">Generate HTML meta tags and Open Graph.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Generate HTML meta tags and Open Graph. Client-side only.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/seo/sitemap-generator.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🗺️</span><span class="tool-chip chip-seo">SEO</span></div>
         <div class="tool-name">Sitemap Generator</div>
-        <div class="tool-desc">Create XML sitemaps from URLs.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Create XML sitemaps from URLs. No external services.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
       <a href="pages/seo/keyword-analyzer.html" class="tool-card">
+        <div class="tool-badge">🔒 100% Private</div>
         <div class="tool-top"><span class="tool-icon">🔑</span><span class="tool-chip chip-seo">SEO</span></div>
         <div class="tool-name">Keyword Analyzer</div>
-        <div class="tool-desc">Analyze keyword frequency and density.</div>
-        <div class="tool-footer"><span>Open →</span></div>
-      </a>
-    </div>
-  </section>
-
-  <section class="section" id="lookup-tools">
-    <div class="section-panel">
-      <div class="section-head">
-        <div>
-          <div class="section-kicker">Lookup workspace</div>
-          <h2 class="section-title">Lookup Tools</h2>
-        </div>
-        <div class="section-count">2 tools</div>
-      </div>
-    </div>
-    <div class="tools-grid">
-      <a href="pages/lookup/email-lookup.html" class="tool-card">
-        <div class="tool-top"><span class="tool-icon">📧</span><span class="tool-chip chip-lookup">Lookup</span></div>
-        <div class="tool-name">Email Account Lookup</div>
-        <div class="tool-desc">Check linked accounts by email.</div>
-        <div class="tool-footer"><span>Open →</span></div>
-      </a>
-      <a href="pages/lookup/money-upi-lookup.html" class="tool-card">
-        <div class="tool-top"><span class="tool-icon">📱</span><span class="tool-chip chip-lookup">Lookup</span></div>
-        <div class="tool-name">Mobile UPI Lookup</div>
-        <div class="tool-desc">Check UPI IDs by mobile number.</div>
-        <div class="tool-footer"><span>Open →</span></div>
+        <div class="tool-desc">Analyze keyword frequency and density. Private analysis.</div>
+        <div class="tool-footer"><span class="privacy-indicator">Local Processing</span><span>Open →</span></div>
       </a>
     </div>
   </section>
 
 </main>
 <script>
-// Sticky Navigation
-const stickyNav = document.getElementById('stickyNav');
-let lastScrollY = 0;
-
-window.addEventListener('scroll', () => {
-  const currentScrollY = window.scrollY;
-  
-  if (currentScrollY > 100) {
-    stickyNav.classList.remove('hidden');
-  } else {
-    stickyNav.classList.add('hidden');
-  }
-  
-  lastScrollY = currentScrollY;
-});
-
-// Initial state
-stickyNav.classList.add('hidden');
-
-// Mobile Menu Toggle
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const stickyNavLinks = document.getElementById('stickyNavLinks');
-
-if (mobileMenuBtn && stickyNavLinks) {
-  mobileMenuBtn.addEventListener('click', () => {
-    stickyNavLinks.classList.toggle('active');
-    mobileMenuBtn.textContent = stickyNavLinks.classList.contains('active') ? '✕' : '☰';
-  });
-  
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.sticky-nav-content') && stickyNavLinks.classList.contains('active')) {
-      stickyNavLinks.classList.remove('active');
-      mobileMenuBtn.textContent = '☰';
-    }
-  });
-}
-
-// Theme Toggle
-const themeToggleBtn = document.getElementById('themeToggleBtn');
-
-// Check for saved theme preference or default to dark
-const savedTheme = localStorage.getItem('theme') || 'dark';
-document.documentElement.setAttribute('data-theme', savedTheme);
-updateThemeIcon(savedTheme);
-
-if (themeToggleBtn) {
-  themeToggleBtn.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcon(newTheme);
-  });
-}
-
-function updateThemeIcon(theme) {
-  if (themeToggleBtn) {
-    themeToggleBtn.textContent = theme === 'dark' ? '🌙' : '☀️';
-  }
-}
-
 // Recent Tools History
 const MAX_RECENT_TOOLS = 6;
 const RECENT_TOOLS_KEY = 'suvidha_recent_tools';
@@ -490,50 +447,18 @@ document.querySelectorAll('.tool-card').forEach(card => {
   });
 });
 
-// Active section detection
-const sections = document.querySelectorAll('.section[id]');
-const navLinks = document.querySelectorAll('.sticky-nav-link');
-
-const observerOptions = {
-  root: null,
-  rootMargin: '-20% 0px -80% 0px',
-  threshold: 0
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const id = entry.target.getAttribute('id');
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${id}`) {
-          link.classList.add('active');
-        }
-      });
-    }
-  });
-}, observerOptions);
-
-sections.forEach(section => observer.observe(section));
-
-// Smooth scroll for nav links
-navLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const targetId = link.getAttribute('href');
-    const targetSection = document.querySelector(targetId);
-    if (targetSection) {
-      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Close mobile menu after click
-      if (stickyNavLinks.classList.contains('active')) {
-        stickyNavLinks.classList.remove('active');
-        mobileMenuBtn.textContent = '☰';
-      }
-    }
+document.querySelectorAll('#homeFilters .home-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#homeFilters .home-filter').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const id = btn.dataset.filter;
+    document.querySelectorAll('main .section').forEach(section => {
+      if (section.id === 'recent-tools') return;
+      section.style.display = (id === 'all' || section.id === id) ? '' : 'none';
+    });
   });
 });
 
-// Search functionality
 const allTools = [
   { name: 'PDF Unlocker', url: 'pages/pdf/pdf-unlock.html', category: 'PDF', icon: '🔓' },
   { name: 'PDF Merger', url: 'pages/pdf/pdf-merger.html', category: 'PDF', icon: '📎' },
@@ -541,6 +466,10 @@ const allTools = [
   { name: 'Image to PDF', url: 'pages/image/image-to-pdf.html', category: 'Image', icon: '🖼️' },
   { name: 'Image Compressor', url: 'pages/image/image-compressor.html', category: 'Image', icon: '🗜️' },
   { name: 'QR Code Generator', url: 'pages/utility/qr-generator.html', category: 'Utility', icon: '▦' },
+  { name: 'Password Generator', url: 'pages/utility/password-generator.html', category: 'Utility', icon: '🔐' },
+  { name: 'Word Counter', url: 'pages/utility/word-counter.html', category: 'Utility', icon: '✍️' },
+  { name: 'Email Validator', url: 'pages/utility/email-validator.html', category: 'Utility', icon: '📧' },
+  { name: 'UPI ID Validator', url: 'pages/utility/upi-validator.html', category: 'Utility', icon: '📱' },
   { name: 'EMI Calculator', url: 'pages/finance/emi-calculator.html', category: 'Finance', icon: '🏦' },
   { name: 'GST Calculator', url: 'pages/finance/gst-calculator.html', category: 'Finance', icon: '🧾' },
   { name: 'SIP Calculator', url: 'pages/finance/sip-calculator.html', category: 'Finance', icon: '📈' },
@@ -550,18 +479,12 @@ const allTools = [
   { name: 'JSON to CSV Converter', url: 'pages/json/json-to-csv.html', category: 'JSON', icon: '📊' },
   { name: 'Meta Tag Generator', url: 'pages/seo/meta-tag-generator.html', category: 'SEO', icon: '🏷️' },
   { name: 'Sitemap Generator', url: 'pages/seo/sitemap-generator.html', category: 'SEO', icon: '🗺️' },
-  { name: 'Keyword Analyzer', url: 'pages/seo/keyword-analyzer.html', category: 'SEO', icon: '🔑' },
-  { name: 'Email Account Lookup', url: 'pages/lookup/email-lookup.html', category: 'Lookup', icon: '📧' },
-  { name: 'Mobile UPI Lookup', url: 'pages/lookup/money-upi-lookup.html', category: 'Lookup', icon: '📱' }
+  { name: 'Keyword Analyzer', url: 'pages/seo/keyword-analyzer.html', category: 'SEO', icon: '🔑' }
 ];
 
 const globalSearch = document.getElementById('global-search');
 const searchDropdown = document.getElementById('search-dropdown');
 const searchBtn = document.getElementById('search-btn');
-const navSearch = document.getElementById('nav-search');
-const navSearchDropdown = document.getElementById('nav-search-dropdown');
-const mobileSearch = document.getElementById('mobile-search');
-const mobileSearchDropdown = document.getElementById('mobile-search-dropdown');
 
 function showDropdown(dropdown) {
   const target = dropdown || searchDropdown;
@@ -575,12 +498,6 @@ function hideDropdown() {
   if (searchDropdown) {
     searchDropdown.style.display = 'none';
   }
-  if (navSearchDropdown) {
-    navSearchDropdown.style.display = 'none';
-  }
-  if (mobileSearchDropdown) {
-    mobileSearchDropdown.style.display = 'none';
-  }
 }
 
 function performSearch(query, targetDropdown) {
@@ -589,7 +506,6 @@ function performSearch(query, targetDropdown) {
   
   if (!normalizedQuery) {
     hideDropdown();
-    if (navSearchDropdown) navSearchDropdown.style.display = 'none';
     return;
   }
   
@@ -651,66 +567,10 @@ if (searchBtn) {
 
 // Close dropdown when clicking outside
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.hero-search') && !e.target.closest('.sticky-nav-search') && !e.target.closest('.mobile-search-container')) {
+  if (!e.target.closest('.hero-search')) {
     hideDropdown();
   }
 });
-
-// Sync nav search with global search
-if (navSearch && globalSearch) {
-  navSearch.addEventListener('input', (e) => {
-    globalSearch.value = e.target.value;
-    performSearch(e.target.value, navSearchDropdown);
-  });
-  
-  navSearch.addEventListener('focus', () => {
-    if (navSearch.value.trim()) {
-      performSearch(navSearch.value, navSearchDropdown);
-    }
-    navSearch.style.zIndex = '1001';
-  });
-  
-  navSearch.addEventListener('blur', () => {
-    setTimeout(() => {
-      navSearch.style.zIndex = '1';
-      if (navSearchDropdown) navSearchDropdown.style.display = 'none';
-    }, 200);
-  });
-  
-  navSearch.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (navSearchDropdown) navSearchDropdown.style.display = 'none';
-      navSearch.blur();
-    }
-  });
-}
-
-// Mobile search functionality
-if (mobileSearch) {
-  mobileSearch.addEventListener('input', (e) => {
-    if (globalSearch) globalSearch.value = e.target.value;
-    performSearch(e.target.value, mobileSearchDropdown);
-  });
-  
-  mobileSearch.addEventListener('focus', () => {
-    if (mobileSearch.value.trim()) {
-      performSearch(mobileSearch.value, mobileSearchDropdown);
-    }
-  });
-  
-  mobileSearch.addEventListener('blur', () => {
-    setTimeout(() => {
-      if (mobileSearchDropdown) mobileSearchDropdown.style.display = 'none';
-    }, 200);
-  });
-  
-  mobileSearch.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (mobileSearchDropdown) mobileSearchDropdown.style.display = 'none';
-      mobileSearch.blur();
-    }
-  });
-}
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

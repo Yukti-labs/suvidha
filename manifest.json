@@ -1,7 +1,7 @@
 {
   "name": "Suvidha Tools",
   "short_name": "Suvidha",
-  "description": "A private browser-based toolkit for documents, images, QR codes, finance, resumes, JSON, SEO, and account lookups.",
+  "description": "A private browser-based toolkit for PDFs, images, finance, resumes, JSON, and SEO.",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#09090c",

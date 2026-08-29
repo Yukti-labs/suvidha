@@ -2,100 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile UPI Lookup — Suvidha Tools</title>
-<script type="module" src="../../assets/js/shared-ui-new.js"></script>
-<style>
-  .container { max-width: 500px; margin: 40px auto; padding: 20px; }
-  input[type="tel"] { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; margin-bottom: 15px; background: var(--surface2); color: var(--text); }
-  button { width: 100%; padding: 12px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; }
-  button:hover { opacity: 0.9; }
-  .result { margin-top: 20px; padding: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
-  .result.success { border-left: 4px solid var(--accent3); }
-  .result.info { border-left: 4px solid var(--accent2); }
-  .result.none { border-left: 4px solid #94a3b8; }
-  .icon { font-size: 2rem; margin-bottom: 10px; display: inline-block; }
-  .upi-list { margin-top: 10px; padding-left: 20px; }
-  .note { font-size: 0.9rem; color: var(--muted); margin-top: 20px; text-align: center; }
-</style>
+<meta http-equiv="refresh" content="0; url=../utility/upi-validator.html">
+<title>Moved — UPI ID Validator</title>
+<link rel="canonical" href="../utility/upi-validator.html">
 </head>
 <body>
-<div class="container">
-<h1>Mobile UPI Lookup</h1>
-<p>Enter a mobile number to see which UPI IDs are registered to it (for verification purposes).</p>
-<input type="tel" id="phoneInput" placeholder="+91 98765 43210" inputmode="tel">
-<button id="lookupBtn">Lookup</button>
-<div class="result" id="result" style="display:none;">
-  <div class="icon" id="resultIcon"></div>
-  <div id="resultText"></div>
-  <ul class="upi-list" id="upiList"></ul>
-</div>
-<p class="note">No data is stored or sent to any server. This is a client‑side demo only.</p>
-</div>
-<script>
-const phoneInput = document.getElementById('phoneInput');
-const lookupBtn = document.getElementById('lookupBtn');
-const resultDiv = document.getElementById('result');
-const resultIcon = document.getElementById('resultIcon');
-const resultText = document.getElementById('resultText');
-const upiList = document.getElementById('upiList');
-
-// Mock mapping: based on last 4 digits
-const upiMap = {
-  '0000': ['example@upi', 'test@okaxis'],
-  '1111': ['user@paytm', 'merchant@ybl'],
-  '2222': ['abc@okhdfcbank', 'xyz@okicici'],
-  '3333': ['pqr@okaxis'],
-  '4444': ['lmn@okicici', 'opq@paytm'],
-  '5555': ['rst@ybl'],
-  '6666': ['uvw@okhdfcbank'],
-  '7777': ['xyz@okaxis'],
-  '8888': ['test@paytm'],
-  '9999': ['demo@upi']
-};
-
-function getLastFourDigits(str) {
-  const digits = str.replace(/\D/g, '');
-  return digits.slice(-4) || '0000';
-}
-
-lookupBtn.addEventListener('click', () => {
-  const phone = phoneInput.value.trim();
-  if (!phone) {
-    alert('Please enter a mobile number');
-    return;
-  }
-  const last4 = getLastFourDigits(phone);
-  const upis = upiMap[last4] || [];
-  resultDiv.style.display = 'block';
-  upiList.innerHTML = '';
-  if (upis.length === 0) {
-    resultIcon.textContent = '❌';
-    resultIcon.style.color = '#94a3b8';
-    resultText.textContent = 'No UPI IDs found for this number.';
-    resultDiv.className = 'result none';
-  } else if (upis.length <= 2) {
-    resultIcon.textContent = '⚠️';
-    resultIcon.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent2').trim();
-    resultText.textContent = `Found ${upis.length} UPI ID${upis.length === 1 ? '' : 's'}.`;
-    resultDiv.className = 'result info';
-  } else {
-    resultIcon.textContent = '✅';
-    resultIcon.style.color = getComputedStyle(document.documentElement).getPropertyValue('--accent3').trim();
-    resultText.textContent = `Found ${upis.length} UPI IDs.`;
-    resultDiv.className = 'result success';
-  }
-  upis.forEach(upi => {
-    const li = document.createElement('li');
-    li.textContent = upi;
-    upiList.appendChild(li);
-  });
-});
-
-// Allow pressing Enter
-phoneInput.addEventListener('keyup', e => {
-  if (e.key === 'Enter') lookupBtn.click();
-});
-</script>
+<p>This fake lookup was replaced by a real <a href="../utility/upi-validator.html">UPI ID Validator</a>.</p>
 </body>
 </html>

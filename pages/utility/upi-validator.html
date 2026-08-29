@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>UPI ID Validator — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+<style>
+  .container { max-width: 560px; margin: 0 auto; padding: 8px 16px 96px; }
+  .header { margin-bottom: 20px; }
+  h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); letter-spacing: -.03em; }
+  p { color: var(--muted); line-height: 1.6; margin-top: 8px; }
+  input, button { min-height: 48px; font-size: 16px; }
+  input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface2); color: var(--text); }
+  button { width: 100%; margin-top: 12px; border: 0; border-radius: 14px; background: var(--accent); color: #fff; font-weight: 700; cursor: pointer; }
+  .result { display: none; margin-top: 16px; padding: 16px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); }
+  .result.show { display: block; }
+  .ok { border-left: 4px solid var(--accent3); }
+  .warn { border-left: 4px solid #f59e0b; }
+  .bad { border-left: 4px solid #ef4444; }
+  ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); }
+  .note { font-size: 13px; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>UPI ID Validator</h1>
+    <p>Validate a VPA (virtual payment address) such as name@okaxis. No phone lookup. No NPCI call.</p>
+  </div>
+  <input type="text" id="upiInput" placeholder="name@okaxis" autocomplete="off" autocapitalize="none">
+  <button type="button" id="checkBtn">Validate</button>
+  <div class="result" id="result"></div>
+  <p class="note">A matching handle does not prove the ID is registered. This only checks the public format used by Indian UPI apps.</p>
+</div>
+<script>
+const HANDLES = new Set(['okaxis','okicici','okhdfcbank','okbizaxis','oksbi','okidfcbank','okyesbank','paytm','ybl','ibl','axl','apl','kbl','yapl','pingpay','icici','hdfcbank','axisbank','sbi','upi','barodampay','federal','kotak','yesg','freecharge','amazonpay']);
+const vpaRe = /^[a-zA-Z0-9._-]{2,256}@[a-zA-Z]{2,64}$/;
+
+function check(vpa) {
+  const raw = vpa.trim().toLowerCase();
+  if (!raw) return { level: 'bad', title: 'Enter a UPI ID', issues: ['Example: yourname@okaxis'] };
+  if (!vpaRe.test(raw)) return { level: 'bad', title: 'Invalid format', issues: ['Use handle@psp with letters, numbers, dot, underscore, or hyphen.'] };
+  const [handle, psp] = raw.split('@');
+  const issues = [`Handle: ${handle}`, `PSP: ${psp}`];
+  if (!HANDLES.has(psp)) {
+    return { level: 'warn', title: 'Unusual PSP handle', issues: [...issues, 'The part after @ is not in the common PSP list. It may still be valid.'] };
+  }
+  return { level: 'ok', title: 'Format looks valid', issues };
+}
+
+function render() {
+  const out = check(document.getElementById('upiInput').value);
+  const box = document.getElementById('result');
+  box.className = `result show ${out.level}`;
+  box.innerHTML = `<strong>${out.title}</strong><ul>${out.issues.map(i => `<li>${i}</li>`).join('')}</ul>`;
+}
+
+document.getElementById('checkBtn').addEventListener('click', render);
+document.getElementById('upiInput').addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+</script>
+</body>
+</html>

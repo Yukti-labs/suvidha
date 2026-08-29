@@ -27,7 +27,11 @@ export const pageGroups = [
     label: 'Utility',
     anchor: '#utility-tools',
     pages: [
-      { path: 'pages/utility/qr-generator.html', file: 'qr-generator.html', label: 'QR Generator', icon: '▦' }
+      { path: 'pages/utility/qr-generator.html', file: 'qr-generator.html', label: 'QR Generator', icon: '▦' },
+      { path: 'pages/utility/password-generator.html', file: 'password-generator.html', label: 'Password Generator', icon: '🔐' },
+      { path: 'pages/utility/word-counter.html', file: 'word-counter.html', label: 'Word Counter', icon: '✍️' },
+      { path: 'pages/utility/email-validator.html', file: 'email-validator.html', label: 'Email Validator', icon: '📧' },
+      { path: 'pages/utility/upi-validator.html', file: 'upi-validator.html', label: 'UPI ID Validator', icon: '📱' }
     ]
   },
   {
@@ -64,14 +68,6 @@ export const pageGroups = [
       { path: 'pages/seo/keyword-analyzer.html', file: 'keyword-analyzer.html', label: 'Keyword Analyzer', icon: '🔑' }
     ]
   },
-  {
-    label: 'Lookup',
-    anchor: '#lookup-tools',
-    pages: [
-      { path: 'pages/lookup/email-lookup.html', file: 'email-lookup.html', label: 'Email Account Lookup', icon: '📧' },
-      { path: 'pages/lookup/money-upi-lookup.html', file: 'money-upi-lookup.html', label: 'Mobile UPI Lookup', icon: '📱' }
-    ]
-  }
 ];
 
 export const totalTools = pageGroups.reduce((count, group) => count + group.pages.length, 0);

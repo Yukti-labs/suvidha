@@ -1,38 +1,32 @@
 // Suvidha Tools Service Worker
-const CACHE_NAME = 'suvidha-cache-v1';
+const CACHE_NAME = 'suvidha-cache-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './assets/js/shared-ui.js',
+  './assets/js/shared-ui-new.js',
   './icon-192.png',
   './icon-512.png',
-  // PDF tools
   './pages/pdf/pdf-unlock.html',
   './pages/pdf/pdf-merger.html',
   './pages/pdf/pdf-compressor.html',
-  // Image tools
   './pages/image/image-to-pdf.html',
   './pages/image/image-compressor.html',
-  // Finance tools
   './pages/finance/emi-calculator.html',
   './pages/finance/gst-calculator.html',
   './pages/finance/sip-calculator.html',
-  // Career tools
   './pages/resume/resume-builder.html',
-  // JSON tools
   './pages/json/json-validator.html',
   './pages/json/json-formatter.html',
   './pages/json/json-to-csv.html',
-  // SEO tools
   './pages/seo/meta-tag-generator.html',
   './pages/seo/sitemap-generator.html',
   './pages/seo/keyword-analyzer.html',
-  // Lookup tools
-  './pages/lookup/email-lookup.html',
-  './pages/lookup/money-upi-lookup.html',
-  // Utility tools
-  './pages/utility/qr-generator.html'
+  './pages/utility/qr-generator.html',
+  './pages/utility/password-generator.html',
+  './pages/utility/word-counter.html',
+  './pages/utility/email-validator.html',
+  './pages/utility/upi-validator.html'
 ];
 
 // Install event - cache assets

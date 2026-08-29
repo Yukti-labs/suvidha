@@ -3,6 +3,7 @@ import { appName, appNameLong, companyName, companyTagline, pageGroups, totalToo
 import { initTheme } from './modules/theme.js';
 import { getPathInfo, getCurrentPageInfo, getHrefs, initMobileNavigation, initToolsMenu } from './modules/navigation.js';
 import { initFeedbackSystem } from './modules/feedback.js';
+import { initCommandPalette } from './modules/search.js';
 
 (() => {
   // Prevent duplicate initialization
@@ -87,7 +88,8 @@ import { initFeedbackSystem } from './modules/feedback.js';
     .theme-toggle:hover{background:var(--hover-bg)}
     .theme-toggle .theme-icon{font-size:14px;line-height:1}
     .theme-toggle.mobile{width:100%;margin-bottom:10px;justify-content:space-between}
-    body.has-site-nav{padding-top:0 !important;}
+    body.has-site-nav{padding-top:12px !important;}
+    .tool-nav{display:none !important;}
     .site-nav-shell{position:fixed;top:0;left:0;right:0;height:64px;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center}
     .site-nav-spacer{height:64px;width:100%;flex:0 0 auto}
     .site-nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto;padding:8px 16px;border:1px solid color-mix(in srgb,var(--border) 70%, transparent);border-radius:12px;background:color-mix(in srgb,var(--surface, #141416) 90%, transparent);backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,0.12);height:100%}
@@ -97,10 +99,10 @@ import { initFeedbackSystem } from './modules/feedback.js';
     .site-brand-title{font-size:14px;font-weight:700;letter-spacing:-0.02em;color:var(--text);white-space:nowrap}
     .site-nav-desktop{display:flex;align-items:center;gap:10px}
     .site-nav-link,.site-tools-trigger{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border-radius:999px;border:1px solid transparent;text-decoration:none;background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s ease;font-family:inherit}
-    .site-nav-link:hover,.site-nav-link.is-active,.site-tools-trigger:hover,.site-tools-trigger[aria-expanded='true']{color:var(--text);background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border-color:color-mix(in srgb,var(--border) 70%, transparent);transform:translateY(-2px)}
+    .site-nav-link:hover,.site-nav-link.is-active,.site-tools-trigger:hover,.site-tools-trigger[aria-expanded='true']{color:var(--text);background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border-color:color-mix(in srgb,var(--border) 70%, transparent)}
     .site-tools-menu{position:relative}
-    .site-tools-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:min(440px,calc(100vw - 48px));padding:16px;border-radius:20px;border:1px solid color-mix(in srgb,var(--border) 82%, transparent);background:color-mix(in srgb,var(--surface, #141416) 96%, transparent);backdrop-filter:blur(20px);box-shadow:0 22px 60px rgba(0,0,0,.22);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;opacity:0;visibility:hidden;transform:translateY(8px);transition:all .2s ease;pointer-events:none}
-    .site-tools-menu:hover .site-tools-dropdown,.site-tools-menu.is-open .site-tools-dropdown{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+    .site-tools-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:min(440px,calc(100vw - 48px));padding:16px;border-radius:16px;border:1px solid color-mix(in srgb,var(--border) 82%, transparent);background:color-mix(in srgb,var(--surface, #141416) 96%, transparent);backdrop-filter:blur(20px);box-shadow:0 12px 40px rgba(0,0,0,.22);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease;pointer-events:none}
+    .site-tools-menu:hover .site-tools-dropdown,.site-tools-menu.is-open .site-tools-dropdown{opacity:1;visibility:visible;pointer-events:auto}
     .site-tool-group{padding:4px}
     .site-tool-group-label{display:block;margin-bottom:8px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
     .site-tool-link{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;text-decoration:none;color:var(--text);transition:all .18s ease}
@@ -109,6 +111,21 @@ import { initFeedbackSystem } from './modules/feedback.js';
     .site-tool-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
     .site-tool-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .site-tool-meta{font-size:11px;color:var(--muted)}
+    .site-search-btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 12px 0 14px;border-radius:999px;border:1px solid color-mix(in srgb,var(--border) 70%, transparent);background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 82%, transparent);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+    .site-search-btn kbd{font:10px/1 'Syne Mono',monospace;padding:3px 6px;border-radius:6px;border:1px solid var(--border);color:var(--muted)}
+    .cmd-palette{position:fixed;inset:0;z-index:10050;background:rgba(4,6,12,.58);backdrop-filter:blur(8px);display:none;align-items:flex-start;justify-content:center;padding:12vh 16px 24px}
+    .cmd-palette.is-open{display:flex}
+    .cmd-palette-dialog{width:min(640px,100%);border:1px solid var(--border);border-radius:20px;background:var(--surface);box-shadow:0 28px 80px rgba(0,0,0,.35);overflow:hidden}
+    .cmd-palette-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border)}
+    .cmd-palette-head input{flex:1;border:0;background:transparent;color:var(--text);font:16px/1.4 inherit;outline:none}
+    .cmd-palette-head kbd{font:11px 'Syne Mono',monospace;color:var(--muted)}
+    .cmd-palette-list{max-height:min(52vh,420px);overflow:auto;padding:8px}
+    .cmd-palette-item{display:flex;align-items:center;gap:12px;padding:12px 12px;border-radius:14px;text-decoration:none;color:var(--text)}
+    .cmd-palette-item:hover,.cmd-palette-item:focus{background:var(--hover-bg)}
+    .cmd-palette-item strong,.cmd-palette-item small{display:block}
+    .cmd-palette-item small{color:var(--muted);font-size:11px;margin-top:2px}
+    .cmd-palette-icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--surface2);flex-shrink:0}
+    .cmd-palette-empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:13px}
     .site-nav-actions{display:flex;align-items:center;gap:10px}
     .site-nav-chip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:999px;border:1px solid color-mix(in srgb,var(--border) 70%, transparent);text-decoration:none;color:var(--text);font-size:12px;font-weight:700;background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 82%, transparent)}
     .site-nav-chip span{font-size:11px;color:var(--muted);font-weight:500}
@@ -149,9 +166,20 @@ import { initFeedbackSystem } from './modules/feedback.js';
     .gf-badges{display:flex;flex-wrap:gap:8px;margin-top:14px}
     .gf-badge{padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface2);font:11px 'Syne Mono',monospace;color:var(--muted)}
     .gf-bottom{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font:11px 'Syne Mono',monospace}
+    .app-dock{display:none}
     @media (max-width: 960px){
       .site-nav-desktop,.site-nav-chip{display:none}
-      .site-mobile-toggle{display:inline-flex}
+      .site-mobile-toggle{display:none}
+      .site-search-btn{display:none}
+      .theme-toggle:not(.mobile){display:none}
+      .app-dock{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:12px;right:12px;bottom:max(10px,env(safe-area-inset-bottom));z-index:9996;padding:6px;border:1px solid var(--border);border-radius:22px;background:color-mix(in srgb,var(--surface) 92%, transparent);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+      .app-dock-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;border:0;background:transparent;color:var(--muted);text-decoration:none;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;border-radius:16px}
+      .app-dock-item.is-active,.app-dock-item:hover{color:var(--text);background:var(--hover-bg)}
+      .app-dock-icon{font-size:18px;line-height:1}
+      body.has-site-nav{padding-bottom:92px !important}
+    }
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{animation:none !important;transition:none !important}
     }
     @media (max-width: 760px){
       .content{max-width:100% !important}
@@ -181,215 +209,29 @@ import { initFeedbackSystem } from './modules/feedback.js';
       .gf-links{grid-template-columns:1fr}
     }
 
-    /* Eye-catching UI enhancements */
-    .workflow-card,.tool-card,.section-panel,.cta-band{
-      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      will-change:transform;
-      position:relative;
-      z-index:1;
+    /* Quiet, high-frequency UI: no lift, no stagger, no looping motion */
+    .workflow-card,.tool-card,.section-panel,.cta-band,.gf-link,.category-link{
+      transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease;
     }
     .workflow-card:hover,.tool-card:hover{
-      transform:translateY(-8px) scale(1.03);
-      border-color:rgba(255,255,255,.3);
-      background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));
-      box-shadow:0 32px 80px rgba(0,0,0,.35);
+      border-color:color-mix(in srgb,var(--accent) 40%, var(--border));
+      background:var(--hover-bg) !important;
     }
-    .workflow-card:hover::before,.tool-card:hover::before{
-      content:'';
-      position:absolute;
-      top:0;
-      left:0;
-      right:0;
-      bottom:0;
-      background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);
-      z-index:-1;
+    .btn,.theme-toggle,.app-dock-item,.site-nav-link,.site-tool-link{
+      transition:background-color .15s ease,border-color .15s ease,color .15s ease;
     }
-    .section-panel:hover{
-      transform:translateY(-6px);
-      box-shadow:0 28px 70px rgba(0,0,0,.3);
-    }
-    .cta-band:hover{
-      transform:translateY(-4px);
-      box-shadow:0 28px 70px rgba(0,0,0,.3);
-    }
-    .btn{
-      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      position:relative;
-      overflow:hidden;
-      z-index:1;
-    }
-    .btn:hover{
-      transform:translateY(-3px);
-    }
-    .btn:active{
-      transform:translateY(-1px);
-    }
-    .btn::after{
-      content:'';
-      position:absolute;
-      top:-50%;
-      left:-50%;
-      width:200%;
-      height:200%;
-      background:radial-gradient(circle,rgba(255,255,255,.15) 0%,transparent 70%);
-      transition:all .6s ease;
-      opacity:0;
-      pointer-events:none;
-    }
-    .btn:hover::after{
-      animation:ripple .8s ease-out;
-    }
-    .btn:active::after{
-      background:radial-gradient(circle,rgba(255,255,255,.25) 0%,transparent 70%);
-      animation:none;
-    }
-    @keyframes ripple{
-      0%{
-        transform:scale(0);
-        opacity:.3;
-      }
-      100%{
-        transform:scale(2.5);
-        opacity:0;
-      }
-    }
-    .workflow-icon,.tool-icon,.site-tool-icon{
-      transition:transform .4s ease;
-      display:inline-flex;
-    }
-    .workflow-card:hover .workflow-icon,.tool-card:hover .tool-icon,.site-tool-link:hover .site-tool-icon{
-      transform:rotate(12deg) scale(1.2);
-      transition:transform .4s ease;
+    .btn:active,.site-nav-link:active,.site-tool-link:active,.gf-link:active,.app-dock-item:active{
+      transform:scale(0.98);
     }
     .input-row input,.input-row select,.input-row textarea{
-      transition:all .3s ease;
       border:none;
       border-radius:8px;
       padding:12px 16px;
     }
     .input-row input:focus,.input-row select:focus,.input-row textarea:focus{
       outline:none;
-      box-shadow:0 0 0 3px rgba(59,130,246,.5);
+      box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 35%, transparent);
       background:var(--surface);
-    }
-    .theme-toggle{
-      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      position:relative;
-      overflow:hidden;
-    }
-    .theme-toggle:hover{
-      transform:scale(1.05);
-    }
-    .theme-toggle::after{
-      content:'';
-      position:absolute;
-      top:50%;
-      left:50%;
-      width:0;
-      height:0;
-      background:rgba(255,255,255,.2);
-      border-radius:50%;
-      transition:width .3s ease, height .3s ease;
-      transform:translate(-50%,-50%);
-    }
-    .theme-toggle:hover::after{
-      width:100px;
-      height:100px;
-    }
-    .focus-visible:focus{
-      outline:none;
-      box-shadow:0 0 0 3px rgba(59,130,246,.5);
-      border-radius:4px;
-    }
-    /* Animated gradient background for headers */
-    .hero{
-      position:relative;
-      overflow:hidden;
-    }
-    .hero::before{
-      content:'';
-      position:absolute;
-      top:-50%;
-      left:-50%;
-      width:200%;
-      height:200%;
-      background:linear-gradient(45deg,transparent 30%,rgba(139,92,246,.08) 50%,transparent 70%);
-      animation:gradientShift 15s ease infinite;
-      z-index:0;
-    }
-    @keyframes gradientShift{
-      0%{
-        transform:rotate(0deg);
-      }
-      100%{
-        transform:rotate(360deg);
-      }
-    }
-    /* Floating animation for icons */
-    .floating-icon{
-      display:inline-block;
-      animation:float 6s ease-in-out infinite;
-    }
-    @keyframes float{
-      0%{
-        transform:translateY(0px);
-      }
-      50%{
-        transform:translateY(-10px);
-      }
-      100%{
-        transform:translateY(0px);
-      }
-    }
-    /* Pulse animation for stats */
-    .hstat-val{
-      animation:pulse 3s ease-in-out infinite;
-    }
-    @keyframes pulse{
-      0%{
-        transform:scale(1);
-      }
-      50%{
-        transform:scale(1.05);
-      }
-      100%{
-        transform:scale(1);
-      }
-    }
-    /* Staggered animation for tools grid on fade-in */
-    .tools-grid .tool-card,.workflow-grid .workflow-card{
-      opacity:0;
-      transform:translateY(30px);
-    }
-    .tools-grid .tool-card:nth-child(1),
-    .workflow-grid .workflow-card:nth-child(1){
-      animation:fadeUpSlide .6s forwards;
-    }
-    .tools-grid .tool-card:nth-child(2),
-    .workflow-grid .workflow-card:nth-child(2){
-      animation:fadeUpSlide .6s forwards .1s;
-    }
-    .tools-grid .tool-card:nth-child(3),
-    .workflow-grid .workflow-card:nth-child(3){
-      animation:fadeUpSlide .6s forwards .2s;
-    }
-    .tools-grid .tool-card:nth-child(4),
-    .workflow-grid .workflow-card:nth-child(4){
-      animation:fadeUpSlide .6s forwards .3s;
-    }
-    .tools-grid .tool-card:nth-child(5),
-    .workflow-grid .workflow-card:nth-child(5){
-      animation:fadeUpSlide .6s forwards .4s;
-    }
-    .tools-grid .tool-card:nth-child(6),
-    .workflow-grid .workflow-card:nth-child(6){
-      animation:fadeUpSlide .6s forwards .5s;
-    }
-    @keyframes fadeUpSlide{
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
     }
     .category-bar{
       display:flex;
@@ -409,7 +251,6 @@ import { initFeedbackSystem } from './modules/feedback.js';
       font-size:13px;
       font-weight:600;
       color:var(--muted);
-      transition:all .2s ease;
     }
     .category-link:hover{
       color:var(--text);
@@ -420,37 +261,11 @@ import { initFeedbackSystem } from './modules/feedback.js';
       background:color-mix(in srgb,var(--accent, #58a6ff) 20%, transparent);
       border-color:color-mix(in srgb,var(--accent, #58a6ff) 40%, transparent);
     }
-    /* Smooth scroll behavior */
-    html{
-      scroll-behavior:smooth;
-    }
-    /* Focus visible improvements */
     :focus-visible{
       outline:2px solid var(--accent);
       outline-offset:2px;
     }
-    /* Loading skeleton animation */
-    @keyframes shimmer{
-      0%{background-position:-200% 0}
-      100%{background-position:200% 0}
-    }
-    .skeleton{
-      background:linear-gradient(90deg,var(--surface2) 25%,var(--border) 50%,var(--surface2) 75%);
-      background-size:200% 100%;
-      animation:shimmer 1.5s infinite;
-    }
-    /* Tooltip enhancement */
-    [title]{
-      position:relative;
-    }
-    /* Improved button press effect */
-    .btn:active,.site-nav-link:active,.site-tool-link:active,.gf-link:active{
-      transform:scale(0.98);
-    }
-    /* Smooth transitions for all interactive elements */
-    a,button,input,select,textarea{
-      transition:all 0.2s ease;
-    }
+    .cmd-palette-item{transition:none}
   `;
   document.head.appendChild(style);
   document.body.classList.add('has-site-nav');
@@ -498,16 +313,16 @@ import { initFeedbackSystem } from './modules/feedback.js';
         </a>
         <nav class="site-nav-desktop" aria-label="Primary navigation">
           <a class="site-nav-link${isHome ? ' is-active' : ''}" href="${isHome ? '#top' : `${homePrefix}index.html`}">Home</a>
-          ${pageGroups.map(group => `<a class="site-nav-link" href="${groupHref(group)}">${group.label}</a>`).join('')}
+          ${pageGroups.slice(0, 4).map(group => `<a class="site-nav-link" href="${groupHref(group)}">${group.label}</a>`).join('')}
           <div class="site-tools-menu" id="siteToolsMenu">
             <button class="site-tools-trigger" id="siteToolsTrigger" type="button" aria-expanded="false">All tools</button>
             <div class="site-tools-dropdown">${desktopGroups}</div>
           </div>
         </nav>
         <div class="site-nav-actions">
+          <button class="site-search-btn" type="button" data-open-search aria-label="Search tools">Search <kbd>Ctrl K</kbd></button>
           <button class="theme-toggle" type="button" data-theme-toggle><span class="theme-icon">🌙</span><span class="theme-text">Dark</span></button>
-          <a class="site-nav-chip" href="${isHome ? '#finance-tools' : `${homePrefix}index.html#finance-tools`}">Quick access <span>${currentPage.label}</span></a>
-          <button class="site-mobile-toggle" id="siteMobileToggle" type="button" aria-label="Open menu">
+          <button class="site-mobile-toggle" id="siteMobileToggle" type="button" data-open-drawer aria-label="Open menu">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
           </button>
         </div>
@@ -525,6 +340,7 @@ import { initFeedbackSystem } from './modules/feedback.js';
       </div>
       <div class="site-mobile-company"><strong>${companyName}</strong><span>${companyTagline}</span></div>
       <button class="theme-toggle mobile" type="button" data-theme-toggle><span><span class="theme-icon">🌙</span> <span class="theme-text">Dark</span></span><strong>Theme</strong></button>
+      <button class="theme-toggle mobile" type="button" data-open-search><span>Search tools</span><strong>Ctrl K</strong></button>
       <a class="site-mobile-home" href="${isHome ? '#top' : `${homePrefix}index.html`}">
         <span>Go to home</span>
         <strong>${totalTools} tools</strong>
@@ -537,6 +353,26 @@ import { initFeedbackSystem } from './modules/feedback.js';
   `;
 
   document.body.insertAdjacentHTML('afterbegin', navHtml);
+  document.body.insertAdjacentHTML('beforeend', `
+    <nav class="app-dock" aria-label="App shortcuts">
+      <a class="app-dock-item${isHome ? ' is-active' : ''}" href="${isHome ? '#top' : `${homePrefix}index.html`}">
+        <span class="app-dock-icon">⌂</span>
+        <span>Home</span>
+      </a>
+      <button class="app-dock-item" type="button" data-open-search>
+        <span class="app-dock-icon">⌕</span>
+        <span>Search</span>
+      </button>
+      <button class="app-dock-item" type="button" data-open-drawer>
+        <span class="app-dock-icon">☰</span>
+        <span>Tools</span>
+      </button>
+      <button class="app-dock-item" type="button" data-theme-toggle>
+        <span class="theme-icon app-dock-icon">🌙</span>
+        <span class="theme-text">Theme</span>
+      </button>
+    </nav>
+  `);
 
   // Generate footer
   if (!document.querySelector('.global-footer-wrap')) {
@@ -561,6 +397,7 @@ import { initFeedbackSystem } from './modules/feedback.js';
             <a class="gf-link" href="${groupHref(pageGroups[1])}">Image Tools <span>Open</span></a>
             <a class="gf-link" href="${groupHref(pageGroups[2])}">Utility <span>Open</span></a>
             <a class="gf-link" href="${groupHref(pageGroups[3])}">Finance <span>Open</span></a>
+            <a class="gf-link" href="${groupHref(pageGroups[5])}">JSON Tools <span>Open</span></a>
             <a class="gf-link feedback-footer-link" href="#" id="footerFeedbackBtn">Send Feedback <span>💬</span></a>
           </div>
         </div>
@@ -607,6 +444,7 @@ import { initFeedbackSystem } from './modules/feedback.js';
   const toolsMenu = document.getElementById('siteToolsMenu');
   const toolsTrigger = document.getElementById('siteToolsTrigger');
   initToolsMenu(toolsMenu, toolsTrigger);
+  initCommandPalette({ homePrefix, pageHref });
 
   // Initialize feedback system
   initFeedbackSystem();
