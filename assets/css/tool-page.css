@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/* Shared tool-page chrome: one layout, token colors, no second top bar */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body:not(#top) {
+  font-family: 'Syne', system-ui, sans-serif !important;
+  min-height: 100vh;
+}
+
+body.has-site-nav:not(#top) {
+  padding-top: 0 !important;
+}
+
+body:not(#top) .tool-nav {
+  display: none !important;
+}
+
+.tool-page,
+body:not(#top) .container,
+body:not(#top) .content {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4px 0 28px;
+}
+
+.tool-sibs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+.tool-sib {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tool-sib:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+
+.tool-sib.is-active {
+  color: var(--text);
+  background: var(--hover-bg);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.tool-header,
+body:not(#top) .header {
+  margin-bottom: 20px !important;
+  animation: none !important;
+  text-align: left !important;
+}
+
+.tool-eyebrow,
+body:not(#top) .eyebrow {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace !important;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent) !important;
+  margin-bottom: 8px;
+}
+
+body:not(#top) h1 {
+  font-family: 'Syne', system-ui, sans-serif !important;
+  font-size: clamp(1.7rem, 5.5vw, 2.3rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--text) !important;
+}
+
+body:not(#top) h1 span,
+body:not(#top) h1 em {
+  color: var(--accent) !important;
+  font-style: normal !important;
+}
+
+.tool-lead,
+body:not(#top) .header p,
+body:not(#top) .sub,
+body:not(#top) .container > p:first-of-type {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-top: 8px;
+  font-weight: 400 !important;
+}
+
+.tool-panel,
+body:not(#top) .card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .tool-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.tool-field,
+body:not(#top) .field,
+body:not(#top) .form-group {
+  margin-bottom: 14px;
+}
+
+.tool-field:last-child,
+body:not(#top) .field:last-child {
+  margin-bottom: 0;
+}
+
+.tool-label,
+body:not(#top) label,
+body:not(#top) .field-label,
+body:not(#top) .field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+body:not(#top) input[type=text],
+body:not(#top) input[type=email],
+body:not(#top) input[type=url],
+body:not(#top) input[type=tel],
+body:not(#top) input[type=password],
+body:not(#top) input[type=search],
+body:not(#top) input[type=number],
+body:not(#top) textarea,
+body:not(#top) select {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface2) !important;
+  color: var(--text) !important;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+body:not(#top) textarea {
+  min-height: 160px;
+  height: auto;
+  resize: vertical;
+  line-height: 1.55;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+.tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.tool-btn,
+body:not(#top) .btn,
+body:not(#top) .dl-btn,
+body:not(#top) .action-btn.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tool-btn-ghost,
+body:not(#top) .action-btn:not(.primary),
+body:not(#top) .copyBtn,
+body:not(#top) .dl-btn.outline {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.tool-btn:hover,
+.tool-btn-ghost:hover {
+  opacity: 0.92;
+}
+
+.tool-output,
+body:not(#top) .output,
+body:not(#top) .result,
+body:not(#top) .preview {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.tool-output:has(table) {
+  white-space: normal;
+  font-family: inherit;
+}
+
+body:not(#top) .result:empty { display: none; }
+body:not(#top) .result.invalid,
+body:not(#top) .bad { border-left: 4px solid #ef4444; }
+body:not(#top) .warn { border-left: 4px solid #f59e0b; }
+
+body:not(#top) pre {
+  margin: 10px 0 0;
+  padding: 12px;
+  overflow: auto;
+  max-height: 360px;
+  border-radius: 12px;
+  background: var(--surface2);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+}
+
+body:not(#top) table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+body:not(#top) th,
+body:not(#top) td {
+  padding: 10px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+body:not(#top) th {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--surface2);
+}
+
+.tool-note,
+body:not(#top) .note,
+body:not(#top) .hint {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-top: 14px;
+}
+
+body:not(#top) .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 639px) {
+  body:not(#top) .row { flex-direction: column; }
+  body:not(#top) .row > div { width: 100%; }
+}
+
+/* Keep unique widgets, quiet the motion from older tool skins */
+body:not(#top) .header,
+body:not(#top) .card,
+body:not(#top) .badge {
+  animation: none !important;
+}
+
+body:not(#top) .btn:hover,
+body:not(#top) .dl-btn:hover {
+  transform: none;
+}
+
+body:not(#top) .input-row input,
+body:not(#top) .input-row input[type=number],
+body:not(#top) .input-row input[type=text] {
+  width: auto;
+  flex: 1;
+  min-height: 44px;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0;
+}
+
+.page-crumb,
+.category-bar {
+  display: none;
+}

@@ -5,33 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Email Validator — Suvidha Tools</title>
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
-<style>
-  .container { max-width: 560px; margin: 0 auto; padding: 8px 16px 96px; }
-  .header { margin-bottom: 20px; }
-  h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); letter-spacing: -.03em; }
-  p { color: var(--muted); line-height: 1.6; margin-top: 8px; }
-  input, button { min-height: 48px; font-size: 16px; }
-  input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface2); color: var(--text); }
-  button { width: 100%; margin-top: 12px; border: 0; border-radius: 14px; background: var(--accent); color: #fff; font-weight: 700; cursor: pointer; }
-  .result { display: none; margin-top: 16px; padding: 16px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); }
-  .result.show { display: block; }
-  .ok { border-left: 4px solid var(--accent3); }
-  .warn { border-left: 4px solid #f59e0b; }
-  .bad { border-left: 4px solid #ef4444; }
-  ul { margin: 12px 0 0; padding-left: 18px; color: var(--muted); }
-  .note { font-size: 13px; margin-top: 18px; }
-</style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">Utility</div>
     <h1>Email Validator</h1>
-    <p>Check format, common typos, and disposable-looking domains. Runs only in your browser.</p>
+    <p class="tool-lead">Check format, common typos, and disposable-looking domains. Runs only in your browser.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="emailInput">Email</label>
+      <input type="email" id="emailInput" placeholder="name@gmail.com" autocomplete="email" inputmode="email">
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="checkBtn">Validate</button>
+    </div>
+    <div class="result" id="result"></div>
   </div>
-  <input type="email" id="emailInput" placeholder="name@gmail.com" autocomplete="email" inputmode="email">
-  <button type="button" id="checkBtn">Validate</button>
-  <div class="result" id="result"></div>
-  <p class="note">This does not contact mail servers or prove an inbox exists. It checks structure and well-known patterns only.</p>
+  <p class="tool-note">This does not contact mail servers or prove an inbox exists. It checks structure and well-known patterns only.</p>
 </div>
 <script>
 const TYPOs = { 'gmal.com':'gmail.com','gmial.com':'gmail.com','gamil.com':'gmail.com','yahooo.com':'yahoo.com','outlok.com':'outlook.com','hotmial.com':'hotmail.com' };

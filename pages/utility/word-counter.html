@@ -6,11 +6,6 @@
 <title>Word Counter — Suvidha Tools</title>
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
 <style>
-  .container { max-width: 720px; margin: 0 auto; padding: 8px 16px 96px; }
-  .header { margin-bottom: 16px; }
-  h1 { font-size: clamp(1.6rem, 6vw, 2.2rem); letter-spacing: -.03em; }
-  p { color: var(--muted); line-height: 1.6; margin-top: 8px; }
-  textarea { width: 100%; min-height: 220px; padding: 14px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface2); color: var(--text); font-size: 16px; line-height: 1.6; resize: vertical; }
   .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
   .stat { padding: 14px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); }
   .stat span { display: block; color: var(--muted); font-size: 12px; }
@@ -19,17 +14,21 @@
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">Utility</div>
     <h1>Word Counter</h1>
-    <p>Count words, characters, sentences, and reading time. Nothing is uploaded.</p>
-  </div>
-  <textarea id="textInput" placeholder="Paste or type here…"></textarea>
-  <div class="stats">
-    <div class="stat"><span>Words</span><strong id="words">0</strong></div>
-    <div class="stat"><span>Characters</span><strong id="chars">0</strong></div>
-    <div class="stat"><span>Sentences</span><strong id="sentences">0</strong></div>
-    <div class="stat"><span>Read time</span><strong id="read">0 min</strong></div>
+    <p class="tool-lead">Count words, characters, sentences, and reading time. Nothing is uploaded.</p>
+  </header>
+  <div class="tool-panel">
+    <label class="tool-label" for="textInput">Text</label>
+    <textarea id="textInput" placeholder="Paste or type here…"></textarea>
+    <div class="stats">
+      <div class="stat"><span>Words</span><strong id="words">0</strong></div>
+      <div class="stat"><span>Characters</span><strong id="chars">0</strong></div>
+      <div class="stat"><span>Sentences</span><strong id="sentences">0</strong></div>
+      <div class="stat"><span>Read time</span><strong id="read">0 min</strong></div>
+    </div>
   </div>
 </div>
 <script>

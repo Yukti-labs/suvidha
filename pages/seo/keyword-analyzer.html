@@ -2,33 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Keyword Analyzer — Suvidha Tools</title>
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
-<style>
-  .container { max-width: 800px; margin: 30px auto; padding: 20px; }
-  textarea { width: 100%; height: 200px; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: monospace; }
-  .row { display: flex; gap: 15px; margin-top: 15px; align-items: end; }
-  button { padding: 10px 15px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-  button:hover { opacity: 0.9; }
-  table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-  th, td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border); }
-  th { background: var(--surface2); }
-  tr:hover { background: var(--surface); }
-  .output { margin-top: 20px; }
-  .hint { font-size: 0.9em; color: var(--muted); }
-</style>
 </head>
 <body>
-<div class="container">
-<h1>Keyword Analyzer</h1>
-<p>Paste content to see keyword frequency, density, and suggestions for improvement.</p>
-<textarea id="textInput" placeholder="Paste your article, blog post, or any text here..."></textarea>
-<div class="row">
-  <button id="analyzeBtn">Analyze Keywords</button>
-</div>
-<div class="output" id="output"></div>
-<div class="hint">Stop words (like "the", "and", "of") are excluded from frequency counts.</div>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">SEO</div>
+    <h1>Keyword Analyzer</h1>
+    <p class="tool-lead">Paste copy to see word frequency and density. Stop words such as “the” and “and” are skipped.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="textInput">Content</label>
+      <textarea id="textInput" placeholder="Paste your article or landing-page copy…"></textarea>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="analyzeBtn">Analyze keywords</button>
+    </div>
+  </div>
+  <div class="tool-output" id="output"></div>
 </div>
 <script>
 const textInput = document.getElementById('textInput');
@@ -46,7 +40,7 @@ function tokenize(str) {
 function analyze() {
   const text = textInput.value.trim();
   if (!text) {
-    outputDiv.innerHTML = '<p>Please enter some text.</p>';
+    outputDiv.textContent = 'Paste some text first.';
     return;
   }
   const tokens = tokenize(text);
@@ -56,28 +50,25 @@ function analyze() {
     if (STOP_WORDS.has(t)) continue;
     freqMap[t] = (freqMap[t] || 0) + 1;
   }
-  // Convert to array and sort by count descending
   const freqArr = Object.entries(freqMap).map(([word, count]) => ({word, count}));
   freqArr.sort((a,b) => b.count - a.count);
-  // Build table
-  let html = '<h3>Keyword Frequency (excluding stop words)</h3>';
+  let html = '<strong>Keyword frequency</strong>';
   if (freqArr.length === 0) {
-    html += '<p>No significant keywords found.</p>';
+    html += '<p class="tool-note">No significant keywords found.</p>';
   } else {
-    html += '<table><thead><tr><th>Keyword</th><th>Count</th><th>Density (%)</th></tr></thead><tbody>';
+    html += '<table><thead><tr><th>Keyword</th><th>Count</th><th>Density</th></tr></thead><tbody>';
     for (const {word, count} of freqArr.slice(0,20)) {
       const density = ((count / total) * 100).toFixed(2);
-      html += `<tr><td>${word}</td><td>${count}</td><td>${density}</td></tr>`;
+      html += `<tr><td>${word}</td><td>${count}</td><td>${density}%</td></tr>`;
     }
     html += '</tbody></table>';
-    // Suggestions: suggest adding more varied keywords if top keyword too dense
     const topCount = freqArr[0]?.count || 0;
     const topDensity = (topCount / total) * 100;
     if (topDensity > 10) {
-      html += `<p><strong>Suggestion:</strong> The top keyword appears at ${topDensity.toFixed(1)}% density. Consider diversifying content to avoid over‑optimization.</p>`;
+      html += `<p class="tool-note">The top keyword is ${topDensity.toFixed(1)}% of the text. Consider more variety.</p>`;
     }
     if (freqArr.length < 5) {
-      html += `<p><strong>Suggestion:</strong> Try to include more varied vocabulary to improve SEO.</p>`;
+      html += `<p class="tool-note">Try a wider vocabulary if this is meant for search.</p>`;
     }
   }
   outputDiv.innerHTML = html;

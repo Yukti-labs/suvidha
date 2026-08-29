@@ -2,66 +2,54 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Meta Tag Generator — Suvidha Tools</title>
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
-<style>
-  .container { max-width: 800px; margin: 30px auto; padding: 20px; }
-  .row { display: flex; gap: 15px; margin-bottom: 15px; }
-  .row > div { flex: 1; }
-  label { display: block; margin-bottom: 5px; font-weight: 600; }
-  input, textarea { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface2); color: var(--text); }
-  textarea { height: 80px; resize: vertical; }
-  button { margin-top: 10px; padding: 10px 15px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-  button:hover { opacity: 0.9; }
-  .output { margin-top: 20px; padding: 15px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; white-space: pre-wrap; font-family: monospace; }
-  .copyBtn { margin-top: 10px; padding: 8px 12px; background: var(--accent2); color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-  .copyBtn:hover { opacity: 0.9; }
-</style>
 </head>
 <body>
-<div class="container">
-<h1>Meta Tag Generator</h1>
-<p>Generate HTML meta tags, Open Graph, and Twitter card snippets for any URL.</p>
-<div class="row">
-  <div>
-    <label for="title">Title</label>
-    <input type="text" id="title" placeholder="Page title">
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">SEO</div>
+    <h1>Meta Tag Generator</h1>
+    <p class="tool-lead">Build title, description, Open Graph, and Twitter card tags in your browser. Nothing is uploaded.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-grid">
+      <div class="tool-field">
+        <label class="tool-label" for="title">Title</label>
+        <input type="text" id="title" placeholder="Page title">
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="description">Description</label>
+        <input type="text" id="description" placeholder="Page description">
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="keywords">Keywords</label>
+        <input type="text" id="keywords" placeholder="keyword1, keyword2">
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="author">Author</label>
+        <input type="text" id="author" placeholder="Author name">
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="ogImage">OG image URL</label>
+        <input type="url" id="ogImage" placeholder="https://example.com/image.jpg">
+      </div>
+      <div class="tool-field">
+        <label class="tool-label" for="twitterHandle">Twitter handle</label>
+        <input type="text" id="twitterHandle" placeholder="@username">
+      </div>
+    </div>
+    <div class="tool-field" style="margin-top:14px">
+      <label class="tool-label" for="url">Canonical URL</label>
+      <input type="url" id="url" placeholder="https://example.com/page">
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="generateBtn">Generate tags</button>
+      <button type="button" class="tool-btn tool-btn-ghost" id="copyBtn" style="display:none;">Copy</button>
+    </div>
   </div>
-  <div>
-    <label for="description">Description</label>
-    <input type="text" id="description" placeholder="Page description">
-  </div>
-</div>
-<div class="row">
-  <div>
-    <label for="keywords">Keywords (comma separated)</label>
-    <input type="text" id="keywords" placeholder="keyword1, keyword2, keyword3">
-  </div>
-  <div>
-    <label for="author">Author</label>
-    <input type="text" id="author" placeholder="Author name">
-  </div>
-</div>
-<div class="row">
-  <div>
-    <label for="ogImage">OG Image URL</label>
-    <input type="text" id="ogImage" placeholder="https://example.com/image.jpg">
-  </div>
-  <div>
-    <label for="twitterHandle">Twitter @handle</label>
-    <input type="text" id="twitterHandle" placeholder="@username">
-  </div>
-</div>
-<div class="row">
-  <div>
-    <label for="url">Canonical URL</label>
-    <input type="text" id="url" placeholder="https://example.com/page">
-  </div>
-</div>
-<button id="generateBtn">Generate Meta Tags</button>
-<div class="output" id="output"></div>
-<button id="copyBtn" style="display:none;">Copy to Clipboard</button>
+  <div class="tool-output" id="output">Fill the fields and generate to see HTML tags.</div>
 </div>
 <script>
 const titleIn = document.getElementById('title');
@@ -110,13 +98,13 @@ generateBtn.addEventListener('click', () => {
   if (ogImage) tags += `<meta name="twitter:image" content="${escapeHtml(ogImage)}">\n`;
 
   outputDiv.textContent = tags;
-  copyBtn.style.display = 'inline-block';
+  copyBtn.style.display = 'inline-flex';
 });
 
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(outputDiv.textContent).then(() => {
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => { copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
+    copyBtn.textContent = 'Copied';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
   });
 });
 </script>

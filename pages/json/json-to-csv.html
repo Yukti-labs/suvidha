@@ -2,32 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JSON to CSV Converter — Suvidha Tools</title>
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
-<style>
-  .container { max-width: 800px; margin: 30px auto; padding: 20px; }
-  textarea { width: 100%; height: 200px; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-family: monospace; }
-  .result { margin-top: 20px; padding: 15px; border-radius: 8px; background: var(--surface); }
-  .valid { border-left: 4px solid var(--accent3); }
-  .invalid { border-left: 4px solid #ef4444; }
-  pre { background: var(--surface2); padding: 10px; overflow: auto; }
-  button { margin-top: 10px; padding: 10px 15px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-  button:hover { opacity: 0.9; }
-  a.button { display: inline-block; margin-top: 10px; padding: 10px 15px; background: var(--accent); color: #fff; text-decoration: none; border-radius: 6px; text-align: center; }
-  a.button:hover { opacity: 0.9; }
-</style>
 </head>
 <body>
-<div class="container">
-<h1>JSON to CSV Converter</h1>
-<p>Transform JSON arrays into CSV format for spreadsheet use.</p>
-<textarea id="jsonInput" placeholder='[{"name":"John","age":30},{"name":"Jane","age":25}]'></textarea>
-<div>
-<button id="convertBtn">Convert to CSV</button>
-<a href="#" id="downloadLink" class="button" download="data.csv" style="display:none;">Download CSV</a>
-</div>
-<div id="result" class="result"></div>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">JSON</div>
+    <h1>JSON to CSV</h1>
+    <p class="tool-lead">Convert an array of objects into CSV and download it. Conversion stays in this tab.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="jsonInput">JSON array</label>
+      <textarea id="jsonInput" placeholder='[{"name":"Ada","age":36},{"name":"Grace","age":85}]'></textarea>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="convertBtn">Convert to CSV</button>
+      <a href="#" class="tool-btn tool-btn-ghost" id="downloadLink" download="data.csv" style="display:none;">Download CSV</a>
+    </div>
+  </div>
+  <div id="result" class="result"></div>
 </div>
 <script>
 const input = document.getElementById('jsonInput');
@@ -38,7 +34,7 @@ const downloadLink = document.getElementById('downloadLink');
 convertBtn.addEventListener('click', () => {
   const text = input.value.trim();
   if (!text) {
-    resultDiv.textContent = 'Please enter JSON';
+    resultDiv.textContent = 'Paste JSON first.';
     resultDiv.className = 'result invalid';
     downloadLink.style.display = 'none';
     return;
@@ -46,27 +42,25 @@ convertBtn.addEventListener('click', () => {
   try {
     const data = JSON.parse(text);
     if (!Array.isArray(data)) {
-      resultDiv.textContent = 'JSON must be an array of objects';
+      resultDiv.textContent = 'JSON must be an array of objects.';
       resultDiv.className = 'result invalid';
       downloadLink.style.display = 'none';
       return;
     }
     if (data.length === 0) {
-      resultDiv.textContent = 'Empty array';
+      resultDiv.textContent = 'Empty array.';
       resultDiv.className = 'result valid';
       downloadLink.style.display = 'none';
       return;
     }
-    // Determine headers from first object
     const first = data[0];
     if (typeof first !== 'object' || first === null) {
-      resultDiv.textContent = 'Array elements must be objects';
+      resultDiv.textContent = 'Array elements must be objects.';
       resultDiv.className = 'result invalid';
       downloadLink.style.display = 'none';
       return;
     }
     const headers = Object.keys(first);
-    // Build CSV
     const csvRows = [];
     csvRows.push(headers.map(h => `"${String(h).replace(/"/g, '""')}"`).join(','));
     for (const row of data) {
@@ -77,14 +71,12 @@ convertBtn.addEventListener('click', () => {
       csvRows.push(values.join(','));
     }
     const csv = csvRows.join('\n');
-    // Show preview
-    resultDiv.innerHTML = `<h3>CSV Preview (first 5 lines)</h3><pre>${csvRows.slice(0,6).join('\n')}</pre>`;
+    resultDiv.innerHTML = '<strong>CSV preview</strong><pre>' + csvRows.slice(0,6).join('\n') + '</pre>';
     resultDiv.className = 'result valid';
-    // Set download link
     const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
     const url = URL.createObjectURL(blob);
     downloadLink.href = url;
-    downloadLink.style.display = 'inline-block';
+    downloadLink.style.display = 'inline-flex';
     downloadLink.textContent = 'Download CSV';
   } catch (e) {
     resultDiv.textContent = 'Invalid JSON: ' + e.message;

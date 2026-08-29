@@ -2,39 +2,39 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Sitemap Generator — Suvidha Tools</title>
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
 <style>
-  .container { max-width: 800px; margin: 30px auto; padding: 20px; }
-  textarea { width: 100%; height: 180px; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: monospace; }
-  .row { display: flex; gap: 15px; margin-top: 15px; align-items: end; }
-  button { padding: 10px 15px; background: var(--accent); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
-  button:hover { opacity: 0.9; }
-  .output { margin-top: 20px; padding: 15px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; white-space: pre-wrap; font-family: monospace; max-height: 400px; overflow: auto; }
-  .copyBtn { margin-top: 10px; padding: 8px 12px; background: var(--accent2); color: #fff; border: none; border-radius: 4px; cursor: pointer; }
-  .copyBtn:hover { opacity: 0.9; }
-  .hint { font-size: 0.9em; color: var(--muted); margin-top: 5px; }
+  .check-row { display:flex; align-items:center; gap:10px; margin: 4px 0 12px; }
+  .check-row label { margin:0; color: var(--text); }
+  .check-row input { width:auto; min-height:20px; }
 </style>
 </head>
 <body>
-<div class="container">
-<h1>Sitemap Generator</h1>
-<p>Create XML sitemaps from a list of URLs or crawl a simple site map.</p>
-<textarea id="urlsInput" placeholder="Enter one URL per line&#10;https://example.com/&#10;https://example.com/about&#10;https://example.com/contact"></textarea>
-<div class="row">
-  <label>
-    <input type="checkbox" id="addLastmod">
-    Include lastmod date (today)
-  </label>
-</div>
-<div class="row">
-  <button id="generateBtn">Generate Sitemap</button>
-  <a href="#" id="downloadLink" style="display:none;" download="sitemap.xml">Download XML</a>
-</div>
-<div class="hint">Tip: Leave blank to use current page URL as single entry.</div>
-<div class="output" id="output"></div>
-<button id="copyBtn" style="display:none;">Copy to Clipboard</button>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">SEO</div>
+    <h1>Sitemap Generator</h1>
+    <p class="tool-lead">Turn a list of URLs into a sitemap.xml file. Runs locally in this tab.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="urlsInput">URLs (one per line)</label>
+      <textarea id="urlsInput" placeholder="https://example.com/&#10;https://example.com/about"></textarea>
+    </div>
+    <div class="check-row">
+      <input type="checkbox" id="addLastmod">
+      <label for="addLastmod">Include lastmod (today)</label>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="generateBtn">Generate sitemap</button>
+      <a href="#" class="tool-btn tool-btn-ghost" id="downloadLink" download="sitemap.xml" style="display:none;">Download XML</a>
+      <button type="button" class="tool-btn tool-btn-ghost" id="copyBtn" style="display:none;">Copy</button>
+    </div>
+  </div>
+  <p class="tool-note">Leave the list blank to use this page URL as the only entry.</p>
+  <div class="tool-output" id="output"></div>
 </div>
 <script>
 const urlsInput = document.getElementById('urlsInput');
@@ -75,14 +75,14 @@ generateBtn.addEventListener('click', () => {
   const blob = new Blob([xml], {type: 'application/xml;charset=utf-8;'});
   const url = URL.createObjectURL(blob);
   downloadLink.href = url;
-  downloadLink.style.display = 'inline-block';
-  copyBtn.style.display = 'inline-block';
+  downloadLink.style.display = 'inline-flex';
+  copyBtn.style.display = 'inline-flex';
 });
 
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(outputDiv.textContent).then(() => {
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => { copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
+    copyBtn.textContent = 'Copied';
+    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
   });
 });
 </script>

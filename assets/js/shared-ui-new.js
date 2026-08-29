@@ -1,4 +1,5 @@
 // Main entry point for shared UI components
+import '../css/tool-page.css';
 import { appName, appNameLong, companyName, companyTagline, pageGroups, totalTools } from './modules/config.js';
 import { initTheme } from './modules/theme.js';
 import { getPathInfo, getCurrentPageInfo, getHrefs, initMobileNavigation, initToolsMenu } from './modules/navigation.js';
@@ -410,24 +411,16 @@ import { initCommandPalette } from './modules/search.js';
     document.body.appendChild(footerWrap);
   }
 
-  // Add page breadcrumbs and category bar for non-home pages
-  if (!isHome) {
-    const header = document.querySelector('.content .header, .header');
-    if (header) {
-      header.insertAdjacentHTML('beforebegin', `
-        <div class="page-crumb">
-          <a href="${homePrefix}index.html">${appName} home</a>
-          <span>•</span>
-          <a href="${homePrefix}index.html${currentGroup?.anchor || ''}">${currentGroup?.label || 'Tools'}</a>
-          <span>•</span>
-          <strong>${currentPage.label}</strong>
-        </div>
-      `);
-      header.insertAdjacentHTML('afterend', `
-        <div class="category-bar">
-          ${pageGroups.map(g => `<a class="category-link${g === currentGroup ? ' is-active' : ''}" href="${homePrefix}index.html${g.anchor}">${g.label}</a>`).join('')}
-        </div>
-      `);
+  if (!isHome && currentGroup) {
+    const wrap = document.querySelector('.tool-page, .content, .container');
+    if (wrap && !wrap.querySelector('.tool-sibs')) {
+      const sibs = document.createElement('nav');
+      sibs.className = 'tool-sibs';
+      sibs.setAttribute('aria-label', `${currentGroup.label} tools`);
+      sibs.innerHTML = currentGroup.pages.map(page => `
+        <a class="tool-sib${page.file === pathInfo.currentFile ? ' is-active' : ''}" href="${pageHref(page.path)}">${page.label}</a>
+      `).join('');
+      wrap.insertBefore(sibs, wrap.firstChild);
     }
   }
 
