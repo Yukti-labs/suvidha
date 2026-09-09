@@ -1,0 +1,89 @@
+{
+  "name": "Suvidha",
+  "short_name": "Suvidha",
+  "description": "Private browser-based toolkit for PDFs, images, finance, resumes, JSON, and utilities.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#09090c",
+  "theme_color": "#09090c",
+  "id": "/",
+  "lang": "en",
+  "categories": [
+    "utilities",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Compress PDF",
+      "short_name": "PDF Compressor",
+      "description": "Reduce PDF size without uploading",
+      "url": "/pages/pdf/pdf-compressor.html",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Compress Image",
+      "short_name": "Image Compressor",
+      "description": "Shrink JPG, PNG, and WebP images locally",
+      "url": "/pages/image/image-compressor.html",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Image to PDF",
+      "short_name": "Image to PDF",
+      "description": "Convert and combine images into clean PDFs",
+      "url": "/pages/image/image-to-pdf.html",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Tell Suvidha",
+      "short_name": "Tell Suvidha",
+      "description": "Describe your task and find the right tool",
+      "url": "/?tell=1",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

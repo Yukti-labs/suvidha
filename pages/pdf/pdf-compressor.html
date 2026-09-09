@@ -200,6 +200,7 @@ async function renderAndCompress(pdfDoc, total, scale, quality){
 
 compressBtn.addEventListener('click',async()=>{
   if(!selectedFile)return;
+  window.suvidhaAnalytics?.toolStarted('pdf-compressor');
   hideAll();
   compressBtn.disabled=true;
   progressWrap.classList.add('visible');
@@ -278,10 +279,15 @@ compressBtn.addEventListener('click',async()=>{
     toolChainWrap.style.display='block';
     resetBtn.style.display='block';
     compressBtn.disabled=false;
+    window.suvidhaAnalytics?.toolCompleted('pdf-compressor');
   }catch(e){
     showError('Error: '+(e.message||'Unknown compression error'));
     compressBtn.disabled=false;
   }
+});
+
+dlBtn.addEventListener('click',()=>{
+  window.suvidhaAnalytics?.toolDownloaded('pdf-compressor');
 });
 </script>
 </body>

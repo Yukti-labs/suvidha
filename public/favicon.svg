@@ -1,0 +1,18 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="zl_grad" x1="44" y1="184" x2="216" y2="72" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2BD79F"/>
+      <stop offset="0.52" stop-color="#2D7BE8"/>
+      <stop offset="1" stop-color="#8B2CF5"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#soft)">
+    <path d="M55 162L128 89V162H55Z" stroke="url(#zl_grad)" stroke-width="20" stroke-linejoin="round"/>
+    <path d="M201 94H128V168L201 94Z" stroke="url(#zl_grad)" stroke-width="20" stroke-linejoin="round"/>
+  </g>
+  <defs>
+    <filter id="soft" x="30" y="64" width="196" height="130" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="0.3"/>
+    </filter>
+  </defs>
+</svg>
