@@ -14,8 +14,8 @@ import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
   const pathInfo = getPathInfo();
   const { currentGroup, currentPage } = getCurrentPageInfo(pathInfo);
   const { isHome, homePrefix } = pathInfo;
-  const brandMarkPath = new URL('../brand/zenskar-mark.svg', import.meta.url).href;
-  const faviconPath = new URL('../brand/zenskar-mark.svg', import.meta.url).href;
+  const brandLogoPath = new URL('../brand/suvidha-logo.svg', import.meta.url).href;
+  const brandMarkPath = new URL('../brand/suvidha-mark.svg', import.meta.url).href;
 
   // Metadata & Favicon
   const ensureBrandMeta = () => {
@@ -23,14 +23,35 @@ import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
     if (!document.title || !document.title.includes(appName)) {
       document.title = pageTitle;
     }
-    let icon = document.querySelector('link[rel="icon"]');
+    // Primary SVG favicon
+    let icon = document.querySelector('link[rel="icon"][type="image/svg+xml"]');
     if (!icon) {
       icon = document.createElement('link');
       icon.rel = 'icon';
+      icon.type = 'image/svg+xml';
       document.head.appendChild(icon);
     }
-    icon.href = faviconPath;
-    icon.type = 'image/svg+xml';
+    icon.href = '/favicon.svg';
+
+    // 32px PNG fallback for legacy browsers
+    if (!document.querySelector('link[rel="icon"][sizes="32x32"]')) {
+      const icon32 = document.createElement('link');
+      icon32.rel = 'icon';
+      icon32.type = 'image/png';
+      icon32.sizes = '32x32';
+      icon32.href = '/favicon-32.png';
+      document.head.appendChild(icon32);
+    }
+
+    // 16px PNG fallback
+    if (!document.querySelector('link[rel="icon"][sizes="16x16"]')) {
+      const icon16 = document.createElement('link');
+      icon16.rel = 'icon';
+      icon16.type = 'image/png';
+      icon16.sizes = '16x16';
+      icon16.href = '/favicon-16.png';
+      document.head.appendChild(icon16);
+    }
 
     // PWA Manifest
     let manifest = document.querySelector('link[rel="manifest"]');
@@ -93,10 +114,21 @@ import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
     }
     .site-logo-wrap {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       gap: 10px;
       text-decoration: none;
       color: var(--text);
+      flex-shrink: 0;
+    }
+    .site-logo-img {
+      height: 28px;
+      width: auto;
+      display: block;
+      /* Invert on light mode so the white text shows on both themes */
+      filter: none;
+    }
+    [data-theme="light"] .site-logo-img {
+      filter: brightness(0);
     }
     .site-logo {
       font-size: 17px;
@@ -826,8 +858,7 @@ import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
     <header class="site-header-shell">
       <div class="site-header">
         <a class="site-logo-wrap" href="${homeUrl}" aria-label="Suvidha Home">
-          <span class="site-logo">${appName}</span>
-          <span class="site-descriptor">Private browser tools</span>
+          <img class="site-logo-img" src="${brandLogoPath}" alt="Suvidha" width="120" height="28">
         </a>
         <nav class="site-nav-links" aria-label="Primary Navigation">
           <a class="site-nav-item" href="${toolsUrl}">Tools</a>

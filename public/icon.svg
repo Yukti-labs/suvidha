@@ -1,18 +1,11 @@
-<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="zl_grad" x1="44" y1="184" x2="216" y2="72" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2BD79F"/>
-      <stop offset="0.52" stop-color="#2D7BE8"/>
-      <stop offset="1" stop-color="#8B2CF5"/>
+    <linearGradient id="suvidhaGradient" x1="105" y1="60" x2="405" y2="455" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
     </linearGradient>
   </defs>
-  <g filter="url(#soft)">
-    <path d="M55 162L128 89V162H55Z" stroke="url(#zl_grad)" stroke-width="20" stroke-linejoin="round"/>
-    <path d="M201 94H128V168L201 94Z" stroke="url(#zl_grad)" stroke-width="20" stroke-linejoin="round"/>
-  </g>
-  <defs>
-    <filter id="soft" x="30" y="64" width="196" height="130" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="0.3"/>
-    </filter>
-  </defs>
+  <path fill="url(#suvidhaGradient)" d="M356 54c-12 0-28 4-43 10-49 20-101 49-143 79-32 23-53 47-58 69-5 23 8 42 38 58l74 39c15 8 27 19 27 31 0 17-18 31-49 43-23 9-53 16-79 19 13 24 35 38 63 38 42 0 101-28 151-61 46-31 86-69 101-102 12-28 4-53-24-70l-81-48c-13-8-20-16-20-25 0-13 13-26 37-38 27-14 59-23 91-28-12-22-32-34-58-34z"/>
+  <path fill="url(#suvidhaGradient)" d="M156 458c-14 0-28-4-39-12 31-4 64-13 91-25 35-15 55-33 55-51 0-13-11-25-31-36l-75-40c-39-21-57-48-51-78 7-34 38-67 81-98 39-28 89-55 136-75 19-8 38-13 53-13 16 0 30 5 41 14-34 7-67 18-95 32-31 15-48 29-48 42 0 9 8 17 25 27l81 48c36 21 48 50 34 82-15 36-57 76-107 110-51 35-111 64-151 64z" opacity=".18"/>
+  <path fill="#06B6D4" d="M256 171l14 36 36 14-36 14-14 36-14-36-36-14 36-14z"/>
 </svg>
