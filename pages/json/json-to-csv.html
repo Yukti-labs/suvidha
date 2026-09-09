@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>JSON to CSV Converter — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">JSON</div>
+    <h1>JSON to CSV</h1>
+    <p class="tool-lead">Convert an array of objects into CSV and download it. Conversion stays in this tab.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="jsonInput">JSON array</label>
+      <textarea id="jsonInput" placeholder='[{"name":"Ada","age":36},{"name":"Grace","age":85}]'></textarea>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="convertBtn">Convert to CSV</button>
+      <a href="#" class="tool-btn tool-btn-ghost" id="downloadLink" download="data.csv" style="display:none;">Download CSV</a>
+    </div>
+  </div>
+  <div id="result" class="result"></div>
+</div>
+<script>
+const input = document.getElementById('jsonInput');
+const resultDiv = document.getElementById('result');
+const convertBtn = document.getElementById('convertBtn');
+const downloadLink = document.getElementById('downloadLink');
+
+convertBtn.addEventListener('click', () => {
+  const text = input.value.trim();
+  if (!text) {
+    resultDiv.textContent = 'Paste JSON first.';
+    resultDiv.className = 'result invalid';
+    downloadLink.style.display = 'none';
+    return;
+  }
+  try {
+    const data = JSON.parse(text);
+    if (!Array.isArray(data)) {
+      resultDiv.textContent = 'JSON must be an array of objects.';
+      resultDiv.className = 'result invalid';
+      downloadLink.style.display = 'none';
+      return;
+    }
+    if (data.length === 0) {
+      resultDiv.textContent = 'Empty array.';
+      resultDiv.className = 'result valid';
+      downloadLink.style.display = 'none';
+      return;
+    }
+    const first = data[0];
+    if (typeof first !== 'object' || first === null) {
+      resultDiv.textContent = 'Array elements must be objects.';
+      resultDiv.className = 'result invalid';
+      downloadLink.style.display = 'none';
+      return;
+    }
+    const headers = Object.keys(first);
+    const csvRows = [];
+    csvRows.push(headers.map(h => `"${String(h).replace(/"/g, '""')}"`).join(','));
+    for (const row of data) {
+      const values = headers.map(h => {
+        const val = row[h];
+        return typeof val === 'undefined' || val === null ? '' : `"${String(val).replace(/"/g, '""')}"`;
+      });
+      csvRows.push(values.join(','));
+    }
+    const csv = csvRows.join('\n');
+    resultDiv.innerHTML = '<strong>CSV preview</strong><pre>' + csvRows.slice(0,6).join('\n') + '</pre>';
+    resultDiv.className = 'result valid';
+    const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.style.display = 'inline-flex';
+    downloadLink.textContent = 'Download CSV';
+  } catch (e) {
+    resultDiv.textContent = 'Invalid JSON: ' + e.message;
+    resultDiv.className = 'result invalid';
+    downloadLink.style.display = 'none';
+  }
+});
+</script>
+</body>
+</html>

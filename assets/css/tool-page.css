@@ -1,0 +1,1480 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ==========================================================================
+   Suvidha Tools — Unified Tool Page Design System
+   Enforces consistent tokens, typography, and layout across all tools
+   ========================================================================== */
+
+:root,
+html[data-theme='light'] {
+  --bg: #ffffff !important;
+  --surface: #f8fafc !important;
+  --surface2: #f1f5f9 !important;
+  --surface3: #e2e8f0 !important;
+  --border: #e2e8f0 !important;
+  --border-hover: #cbd5e1 !important;
+  --text: #0f172a !important;
+  --text-secondary: #334155 !important;
+  --muted: #64748b !important;
+  --accent: #4f46e5 !important;
+  --accent2: #4f46e5 !important;
+  --accent-hover: #4338ca !important;
+  --accent-soft: rgba(79, 70, 229, 0.08) !important;
+  --success: #16a34a !important;
+  --error: #ef4444 !important;
+  --radius-sm: 8px !important;
+  --radius-md: 12px !important;
+  --radius-lg: 16px !important;
+  --radius-full: 9999px !important;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+}
+
+html[data-theme='dark'] {
+  --bg: #090d16 !important;
+  --surface: #111827 !important;
+  --surface2: #1e293b !important;
+  --surface3: #334155 !important;
+  --border: #1f293d !important;
+  --border-hover: #334155 !important;
+  --text: #f8fafc !important;
+  --text-secondary: #cbd5e1 !important;
+  --muted: #94a3b8 !important;
+  --accent: #6366f1 !important;
+  --accent2: #6366f1 !important;
+  --accent-hover: #818cf8 !important;
+  --accent-soft: rgba(99, 102, 241, 0.12) !important;
+  --success: #22c55e !important;
+  --error: #f87171 !important;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Page Base */
+body:not(#top) {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide legacy elements */
+body:not(#top) .tool-nav,
+body:not(#top) .bg-grid,
+body:not(#top) .eyebrow {
+  display: none !important;
+}
+
+/* Main Container Shell */
+.tool-page,
+body:not(#top) .content,
+body:not(#top) .container {
+  width: 100% !important;
+  max-width: 720px !important;
+  margin: 0 auto !important;
+  padding: 24px 20px 80px !important;
+}
+
+/* Standardized Breadcrumbs */
+.tool-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.tool-breadcrumb a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.tool-breadcrumb a:hover {
+  color: var(--text);
+}
+
+.tool-breadcrumb .crumb-sep {
+  color: var(--border-hover);
+  font-size: 12px;
+}
+
+.tool-breadcrumb .crumb-current {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Standardized Header */
+.tool-header,
+body:not(#top) .header {
+  margin-bottom: 24px !important;
+  text-align: left !important;
+  animation: none !important;
+}
+
+body:not(#top) .tool-eyebrow {
+  display: inline-block !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--accent) !important;
+  margin-bottom: 6px !important;
+  font-family: inherit !important;
+}
+
+body:not(#top) h1 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: clamp(1.85rem, 4vw, 2.5rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.2 !important;
+  color: var(--text) !important;
+  margin: 0 0 10px 0 !important;
+}
+
+body:not(#top) h1 span,
+body:not(#top) h1 em {
+  color: var(--text) !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+}
+
+.tool-lead,
+body:not(#top) .header p,
+body:not(#top) .sub,
+body:not(#top) .container > p:first-of-type {
+  color: var(--muted) !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  margin-top: 0 !important;
+  margin-bottom: 14px !important;
+}
+
+/* Verified Privacy Tag */
+.tool-privacy-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.tool-privacy-tag svg {
+  color: var(--success);
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* Card / Main Tool Panel */
+.tool-panel,
+body:not(#top) .card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 24px !important;
+  margin-bottom: 24px !important;
+  box-shadow: var(--shadow-sm) !important;
+  animation: none !important;
+}
+
+/* Drop Zone */
+body:not(#top) .drop-zone {
+  border: 2px dashed var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 32px 20px !important;
+  text-align: center !important;
+  cursor: pointer !important;
+  transition: border-color 0.18s ease, background 0.18s ease !important;
+  position: relative !important;
+  background: var(--surface2) !important;
+}
+
+body:not(#top) .drop-zone input[type="file"],
+body:not(#top) .drop-zone input {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+  z-index: 10 !important;
+}
+
+body:not(#top) .drop-zone:hover,
+body:not(#top) .drop-zone.over {
+  border-color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+}
+
+body:not(#top) .drop-title {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+  margin-bottom: 4px !important;
+  font-family: inherit !important;
+}
+
+body:not(#top) .drop-sub {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  font-family: inherit !important;
+}
+
+/* File Info Box */
+body:not(#top) .file-info {
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 12px 16px !important;
+  margin-top: 14px !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+body:not(#top) .file-name {
+  color: var(--text) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+body:not(#top) .file-size {
+  color: var(--muted) !important;
+  font-size: 12px !important;
+}
+
+/* Primary Action Buttons */
+body:not(#top) .btn,
+body:not(#top) .tool-btn,
+body:not(#top) .action-btn.primary,
+body:not(#top) #compressBtn,
+body:not(#top) #mergeBtn,
+body:not(#top) #unlockBtn,
+body:not(#top) #calcBtn {
+  width: 100% !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 46px !important;
+  padding: 12px 20px !important;
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--accent) !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  cursor: pointer !important;
+  transition: all 0.18s ease !important;
+  margin-top: 16px !important;
+  text-decoration: none !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+body:not(#top) .btn:hover,
+body:not(#top) .tool-btn:hover,
+body:not(#top) #compressBtn:hover,
+body:not(#top) #mergeBtn:hover {
+  background: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+body:not(#top) .btn:disabled,
+body:not(#top) .tool-btn:disabled,
+body:not(#top) #compressBtn:disabled,
+body:not(#top) #mergeBtn:disabled {
+  background: var(--surface2) !important;
+  border-color: var(--border) !important;
+  color: var(--muted) !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Download Button */
+body:not(#top) .dl-btn {
+  width: 100% !important;
+  display: none;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 46px !important;
+  padding: 12px 20px !important;
+  background: var(--surface2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  margin-top: 12px !important;
+  transition: all 0.18s ease !important;
+}
+
+body:not(#top) .dl-btn.visible {
+  display: inline-flex !important;
+}
+
+body:not(#top) .dl-btn:hover {
+  background: var(--border) !important;
+  color: var(--accent) !important;
+}
+
+/* Secondary / Ghost Buttons */
+body:not(#top) .tool-btn-ghost,
+body:not(#top) .action-btn:not(.primary),
+body:not(#top) .copyBtn,
+body:not(#top) .dl-btn.outline {
+  background: var(--surface2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+body:not(#top) .reset {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  font-family: inherit !important;
+  background: none !important;
+  border: none !important;
+  margin-top: 12px !important;
+  display: block !important;
+  text-align: center !important;
+}
+
+/* Form Controls & Inputs */
+body:not(#top) input[type=text],
+body:not(#top) input[type=email],
+body:not(#top) input[type=url],
+body:not(#top) input[type=tel],
+body:not(#top) input[type=password],
+body:not(#top) input[type=search],
+body:not(#top) input[type=number],
+body:not(#top) textarea,
+body:not(#top) select {
+  width: 100% !important;
+  min-height: 44px !important;
+  padding: 10px 14px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  background: var(--surface2) !important;
+  color: var(--text) !important;
+  font-size: 14px !important;
+  font-family: inherit !important;
+  outline: none !important;
+  transition: border-color 0.15s ease !important;
+}
+
+body:not(#top) input:focus,
+body:not(#top) textarea:focus,
+body:not(#top) select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-soft) !important;
+}
+
+body:not(#top) textarea {
+  min-height: 140px !important;
+  resize: vertical !important;
+  line-height: 1.55 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+body:not(#top) label,
+body:not(#top) .tool-label,
+body:not(#top) .field-label,
+body:not(#top) .setting-label,
+body:not(#top) .slider-label {
+  display: block !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+  margin-bottom: 6px !important;
+  font-family: inherit !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* Range Sliders */
+body:not(#top) input[type=range] {
+  width: 100% !important;
+  height: 6px !important;
+  border-radius: 3px !important;
+  background: var(--border) !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  cursor: pointer !important;
+}
+
+body:not(#top) input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 50% !important;
+  background: var(--accent) !important;
+  cursor: pointer !important;
+  border: 2px solid var(--surface) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+body:not(#top) .slider-val {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+  font-family: inherit !important;
+}
+
+/* Tabs & Segmented Controls (Quality, Formats, Modes) */
+body:not(#top) .tabs,
+body:not(#top) .fmt-row,
+body:not(#top) .quality-grid,
+body:not(#top) .mode-grid {
+  display: flex !important;
+  gap: 8px !important;
+  margin-top: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+body:not(#top) .tab,
+body:not(#top) .fmt-btn,
+body:not(#top) .q-btn,
+body:not(#top) .mode-btn {
+  flex: 1 !important;
+  min-width: 70px !important;
+  padding: 8px 12px !important;
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  font-family: inherit !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: all 0.15s ease !important;
+}
+
+body:not(#top) .tab:hover,
+body:not(#top) .fmt-btn:hover,
+body:not(#top) .q-btn:hover,
+body:not(#top) .mode-btn:hover {
+  border-color: var(--border-hover) !important;
+  color: var(--text) !important;
+}
+
+body:not(#top) .tab.active,
+body:not(#top) .fmt-btn.active,
+body:not(#top) .q-btn.active,
+body:not(#top) .mode-btn.active {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+body:not(#top) .q-btn small {
+  display: block !important;
+  font-size: 11px !important;
+  font-weight: normal !important;
+  opacity: 0.75 !important;
+  margin-top: 2px !important;
+}
+
+/* Stats & Counter Grids */
+body:not(#top) .stats {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin-top: 16px !important;
+}
+
+body:not(#top) .result-stats {
+  display: none;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 12px !important;
+  margin-top: 16px !important;
+}
+
+body:not(#top) .result-stats.visible {
+  display: grid !important;
+}
+
+body:not(#top) .stat,
+body:not(#top) .rbox,
+body:not(#top) .result-box,
+body:not(#top) .hero-box {
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 14px 12px !important;
+  text-align: center !important;
+}
+
+body:not(#top) .stat-val,
+body:not(#top) .stat strong {
+  display: block !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: var(--text) !important;
+  font-family: 'Inter', system-ui, sans-serif !important;
+  letter-spacing: -0.02em !important;
+}
+
+body:not(#top) .stat-val.good {
+  color: var(--success) !important;
+}
+
+body:not(#top) .stat-label {
+  display: block !important;
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  margin-top: 4px !important;
+  font-family: inherit !important;
+}
+
+body:not(#top) .stat span {
+  display: block !important;
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  margin-bottom: 4px !important;
+  font-family: inherit !important;
+}
+
+/* Financial Results & Hero Displays */
+body:not(#top) .result-hero,
+body:not(#top) .result-card {
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 24px !important;
+  text-align: center !important;
+  margin-bottom: 16px !important;
+}
+
+body:not(#top) .result-emi,
+body:not(#top) .result-main-val {
+  font-size: clamp(2.2rem, 5vw, 3rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--accent) !important;
+  line-height: 1.1 !important;
+}
+
+body:not(#top) .result-emi small {
+  font-size: 1.2rem !important;
+  color: var(--muted) !important;
+  font-weight: 400 !important;
+}
+
+body:not(#top) .result-label,
+body:not(#top) .result-main-label {
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--muted) !important;
+  margin-bottom: 8px !important;
+  font-weight: 600 !important;
+}
+
+body:not(#top) .result-grid,
+body:not(#top) .result-row-grid,
+body:not(#top) .result-rows {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+  margin-bottom: 16px !important;
+}
+
+body:not(#top) .result-rows {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+body:not(#top) .result-row {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 12px !important;
+  text-align: center !important;
+}
+
+body:not(#top) .result-box-label,
+body:not(#top) .rbox-label,
+body:not(#top) .hero-label,
+body:not(#top) .r-label {
+  font-size: 11px !important;
+  color: var(--muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  margin-bottom: 4px !important;
+}
+
+body:not(#top) .result-box-val,
+body:not(#top) .rbox-val,
+body:not(#top) .hero-val,
+body:not(#top) .r-val {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: var(--text) !important;
+}
+
+body:not(#top) .result-box-val.interest,
+body:not(#top) .breakdown-val.tax,
+body:not(#top) .hero-val.blue,
+body:not(#top) .hero-val.green,
+body:not(#top) .rbox-val.green {
+  color: var(--accent) !important;
+}
+
+body:not(#top) .chart-wrap {
+  position: relative !important;
+  height: 220px !important;
+  margin-bottom: 20px !important;
+}
+
+body:not(#top) .amort-toggle {
+  font-size: 13px !important;
+  color: var(--accent) !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  background: none !important;
+  border: none !important;
+  margin-bottom: 12px !important;
+  display: inline-block !important;
+  font-weight: 500 !important;
+  padding: 0 !important;
+}
+
+body:not(#top) .amort-table {
+  display: none;
+  overflow: auto !important;
+  max-height: 280px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+body:not(#top) .amort-table.visible {
+  display: block !important;
+}
+
+body:not(#top) .rate-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr) !important;
+  gap: 8px !important;
+}
+
+body:not(#top) .rate-btn,
+body:not(#top) .mode-btn {
+  padding: 9px 6px !important;
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: all 0.15s ease !important;
+}
+
+body:not(#top) .rate-btn:hover,
+body:not(#top) .mode-btn:hover {
+  border-color: var(--border-hover) !important;
+  color: var(--text) !important;
+}
+
+body:not(#top) .rate-btn.active,
+body:not(#top) .mode-btn.active {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+body:not(#top) .mode-row {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  margin-bottom: 18px !important;
+}
+
+body:not(#top) .breakdown {
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+}
+
+body:not(#top) .breakdown-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--border) !important;
+  font-size: 13px !important;
+}
+
+body:not(#top) .breakdown-row:last-child {
+  border-bottom: none !important;
+  font-weight: 600 !important;
+}
+
+body:not(#top) .breakdown-label {
+  color: var(--muted) !important;
+}
+
+body:not(#top) .breakdown-val {
+  font-weight: 600 !important;
+}
+
+/* Tables (Amortization, Keyword Analyzer, etc.) */
+body:not(#top) table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 13px !important;
+}
+
+body:not(#top) thead {
+  position: sticky !important;
+  top: 0 !important;
+  background: var(--surface2) !important;
+  z-index: 1 !important;
+}
+
+body:not(#top) th {
+  padding: 10px 14px !important;
+  text-align: right !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  border-bottom: 1px solid var(--border) !important;
+  background: var(--surface2) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+body:not(#top) th:first-child {
+  text-align: left !important;
+}
+
+body:not(#top) td {
+  padding: 10px 14px !important;
+  text-align: right !important;
+  border-bottom: 1px solid var(--border) !important;
+  font-size: 13px !important;
+  color: var(--text) !important;
+}
+
+body:not(#top) td:first-child {
+  text-align: left !important;
+  font-weight: 500 !important;
+}
+
+body:not(#top) tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Comparison Preview Panels */
+body:not(#top) .compare {
+  display: none;
+  gap: 12px !important;
+  margin-top: 16px !important;
+}
+
+body:not(#top) .compare.visible {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+}
+
+body:not(#top) .compare-panel {
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  background: var(--surface2) !important;
+}
+
+body:not(#top) .compare-panel img {
+  width: 100% !important;
+  height: 160px !important;
+  object-fit: contain !important;
+  background: var(--surface2) !important;
+  display: block !important;
+}
+
+body:not(#top) .compare-label {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  padding: 8px 12px !important;
+  background: var(--surface2) !important;
+  border-top: 1px solid var(--border) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-family: inherit !important;
+}
+
+body:not(#top) .compare-label strong {
+  color: var(--text) !important;
+  font-weight: 600 !important;
+}
+
+/* Progress Bar */
+body:not(#top) .progress-wrap {
+  display: none;
+  margin-top: 16px !important;
+}
+
+body:not(#top) .progress-wrap.visible {
+  display: block !important;
+}
+
+body:not(#top) .progress-label {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  margin-bottom: 6px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+body:not(#top) .progress-bar {
+  height: 6px !important;
+  background: var(--surface2) !important;
+  border-radius: 3px !important;
+  overflow: hidden !important;
+}
+
+body:not(#top) .progress-fill {
+  height: 100% !important;
+  background: var(--accent) !important;
+  border-radius: 3px !important;
+  transition: width 0.3s ease !important;
+}
+
+/* Status Notifications */
+body:not(#top) .status {
+  display: none;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 12px 16px !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  margin-top: 14px !important;
+  font-family: inherit !important;
+}
+
+body:not(#top) .status.visible {
+  display: flex !important;
+}
+
+body:not(#top) .status.error,
+body:not(#top) .status.bad,
+body:not(#top) .result.invalid {
+  background: rgba(239, 68, 68, 0.08) !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  color: #ef4444 !important;
+}
+
+body:not(#top) .status.success,
+body:not(#top) .result.valid {
+  background: rgba(22, 163, 74, 0.08) !important;
+  border: 1px solid rgba(22, 163, 74, 0.25) !important;
+  color: var(--success) !important;
+}
+
+/* File List & Items (PDF Merger, etc.) */
+body:not(#top) .file-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  margin-top: 14px !important;
+}
+
+body:not(#top) .file-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px 14px !important;
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 13px !important;
+}
+
+body:not(#top) .file-item.drag-over {
+  border-color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+}
+
+body:not(#top) .file-item.dragging {
+  opacity: 0.4 !important;
+}
+
+body:not(#top) .drag-handle {
+  cursor: grab !important;
+  color: var(--muted) !important;
+  user-select: none !important;
+  font-size: 16px !important;
+}
+
+body:not(#top) .file-item .file-name {
+  flex: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-weight: 500 !important;
+  color: var(--text) !important;
+}
+
+body:not(#top) .file-item .file-size {
+  color: var(--muted) !important;
+  font-size: 12px !important;
+  flex-shrink: 0 !important;
+}
+
+body:not(#top) .file-remove,
+body:not(#top) .preview-remove {
+  background: none !important;
+  border: none !important;
+  color: var(--muted) !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  padding: 4px !important;
+  line-height: 1 !important;
+  transition: color 0.15s ease !important;
+}
+
+body:not(#top) .file-remove:hover,
+body:not(#top) .preview-remove:hover {
+  color: var(--error) !important;
+}
+
+/* Image to PDF Preview Grid */
+body:not(#top) .preview-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important;
+  gap: 10px !important;
+  margin-top: 16px !important;
+}
+
+body:not(#top) .preview-item {
+  position: relative !important;
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--border) !important;
+  background: var(--surface2) !important;
+  aspect-ratio: 3/4 !important;
+  cursor: grab !important;
+}
+
+body:not(#top) .preview-item img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+body:not(#top) .preview-item.drag-over {
+  outline: 2px solid var(--accent) !important;
+}
+
+body:not(#top) .preview-item.dragging {
+  opacity: 0.3 !important;
+}
+
+body:not(#top) .preview-num {
+  position: absolute !important;
+  bottom: 4px !important;
+  left: 4px !important;
+  background: rgba(0,0,0,0.6) !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-family: inherit !important;
+}
+
+body:not(#top) .preview-remove {
+  position: absolute !important;
+  top: 4px !important;
+  right: 4px !important;
+  background: rgba(0,0,0,0.6) !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  width: 20px !important;
+  height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+}
+
+body:not(#top) .hint {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  text-align: center !important;
+  margin-top: 8px !important;
+}
+
+body:not(#top) .settings {
+  margin-top: 16px !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+body:not(#top) .setting {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+/* Password Generator Components */
+body:not(#top) .password-display {
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 24px !important;
+  margin-bottom: 20px !important;
+  text-align: center !important;
+}
+
+body:not(#top) .password-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 1.4rem !important;
+  word-break: break-all !important;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  margin-bottom: 16px !important;
+  letter-spacing: 0.05em !important;
+}
+
+body:not(#top) .password-actions {
+  display: flex !important;
+  gap: 10px !important;
+  justify-content: center !important;
+}
+
+body:not(#top) .options {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+body:not(#top) .option-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 14px !important;
+}
+
+body:not(#top) .option-row:last-child {
+  margin-bottom: 0 !important;
+}
+
+body:not(#top) .option-label {
+  font-size: 14px !important;
+  color: var(--text) !important;
+  font-weight: 500 !important;
+}
+
+body:not(#top) .toggle-switch {
+  position: relative !important;
+  width: 44px !important;
+  height: 24px !important;
+  background: var(--surface3) !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+}
+
+body:not(#top) .toggle-switch.active {
+  background: var(--accent) !important;
+}
+
+body:not(#top) .toggle-switch::after {
+  content: '' !important;
+  position: absolute !important;
+  width: 18px !important;
+  height: 18px !important;
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  top: 3px !important;
+  left: 3px !important;
+  transition: transform 0.2s ease !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+body:not(#top) .toggle-switch.active::after {
+  transform: translateX(20px) !important;
+}
+
+body:not(#top) .length-control {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+body:not(#top) .length-slider {
+  flex: 1 !important;
+}
+
+body:not(#top) .length-value {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 15px !important;
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+  min-width: 32px !important;
+  text-align: right !important;
+}
+
+body:not(#top) .strength-meter {
+  height: 4px !important;
+  background: var(--surface3) !important;
+  border-radius: 2px !important;
+  margin-top: 14px !important;
+  overflow: hidden !important;
+}
+
+body:not(#top) .strength-fill {
+  height: 100% !important;
+  width: 0% !important;
+  border-radius: 2px !important;
+  transition: width 0.3s ease, background-color 0.3s ease !important;
+}
+
+body:not(#top) .strength-text {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  margin-top: 6px !important;
+  text-align: center !important;
+}
+
+body:not(#top) .copy-toast {
+  position: fixed !important;
+  bottom: 24px !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(100px) !important;
+  background: var(--text) !important;
+  color: var(--bg) !important;
+  padding: 10px 20px !important;
+  border-radius: var(--radius-full) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  opacity: 0 !important;
+  transition: all 0.3s ease !important;
+  z-index: 1000 !important;
+  pointer-events: none !important;
+}
+
+body:not(#top) .copy-toast.show {
+  transform: translateX(-50%) translateY(0) !important;
+  opacity: 1 !important;
+}
+
+/* QR Code Generator Components */
+body:not(#top) .qr-wrap {
+  display: none;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 16px !important;
+  padding: 24px !important;
+  background: var(--surface2) !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border) !important;
+  margin-top: 20px !important;
+}
+
+body:not(#top) .qr-wrap.visible {
+  display: flex !important;
+}
+
+body:not(#top) #qrOutput {
+  background: #ffffff !important;
+  padding: 14px !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border) !important;
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+body:not(#top) .qr-size-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-size: 13px !important;
+  color: var(--muted) !important;
+}
+
+body:not(#top) .panel {
+  display: none;
+}
+
+body:not(#top) .panel.active {
+  display: block !important;
+}
+
+body:not(#top) .dl-row {
+  display: flex !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+/* PDF Unlocker Specific Components */
+body:not(#top) .field {
+  margin-bottom: 18px !important;
+}
+
+body:not(#top) .input-wrap {
+  display: flex !important;
+  position: relative !important;
+}
+
+body:not(#top) .toggle-pw {
+  position: absolute !important;
+  right: 10px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  color: var(--muted) !important;
+  cursor: pointer !important;
+  font-size: 16px !important;
+  padding: 4px !important;
+  min-height: auto !important;
+  width: auto !important;
+}
+
+body:not(#top) .download-btn {
+  width: 100% !important;
+  display: none;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  min-height: 46px !important;
+  padding: 12px 20px !important;
+  background: var(--surface2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  margin-top: 12px !important;
+  transition: all 0.18s ease !important;
+}
+
+body:not(#top) .download-btn.visible {
+  display: inline-flex !important;
+}
+
+body:not(#top) .download-btn:hover {
+  background: var(--border) !important;
+  color: var(--accent) !important;
+}
+
+body:not(#top) .reset-link {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
+  background: none !important;
+  border: none !important;
+  margin-top: 12px !important;
+  display: block !important;
+  text-align: center !important;
+}
+
+/* Input Rows, Prefixes & Checkboxes */
+body:not(#top) .input-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+body:not(#top) .prefix {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: var(--muted) !important;
+  flex-shrink: 0 !important;
+}
+
+body:not(#top) .check-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 6px 0 14px !important;
+}
+
+body:not(#top) .check-row label {
+  margin: 0 !important;
+  color: var(--text) !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+body:not(#top) .check-row input[type=checkbox] {
+  width: 16px !important;
+  height: 16px !important;
+  min-height: auto !important;
+  cursor: pointer !important;
+  accent-color: var(--accent) !important;
+}
+
+/* Shared Tool Layouts & Outputs */
+body:not(#top) .tool-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 12px !important;
+}
+
+@media (max-width: 640px) {
+  body:not(#top) .tool-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+body:not(#top) .tool-field {
+  margin-bottom: 14px !important;
+}
+
+body:not(#top) .tool-actions {
+  display: flex !important;
+  gap: 10px !important;
+  margin-top: 16px !important;
+}
+
+body:not(#top) .tool-output,
+body:not(#top) .result {
+  margin-top: 16px !important;
+  font-size: 13px !important;
+}
+
+body:not(#top) .tool-output:empty,
+body:not(#top) .result:empty {
+  display: none !important;
+}
+
+body:not(#top) .tool-note {
+  font-size: 12px !important;
+  color: var(--muted) !important;
+  margin-top: 10px !important;
+  line-height: 1.5 !important;
+}
+
+body:not(#top) .preview {
+  margin-top: 20px !important;
+  padding: 20px !important;
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* Related Tools Section */
+.related-tools-wrap {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.related-tools-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.related-tools-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.related-tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.related-tool-chip:hover {
+  background: var(--surface2);
+  border-color: var(--border-hover);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.related-tool-chip svg {
+  color: var(--muted);
+  width: 15px;
+  height: 15px;
+}
+
+.related-tool-chip:hover svg {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  .tool-page,
+  body:not(#top) .content,
+  body:not(#top) .container {
+    padding: 16px 14px 60px !important;
+  }
+  body:not(#top) .card,
+  .tool-panel {
+    padding: 18px !important;
+  }
+  body:not(#top) .compare.visible {
+    grid-template-columns: 1fr !important;
+  }
+  body:not(#top) .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  body:not(#top) .result-stats {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

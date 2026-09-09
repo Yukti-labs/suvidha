@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Keyword Analyzer — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">SEO</div>
+    <h1>Keyword Analyzer</h1>
+    <p class="tool-lead">Paste copy to see word frequency and density. Stop words such as “the” and “and” are skipped.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="textInput">Content</label>
+      <textarea id="textInput" placeholder="Paste your article or landing-page copy…"></textarea>
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="analyzeBtn">Analyze keywords</button>
+    </div>
+  </div>
+  <div class="tool-output" id="output"></div>
+</div>
+<script>
+const textInput = document.getElementById('textInput');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const outputDiv = document.getElementById('output');
+
+const STOP_WORDS = new Set([
+  'the','and','of','to','in','is','it','you','that','he','was','for','on','are','as','with','his','they','i','at','be','this','have','from','or','one','had','by','word','but','not','what','all','were','we','when','your','can','said','there','use','an','each','which','she','do','how','their','if'
+]);
+
+function tokenize(str) {
+  return str.toLowerCase().match(/\b[a-z']+\b/g) || [];
+}
+
+function analyze() {
+  const text = textInput.value.trim();
+  if (!text) {
+    outputDiv.textContent = 'Paste some text first.';
+    return;
+  }
+  const tokens = tokenize(text);
+  const total = tokens.length;
+  const freqMap = {};
+  for (const t of tokens) {
+    if (STOP_WORDS.has(t)) continue;
+    freqMap[t] = (freqMap[t] || 0) + 1;
+  }
+  const freqArr = Object.entries(freqMap).map(([word, count]) => ({word, count}));
+  freqArr.sort((a,b) => b.count - a.count);
+  let html = '<strong>Keyword frequency</strong>';
+  if (freqArr.length === 0) {
+    html += '<p class="tool-note">No significant keywords found.</p>';
+  } else {
+    html += '<table><thead><tr><th>Keyword</th><th>Count</th><th>Density</th></tr></thead><tbody>';
+    for (const {word, count} of freqArr.slice(0,20)) {
+      const density = ((count / total) * 100).toFixed(2);
+      html += `<tr><td>${word}</td><td>${count}</td><td>${density}%</td></tr>`;
+    }
+    html += '</tbody></table>';
+    const topCount = freqArr[0]?.count || 0;
+    const topDensity = (topCount / total) * 100;
+    if (topDensity > 10) {
+      html += `<p class="tool-note">The top keyword is ${topDensity.toFixed(1)}% of the text. Consider more variety.</p>`;
+    }
+    if (freqArr.length < 5) {
+      html += `<p class="tool-note">Try a wider vocabulary if this is meant for search.</p>`;
+    }
+  }
+  outputDiv.innerHTML = html;
+}
+
+analyzeBtn.addEventListener('click', analyze);
+</script>
+</body>
+</html>

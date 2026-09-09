@@ -2,77 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Image Compressor</title>
-<script type="module" src="../../assets/js/shared-ui.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap');
-:root{--bg:#12110f;--surface:#1c1b18;--surface2:#252420;--border:#32302b;--accent:#f0c040;--text:#f0ede6;--muted:#7a7568;--success:#56ab7b;--error:#e05c5c;--radius:12px}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Familjen Grotesk',sans-serif;min-height:100vh;padding:40px 20px 80px;display:flex;flex-direction:column;align-items:center}
-.content{width:100%;max-width:600px}
-.header{margin-bottom:36px;animation:fadeUp 0.4s ease both}
-.eyebrow{font-family:'Fira Code',monospace;font-size:11px;letter-spacing:0.1em;color:var(--accent);margin-bottom:10px}
-h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:600;line-height:1.1;letter-spacing:-0.02em}
-h1 span{color:var(--accent)}
-.sub{color:var(--muted);font-size:13px;margin-top:8px;font-family:'Fira Code',monospace}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:14px;animation:fadeUp 0.4s 0.1s ease both}
-.drop-zone{border:2px dashed var(--border);border-radius:8px;padding:32px 20px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:var(--surface2)}
-.drop-zone:hover,.drop-zone.over{border-color:var(--accent);background:rgba(240,192,64,0.04)}
-.drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.drop-title{font-size:14px;font-weight:500;margin-bottom:4px}
-.drop-sub{font-size:12px;color:var(--muted);font-family:'Fira Code',monospace}
-/* Preview comparison */
-.compare{display:none;gap:12px;margin-top:16px}
-.compare.visible{display:grid;grid-template-columns:1fr 1fr}
-.compare-panel{border-radius:8px;overflow:hidden;border:1px solid var(--border)}
-.compare-panel img{width:100%;height:160px;object-fit:contain;background:var(--surface2);display:block}
-.compare-label{font-family:'Fira Code',monospace;font-size:11px;color:var(--muted);padding:8px 10px;background:var(--surface2);display:flex;justify-content:space-between;align-items:center}
-.compare-label strong{color:var(--text);font-weight:500}
-/* Slider */
-.slider-wrap{margin-top:20px}
-.slider-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.slider-label{font-family:'Fira Code',monospace;font-size:12px;color:var(--muted)}
-.slider-val{font-family:'Fira Code',monospace;font-size:14px;color:var(--accent);font-weight:500}
-input[type=range]{width:100%;height:4px;border-radius:2px;background:var(--border);outline:none;-webkit-appearance:none;appearance:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg)}
-input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px}
-/* Format */
-.fmt-row{display:flex;gap:8px;margin-top:16px}
-.fmt-btn{flex:1;padding:9px 6px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:13px;font-family:'Familjen Grotesk',sans-serif;cursor:pointer;transition:all 0.15s;text-align:center}
-.fmt-btn:hover{border-color:var(--accent);color:var(--text)}
-.fmt-btn.active{background:rgba(240,192,64,0.1);border-color:var(--accent);color:var(--accent);font-weight:500}
-/* Stats */
-.stats{display:none;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
-.stats.visible{display:grid}
-.stat{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
-.stat-val{font-size:16px;font-weight:600;font-family:'Fira Code',monospace;color:var(--accent)}
-.stat-val.good{color:var(--success)}
-.stat-label{font-size:10px;color:var(--muted);margin-top:3px;font-family:'Fira Code',monospace}
-.btn{width:100%;padding:13px;background:var(--accent);color:#12110f;border:none;border-radius:8px;font-size:15px;font-weight:600;font-family:'Familjen Grotesk',sans-serif;cursor:pointer;margin-top:16px;transition:all 0.2s}
-.btn:hover{background:#f5cc55;transform:translateY(-1px)}
-.btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed;transform:none}
-.dl-btn{display:none;width:100%;padding:12px;background:transparent;color:var(--success);border:1px solid rgba(86,171,123,0.4);border-radius:8px;font-size:14px;font-weight:500;font-family:'Familjen Grotesk',sans-serif;cursor:pointer;margin-top:10px;text-align:center;text-decoration:none;align-items:center;justify-content:center;gap:8px;transition:background 0.2s}
-.dl-btn.visible{display:flex}
-.dl-btn:hover{background:rgba(86,171,123,0.08)}
-.status{display:none;align-items:center;gap:8px;padding:11px 14px;border-radius:8px;font-size:13px;margin-top:12px;font-family:'Fira Code',monospace}
-.status.visible{display:flex}
-.status.error{background:rgba(224,92,92,0.08);border:1px solid rgba(224,92,92,0.3);color:var(--error)}
-.reset{font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;font-family:'Fira Code',monospace;background:none;border:none;margin-top:10px;display:block;text-align:center}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-</style>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
 </head>
 <body>
 <div class="content">
   <div class="header">
-    <div class="eyebrow">// img.compress(quality)</div>
-    <h1>Image <span>Compressor</span></h1>
-    <p class="sub">Shrink JPG · PNG · WEBP — no upload needed</p>
+    <h1>Image Compressor</h1>
+    <p class="sub">Shrink JPG, PNG, and WebP images locally — no upload needed</p>
   </div>
   <div class="card">
     <div class="drop-zone" id="dropZone">
       <input type="file" accept="image/*" id="fileInput">
-      <div style="font-size:26px;margin-bottom:10px">🖼️</div>
+      <div style="margin-bottom:10px;color:var(--accent)">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V4h10"/><path d="M20 10v10H10"/><rect width="8" height="8" x="8" y="8" rx="1"/></svg>
+      </div>
       <div class="drop-title">Drop an image here</div>
       <div class="drop-sub">JPG · PNG · WEBP · GIF</div>
     </div>
@@ -109,8 +54,8 @@ input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px}
 
     <div class="status error" id="statusError"><span>✕</span><span id="errorMsg"></span></div>
     <button class="btn" id="compressBtn" disabled>Compress Image</button>
-    <a class="dl-btn" id="dlBtn">⬇ Download Compressed Image</a>
-    <button class="reset" id="resetBtn" style="display:none">↺ Start over</button>
+    <a class="dl-btn" id="dlBtn">Download Compressed Image</a>
+    <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
 </div>
 <script>

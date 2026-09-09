@@ -3,7 +3,7 @@
 
   const appName = 'Suvidha';
   const appNameLong = 'Suvidha Tools';
-  const companyName = 'Zenskar Labs';
+  const companyName = 'Yukti Labs';
   const companyTagline = 'Ancient Wisdom. Modern Innovation';
   const themeStorageKey = 'suvidha-theme';
   const normalizedPath = decodeURIComponent(location.pathname.replace(/\\/g, '/')).toLowerCase();
@@ -45,6 +45,39 @@
         { path: 'pages/finance/emi-calculator.html', file: 'emi-calculator.html', label: 'EMI Calculator', icon: '🏦' },
         { path: 'pages/finance/gst-calculator.html', file: 'gst-calculator.html', label: 'GST Calculator', icon: '🧾' },
         { path: 'pages/finance/sip-calculator.html', file: 'sip-calculator.html', label: 'SIP Calculator', icon: '📈' }
+      ]
+    },
+    {
+      label: 'Career',
+      anchor: '#career-tools',
+      pages: [
+        { path: 'pages/resume/resume-builder.html', file: 'resume-builder.html', label: 'Resume Builder', icon: '📄' }
+      ]
+    },
+    {
+      label: 'JSON',
+      anchor: '#json-tools',
+      pages: [
+        { path: 'pages/json/json-validator.html', file: 'json-validator.html', label: 'JSON Validator', icon: '🔍' },
+        { path: 'pages/json/json-formatter.html', file: 'json-formatter.html', label: 'JSON Formatter', icon: '🎨' },
+        { path: 'pages/json/json-to-csv.html', file: 'json-to-csv.html', label: 'JSON to CSV', icon: '📊' }
+      ]
+    },
+    {
+      label: 'SEO',
+      anchor: '#seo-tools',
+      pages: [
+        { path: 'pages/seo/meta-tag-generator.html', file: 'meta-tag-generator.html', label: 'Meta Tag Generator', icon: '🏷️' },
+        { path: 'pages/seo/sitemap-generator.html', file: 'sitemap-generator.html', label: 'Sitemap Generator', icon: '🗺️' },
+        { path: 'pages/seo/keyword-analyzer.html', file: 'keyword-analyzer.html', label: 'Keyword Analyzer', icon: '🔑' }
+      ]
+    },
+    {
+      label: 'Lookup',
+      anchor: '#lookup-tools',
+      pages: [
+        { path: 'pages/lookup/email-lookup.html', file: 'email-lookup.html', label: 'Email Account Lookup', icon: '📧' },
+        { path: 'pages/lookup/money-upi-lookup.html', file: 'money-upi-lookup.html', label: 'Mobile UPI Lookup', icon: '📱' }
       ]
     }
   ];
@@ -128,16 +161,16 @@
     .theme-toggle .theme-icon{font-size:14px;line-height:1}
     .theme-toggle.mobile{width:100%;margin-bottom:10px;justify-content:space-between}
     body.has-site-nav{padding-top:0 !important;}
-    .site-nav-shell{position:fixed;top:16px;left:20px;right:20px;z-index:9999;pointer-events:none}
-    .site-nav-spacer{height:96px;width:100%;flex:0 0 auto}
-    .site-nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1180px;margin:0 auto;padding:14px 18px;border:1px solid color-mix(in srgb,var(--border) 80%, transparent);border-radius:20px;background:color-mix(in srgb,var(--surface, #141416) 78%, transparent);backdrop-filter:blur(18px);box-shadow:0 16px 50px rgba(0,0,0,0.18)}
+    .site-nav-shell{position:fixed;top:0;left:0;right:0;height:64px;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center}
+    .site-nav-spacer{height:64px;width:100%;flex:0 0 auto}
+    .site-nav{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto;padding:8px 16px;border:1px solid color-mix(in srgb,var(--border) 70%, transparent);border-radius:12px;background:color-mix(in srgb,var(--surface, #141416) 90%, transparent);backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,0.12);height:100%}
     .site-brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;min-width:0}
-    .site-brand-mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border:1px solid color-mix(in srgb,var(--border) 76%, transparent);box-shadow:0 10px 24px color-mix(in srgb,var(--accent, #58a6ff) 18%, transparent);overflow:hidden;padding:7px}
+    .site-brand-mark{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border:1px solid color-mix(in srgb,var(--border) 76%, transparent);box-shadow:0 8px 16px color-mix(in srgb,var(--accent, #58a6ff) 15%, transparent);overflow:hidden;padding:5px}
     .site-brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
-    .site-brand-title{font-size:15px;font-weight:700;letter-spacing:-0.02em;color:var(--text);white-space:nowrap}
+    .site-brand-title{font-size:14px;font-weight:700;letter-spacing:-0.02em;color:var(--text);white-space:nowrap}
     .site-nav-desktop{display:flex;align-items:center;gap:10px}
     .site-nav-link,.site-tools-trigger{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;border-radius:999px;border:1px solid transparent;text-decoration:none;background:transparent;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s ease;font-family:inherit}
-    .site-nav-link:hover,.site-nav-link.is-active,.site-tools-trigger:hover,.site-tools-trigger[aria-expanded='true']{color:var(--text);background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border-color:color-mix(in srgb,var(--border) 70%, transparent)}
+    .site-nav-link:hover,.site-nav-link.is-active,.site-tools-trigger:hover,.site-tools-trigger[aria-expanded='true']{color:var(--text);background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 78%, transparent);border-color:color-mix(in srgb,var(--border) 70%, transparent);transform:translateY(-2px)}
     .site-tools-menu{position:relative}
     .site-tools-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:min(440px,calc(100vw - 48px));padding:16px;border-radius:20px;border:1px solid color-mix(in srgb,var(--border) 82%, transparent);background:color-mix(in srgb,var(--surface, #141416) 96%, transparent);backdrop-filter:blur(20px);box-shadow:0 22px 60px rgba(0,0,0,.22);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;opacity:0;visibility:hidden;transform:translateY(8px);transition:all .2s ease;pointer-events:none}
     .site-tools-menu:hover .site-tools-dropdown,.site-tools-menu.is-open .site-tools-dropdown{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
@@ -219,6 +252,277 @@
       .global-footer{padding:18px 16px 14px;border-radius:18px}
       .global-footer-top{grid-template-columns:1fr}
       .gf-links{grid-template-columns:1fr}
+    }
+
+    /* Eye-catching UI enhancements */
+    .workflow-card,.tool-card,.section-panel,.cta-band{
+      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change:transform;
+      position:relative;
+      z-index:1;
+    }
+    .workflow-card:hover,.tool-card:hover{
+      transform:translateY(-8px) scale(1.03);
+      border-color:rgba(255,255,255,.3);
+      background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));
+      box-shadow:0 32px 80px rgba(0,0,0,.35);
+    }
+    .workflow-card:hover::before,.tool-card:hover::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);
+      z-index:-1;
+    }
+    .section-panel:hover{
+      transform:translateY(-6px);
+      box-shadow:0 28px 70px rgba(0,0,0,.3);
+    }
+    .cta-band:hover{
+      transform:translateY(-4px);
+      box-shadow:0 28px 70px rgba(0,0,0,.3);
+    }
+    .btn{
+      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position:relative;
+      overflow:hidden;
+      z-index:1;
+    }
+    .btn:hover{
+      transform:translateY(-3px);
+    }
+    .btn:active{
+      transform:translateY(-1px);
+    }
+    .btn::after{
+      content:'';
+      position:absolute;
+      top:-50%;
+      left:-50%;
+      width:200%;
+      height:200%;
+      background:radial-gradient(circle,rgba(255,255,255,.15) 0%,transparent 70%);
+      transition:all .6s ease;
+      opacity:0;
+      pointer-events:none;
+    }
+    .btn:hover::after{
+      animation:ripple .8s ease-out;
+    }
+    .btn:active::after{
+      background:radial-gradient(circle,rgba(255,255,255,.25) 0%,transparent 70%);
+      animation:none;
+    }
+    @keyframes ripple{
+      0%{
+        transform:scale(0);
+        opacity:.3;
+      }
+      100%{
+        transform:scale(2.5);
+        opacity:0;
+      }
+    }
+    .workflow-icon,.tool-icon,.site-tool-icon{
+      transition:transform .4s ease;
+      display:inline-flex;
+    }
+    .workflow-card:hover .workflow-icon,.tool-card:hover .tool-icon,.site-tool-link:hover .site-tool-icon{
+      transform:rotate(12deg) scale(1.2);
+      transition:transform .4s ease;
+    }
+    .input-row input,.input-row select,.input-row textarea{
+      transition:all .3s ease;
+      border:none;
+      border-radius:8px;
+      padding:12px 16px;
+    }
+    .input-row input:focus,.input-row select:focus,.input-row textarea:focus{
+      outline:none;
+      box-shadow:0 0 0 3px rgba(59,130,246,.5);
+      background:var(--surface);
+    }
+    .theme-toggle{
+      transition:all .4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position:relative;
+      overflow:hidden;
+    }
+    .theme-toggle:hover{
+      transform:scale(1.05);
+    }
+    .theme-toggle::after{
+      content:'';
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:0;
+      height:0;
+      background:rgba(255,255,255,.2);
+      border-radius:50%;
+      transition:width .3s ease, height .3s ease;
+      transform:translate(-50%,-50%);
+    }
+    .theme-toggle:hover::after{
+      width:100px;
+      height:100px;
+    }
+    .focus-visible:focus{
+      outline:none;
+      box-shadow:0 0 0 3px rgba(59,130,246,.5);
+      border-radius:4px;
+    }
+    /* Animated gradient background for headers */
+    .hero{
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:'';
+      position:absolute;
+      top:-50%;
+      left:-50%;
+      width:200%;
+      height:200%;
+      background:linear-gradient(45deg,transparent 30%,rgba(139,92,246,.08) 50%,transparent 70%);
+      animation:gradientShift 15s ease infinite;
+      z-index:0;
+    }
+    @keyframes gradientShift{
+      0%{
+        transform:rotate(0deg);
+      }
+      100%{
+        transform:rotate(360deg);
+      }
+    }
+    /* Floating animation for icons */
+    .floating-icon{
+      display:inline-block;
+      animation:float 6s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%{
+        transform:translateY(0px);
+      }
+      50%{
+        transform:translateY(-10px);
+      }
+      100%{
+        transform:translateY(0px);
+      }
+    }
+    /* Pulse animation for stats */
+    .hstat-val{
+      animation:pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%{
+        transform:scale(1);
+      }
+      50%{
+        transform:scale(1.05);
+      }
+      100%{
+        transform:scale(1);
+      }
+    }
+    /* Staggered animation for tools grid on fade-in */
+    .tools-grid .tool-card,.workflow-grid .workflow-card{
+      opacity:0;
+      transform:translateY(30px);
+    }
+    .tools-grid .tool-card:nth-child(1),
+    .workflow-grid .workflow-card:nth-child(1){
+      animation:fadeUpSlide .6s forwards;
+    }
+    .tools-grid .tool-card:nth-child(2),
+    .workflow-grid .workflow-card:nth-child(2){
+      animation:fadeUpSlide .6s forwards .1s;
+    }
+    .tools-grid .tool-card:nth-child(3),
+    .workflow-grid .workflow-card:nth-child(3){
+      animation:fadeUpSlide .6s forwards .2s;
+    }
+    .tools-grid .tool-card:nth-child(4),
+    .workflow-grid .workflow-card:nth-child(4){
+      animation:fadeUpSlide .6s forwards .3s;
+    }
+    .tools-grid .tool-card:nth-child(5),
+    .workflow-grid .workflow-card:nth-child(5){
+      animation:fadeUpSlide .6s forwards .4s;
+    }
+    .tools-grid .tool-card:nth-child(6),
+    .workflow-grid .workflow-card:nth-child(6){
+      animation:fadeUpSlide .6s forwards .5s;
+    }
+    @keyframes fadeUpSlide{
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+    .category-bar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:12px 0;
+      padding:0 8px;
+    }
+    .category-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid color-mix(in srgb,var(--border) 60%, transparent);
+      text-decoration:none;
+      font-size:13px;
+      font-weight:600;
+      color:var(--muted);
+      transition:all .2s ease;
+    }
+    .category-link:hover{
+      color:var(--text);
+      background:color-mix(in srgb,var(--surface2, var(--surface, #1e1e22)) 70%, transparent);
+    }
+    .category-link.is-active{
+      color:var(--text);
+      background:color-mix(in srgb,var(--accent, #58a6ff) 20%, transparent);
+      border-color:color-mix(in srgb,var(--accent, #58a6ff) 40%, transparent);
+    }
+    /* Smooth scroll behavior */
+    html{
+      scroll-behavior:smooth;
+    }
+    /* Focus visible improvements */
+    :focus-visible{
+      outline:2px solid var(--accent);
+      outline-offset:2px;
+    }
+    /* Loading skeleton animation */
+    @keyframes shimmer{
+      0%{background-position:-200% 0}
+      100%{background-position:200% 0}
+    }
+    .skeleton{
+      background:linear-gradient(90deg,var(--surface2) 25%,var(--border) 50%,var(--surface2) 75%);
+      background-size:200% 100%;
+      animation:shimmer 1.5s infinite;
+    }
+    /* Tooltip enhancement */
+    [title]{
+      position:relative;
+    }
+    /* Improved button press effect */
+    .btn:active,.site-nav-link:active,.site-tool-link:active,.gf-link:active{
+      transform:scale(0.98);
+    }
+    /* Smooth transitions for all interactive elements */
+    a,button,input,select,textarea{
+      transition:all 0.2s ease;
     }
   `;
   document.head.appendChild(style);
@@ -328,10 +632,11 @@
             <a class="gf-link" href="${groupHref(pageGroups[1])}">Image Tools <span>Open</span></a>
             <a class="gf-link" href="${groupHref(pageGroups[2])}">Utility <span>Open</span></a>
             <a class="gf-link" href="${groupHref(pageGroups[3])}">Finance <span>Open</span></a>
+            <a class="gf-link feedback-footer-link" href="#" id="footerFeedbackBtn">Send Feedback <span>💬</span></a>
           </div>
         </div>
         <div class="gf-bottom">
-          <span>© ${year} Zenskar Labs</span>
+          <span>© ${year} Yukti Labs</span>
           <span>Ancient Wisdom. Modern Innovation</span>
         </div>
       </footer>
@@ -342,6 +647,7 @@
   if (!isHome) {
     const header = document.querySelector('.content .header, .header');
     if (header) {
+      // page crumb
       header.insertAdjacentHTML('beforebegin', `
         <div class="page-crumb">
           <a href="${homePrefix}index.html">${appName} home</a>
@@ -349,6 +655,12 @@
           <a href="${homePrefix}index.html${currentGroup?.anchor || ''}">${currentGroup?.label || 'Tools'}</a>
           <span>•</span>
           <strong>${currentPage.label}</strong>
+        </div>
+      `);
+      // category selector bar
+      header.insertAdjacentHTML('afterend', `
+        <div class="category-bar">
+          ${pageGroups.map(g => `<a class="category-link${g === currentGroup ? ' is-active' : ''}" href="${homePrefix}index.html${g.anchor}">${g.label}</a>`).join('')}
         </div>
       `);
     }
@@ -420,4 +732,313 @@
       toolsTrigger?.setAttribute('aria-expanded', 'false');
     }
   });
+
+  // Feedback Modal
+  const feedbackModalHtml = `
+    <div class="feedback-modal-overlay" id="feedbackModalOverlay">
+      <div class="feedback-modal" id="feedbackModal">
+        <div class="feedback-modal-header">
+          <h3>Share Your Feedback</h3>
+          <button class="feedback-modal-close" id="feedbackModalClose" aria-label="Close feedback modal">✕</button>
+        </div>
+        <div class="feedback-modal-body">
+          <p class="feedback-modal-sub">Help us improve Suvidha Tools with your suggestions.</p>
+          <form id="feedbackForm">
+            <div class="feedback-field">
+              <label for="feedbackName">Your Name</label>
+              <input type="text" id="feedbackName" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="feedback-field">
+              <label for="feedbackEmail">Your Email</label>
+              <input type="email" id="feedbackEmail" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="feedback-field">
+              <label for="feedbackMessage">Your Feedback</label>
+              <textarea id="feedbackMessage" name="message" rows="4" placeholder="Tell us what you think..." required></textarea>
+            </div>
+            <button type="submit" class="feedback-submit-btn">
+              <span>📧</span> Send Feedback
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', feedbackModalHtml);
+
+  const feedbackModalOverlay = document.getElementById('feedbackModalOverlay');
+  const feedbackModal = document.getElementById('feedbackModal');
+  const feedbackModalClose = document.getElementById('feedbackModalClose');
+  const feedbackForm = document.getElementById('feedbackForm');
+
+  // Add feedback button to nav actions
+  const feedbackBtn = document.createElement('button');
+  feedbackBtn.className = 'site-nav-chip feedback-btn';
+  feedbackBtn.innerHTML = '<span>💬</span> Feedback';
+  feedbackBtn.setAttribute('aria-label', 'Open feedback form');
+  const navActions = document.querySelector('.site-nav-actions');
+  if (navActions) {
+    navActions.insertBefore(feedbackBtn, navActions.firstChild);
+  }
+
+  // Add footer feedback link functionality
+  const footerFeedbackBtn = document.getElementById('footerFeedbackBtn');
+  if (footerFeedbackBtn) {
+    footerFeedbackBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      feedbackBtn.click();
+    });
+  }
+
+  // Open feedback modal
+  feedbackBtn.addEventListener('click', () => {
+    feedbackModalOverlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close feedback modal
+  const closeFeedbackModal = () => {
+    feedbackModalOverlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    feedbackBtn.focus();
+  };
+
+  feedbackModalClose.addEventListener('click', closeFeedbackModal);
+  feedbackModalOverlay.addEventListener('click', (e) => {
+    if (e.target === feedbackModalOverlay) closeFeedbackModal();
+  });
+
+  // Keyboard accessibility
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && feedbackModalOverlay.classList.contains('is-open')) {
+      closeFeedbackModal();
+    }
+  });
+
+  // Handle form submission
+  feedbackForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const submitBtn = feedbackForm.querySelector('.feedback-submit-btn');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>⏳</span> Sending...';
+    
+    const name = document.getElementById('feedbackName').value;
+    const email = document.getElementById('feedbackEmail').value;
+    const message = document.getElementById('feedbackMessage').value;
+
+    const subject = encodeURIComponent('Suvidha feedback');
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\nFeedback:\n${message}`
+    );
+
+    // Small delay to show loading state
+    setTimeout(() => {
+      window.location.href = `mailto:sujitdjoshi25@gmail.com?subject=${subject}&body=${body}`;
+      
+      closeFeedbackModal();
+      feedbackForm.reset();
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+      
+      // Show success message
+      const successMsg = document.createElement('div');
+      successMsg.className = 'feedback-success-toast';
+      successMsg.textContent = '✓ Thank you for your feedback!';
+      document.body.appendChild(successMsg);
+      
+      setTimeout(() => {
+        successMsg.classList.add('visible');
+        setTimeout(() => {
+          successMsg.classList.remove('visible');
+          setTimeout(() => successMsg.remove(), 300);
+        }, 3000);
+      }, 100);
+    }, 500);
+  });
+
+  // Add feedback modal styles
+  const feedbackStyles = document.createElement('style');
+  feedbackStyles.textContent = `
+    .feedback-btn {
+      cursor: pointer !important;
+      background: color-mix(in srgb, var(--accent, #58a6ff) 15%, transparent) !important;
+      border-color: color-mix(in srgb, var(--accent, #58a6ff) 30%, transparent) !important;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    .feedback-btn:hover {
+      background: color-mix(in srgb, var(--accent, #58a6ff) 25%, transparent) !important;
+      transform: translateY(-2px);
+      animation: none;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(88,166,255,0); }
+      50% { box-shadow: 0 0 0 8px rgba(88,166,255,0.15); }
+    }
+    .feedback-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--overlay-bg);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .feedback-modal-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .feedback-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      max-width: 480px;
+      width: calc(100vw - 32px);
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.3s ease;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    }
+    .feedback-modal-overlay.is-open .feedback-modal {
+      transform: translateY(0) scale(1);
+    }
+    .feedback-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .feedback-modal-header h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 0;
+    }
+    .feedback-modal-close {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 10px;
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .feedback-modal-close:hover {
+      background: var(--border);
+      color: var(--text);
+    }
+    .feedback-modal-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .feedback-field {
+      margin-bottom: 18px;
+    }
+    .feedback-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .feedback-field input,
+    .feedback-field textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .feedback-field input:focus,
+    .feedback-field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(88,166,255,0.15);
+    }
+    .feedback-field textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .feedback-submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #0e0e10;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+    }
+    .feedback-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(88,166,255,0.3);
+    }
+    .feedback-success-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--success, #4ade80);
+      color: #0e0e10;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 10001;
+    }
+    .feedback-success-toast.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    @media (max-width: 520px) {
+      .feedback-modal {
+        padding: 20px;
+        border-radius: 16px;
+      }
+      .feedback-success-toast {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+    .feedback-footer-link {
+      background: color-mix(in srgb, var(--accent, #58a6ff) 10%, transparent) !important;
+      border-color: color-mix(in srgb, var(--accent, #58a6ff) 25%, transparent) !important;
+    }
+    .feedback-footer-link:hover {
+      background: color-mix(in srgb, var(--accent, #58a6ff) 20%, transparent) !important;
+    }
+  `;
+  document.head.appendChild(feedbackStyles);
 })();

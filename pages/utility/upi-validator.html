@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>UPI ID Validator — Suvidha Tools</title>
+<script type="module" src="../../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="tool-page">
+  <header class="tool-header">
+    <div class="tool-eyebrow">Utility</div>
+    <h1>UPI ID Validator</h1>
+    <p class="tool-lead">Validate a VPA such as name@okaxis. No phone lookup. No NPCI call.</p>
+  </header>
+  <div class="tool-panel">
+    <div class="tool-field">
+      <label class="tool-label" for="upiInput">UPI ID</label>
+      <input type="text" id="upiInput" placeholder="name@okaxis" autocomplete="off" autocapitalize="none">
+    </div>
+    <div class="tool-actions">
+      <button type="button" class="tool-btn" id="checkBtn">Validate</button>
+    </div>
+    <div class="result" id="result"></div>
+  </div>
+  <p class="tool-note">A matching handle does not prove the ID is registered. This only checks the public format used by Indian UPI apps.</p>
+</div>
+<script>
+const HANDLES = new Set(['okaxis','okicici','okhdfcbank','okbizaxis','oksbi','okidfcbank','okyesbank','paytm','ybl','ibl','axl','apl','kbl','yapl','pingpay','icici','hdfcbank','axisbank','sbi','upi','barodampay','federal','kotak','yesg','freecharge','amazonpay']);
+const vpaRe = /^[a-zA-Z0-9._-]{2,256}@[a-zA-Z]{2,64}$/;
+
+function check(vpa) {
+  const raw = vpa.trim().toLowerCase();
+  if (!raw) return { level: 'bad', title: 'Enter a UPI ID', issues: ['Example: yourname@okaxis'] };
+  if (!vpaRe.test(raw)) return { level: 'bad', title: 'Invalid format', issues: ['Use handle@psp with letters, numbers, dot, underscore, or hyphen.'] };
+  const [handle, psp] = raw.split('@');
+  const issues = [`Handle: ${handle}`, `PSP: ${psp}`];
+  if (!HANDLES.has(psp)) {
+    return { level: 'warn', title: 'Unusual PSP handle', issues: [...issues, 'The part after @ is not in the common PSP list. It may still be valid.'] };
+  }
+  return { level: 'ok', title: 'Format looks valid', issues };
+}
+
+function render() {
+  const out = check(document.getElementById('upiInput').value);
+  const box = document.getElementById('result');
+  box.className = `result show ${out.level}`;
+  box.innerHTML = `<strong>${out.title}</strong><ul>${out.issues.map(i => `<li>${i}</li>`).join('')}</ul>`;
+}
+
+document.getElementById('checkBtn').addEventListener('click', render);
+document.getElementById('upiInput').addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+</script>
+</body>
+</html>
