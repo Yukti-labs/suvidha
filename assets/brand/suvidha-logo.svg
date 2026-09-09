@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240">
+  <defs>
+    <linearGradient id="suvidhaGradient" x1="80" y1="45" x2="350" y2="205" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(15,10) scale(.43)">
+    <path fill="url(#suvidhaGradient)" d="M356 54c-12 0-28 4-43 10-49 20-101 49-143 79-32 23-53 47-58 69-5 23 8 42 38 58l74 39c15 8 27 19 27 31 0 17-18 31-49 43-23 9-53 16-79 19 13 24 35 38 63 38 42 0 101-28 151-61 46-31 86-69 101-102 12-28 4-53-24-70l-81-48c-13-8-20-16-20-25 0-13 13-26 37-38 27-14 59-23 91-28-12-22-32-34-58-34z"/>
+    <path fill="#06B6D4" d="M256 171l14 36 36 14-36 14-14 36-14-36-36-14 36-14z"/>
+  </g>
+  <text x="185" y="132" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="750" fill="#FFFFFF">Suvidha</text>
+  <text x="188" y="178" font-family="Inter, Arial, sans-serif" font-size="27" font-weight="500" fill="#9CA3AF">Private browser tools</text>
+</svg>

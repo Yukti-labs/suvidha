@@ -1,11 +1,13 @@
 // Suvidha PWA Service Worker v2.1
-const CACHE_NAME = 'suvidha-pwa-v2.1';
+const CACHE_NAME = 'suvidha-pwa-v2.1.1';
 
 const CORE_ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
   '/favicon.svg',
+  '/favicon-32.png',
+  '/favicon-16.png',
   '/icon-192.png',
   '/icon-512.png',
   '/icon-maskable-512.png',
