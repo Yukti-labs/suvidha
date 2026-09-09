@@ -104,22 +104,6 @@ export const pageGroups = [
         shortDesc: 'Count words, characters, and reading time',
         iconName: 'words',
         keywords: ['word counter', 'character count', 'reading time', 'text', 'length']
-      },
-      {
-        path: 'pages/utility/email-validator.html',
-        file: 'email-validator.html',
-        label: 'Email Validator',
-        shortDesc: 'Verify email format, syntax, and typo detection',
-        iconName: 'email',
-        keywords: ['email', 'validator', 'syntax', 'check', 'verify', 'mx']
-      },
-      {
-        path: 'pages/utility/upi-validator.html',
-        file: 'upi-validator.html',
-        label: 'UPI ID Validator',
-        shortDesc: 'Check UPI VPA syntax and common PSP handles',
-        iconName: 'upi',
-        keywords: ['upi', 'vpa', 'payment', 'validator', 'handle', 'gpay', 'phonepe']
       }
     ]
   },

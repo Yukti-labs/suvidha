@@ -48,17 +48,52 @@
     </div>
   </section>
 
-  <!-- Tool Search Interaction Point -->
-  <section class="search-section" id="search">
-    <div class="search-container">
-      <div class="search-box">
-        <span class="search-icon-wrap">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        </span>
-        <input type="search" class="search-input" id="homeSearchInput" placeholder="Search PDF, image, JSON, calculator..." autocomplete="off" enterkeyhint="search" aria-label="Search tools">
-        <kbd class="search-kbd" title="Press / to focus search">/</kbd>
+  <!-- Discovery & Tell Suvidha Section -->
+  <section class="discovery-section" id="discovery">
+    <div class="discovery-container">
+      <div class="discovery-head">
+        <label for="tellSuvidhaInput" class="discovery-title">Tell Suvidha what you need</label>
+        <span class="discovery-subtitle">Type your requirement in plain words — we'll match and configure the right tool locally.</span>
       </div>
-      <div class="search-results-dropdown" id="homeSearchResults" role="listbox"></div>
+
+      <form class="tell-suvidha-form" id="tellSuvidhaForm">
+        <div class="tell-suvidha-box">
+          <span class="tell-suvidha-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </span>
+          <input 
+            type="text" 
+            class="tell-suvidha-input" 
+            id="tellSuvidhaInput" 
+            placeholder="e.g. I need to make my PDF smaller than 1 MB" 
+            autocomplete="off" 
+            enterkeyhint="go"
+            aria-label="Tell Suvidha what you need"
+          />
+          <kbd class="search-kbd" title="Press / to search">/</kbd>
+          <button type="submit" class="tell-suvidha-btn" id="tellSuvidhaBtn" aria-label="Find tool">
+            <span>Find tool</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </form>
+
+      <!-- Confirmation / Recommendation Result Card -->
+      <div class="tell-suvidha-card" id="tellSuvidhaCard" style="display:none;" role="region" aria-live="polite"></div>
+
+      <!-- Quick Task Examples/Chips underneath -->
+      <div class="task-chips-wrap">
+        <span class="task-chips-label">Popular tasks:</span>
+        <div class="task-chips" id="tellSuvidhaChips">
+          <button type="button" class="task-chip" data-query="Make my PDF smaller than 1 MB">PDF under 1 MB</button>
+          <button type="button" class="task-chip" data-query="Make my photo under 100 KB">Photo under 100 KB</button>
+          <button type="button" class="task-chip" data-query="Combine photos into one PDF">Photos to PDF</button>
+          <button type="button" class="task-chip" data-query="Calculate my home loan EMI">Calculate EMI</button>
+          <button type="button" class="task-chip" data-query="Make this JSON readable">Beautify JSON</button>
+          <button type="button" class="task-chip" data-query="Create a QR code">Create QR</button>
+          <button type="button" class="task-chip" data-query="Build my resume">Build resume</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -170,7 +205,7 @@
       </button>
       <button type="button" class="category-tab" data-tab="utilities" role="tab" aria-selected="false" aria-controls="panel-utilities">
         <span>Utilities</span>
-        <span class="category-tab-count">6</span>
+        <span class="category-tab-count">4</span>
       </button>
       <button type="button" class="category-tab" data-tab="finance" role="tab" aria-selected="false" aria-controls="panel-finance">
         <span>Finance</span>
@@ -276,22 +311,6 @@
           </div>
           <div class="tool-card-name">Word Counter</div>
           <div class="tool-card-desc">Count words, characters, and reading time</div>
-        </a>
-        <a href="pages/utility/email-validator.html" class="tool-card" data-tool-url="pages/utility/email-validator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Email Validator</div>
-          <div class="tool-card-desc">Verify email format, syntax, and typo detection</div>
-        </a>
-        <a href="pages/utility/upi-validator.html" class="tool-card" data-tool-url="pages/utility/upi-validator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">UPI ID Validator</div>
-          <div class="tool-card-desc">Check UPI VPA syntax and common PSP handles</div>
         </a>
       </div>
     </div>
@@ -558,114 +577,139 @@
 </main>
 
 <script type="module">
-import { filterTools, recordRecentTool } from './assets/js/modules/search.js';
+import { filterTools, resolveRequirement, recordRecentTool } from './assets/js/modules/search.js';
 import { getToolIcon } from './assets/js/modules/config.js';
 
-// 1. Interactive Homepage Search
-const searchInput = document.getElementById('homeSearchInput');
-const searchResults = document.getElementById('homeSearchResults');
-let selectedResultIdx = 0;
-let homeResults = [];
+// 1. Tell Suvidha Conversational Requirement Router
+const tellInput = document.getElementById('tellSuvidhaInput');
+const tellForm = document.getElementById('tellSuvidhaForm');
+const tellCard = document.getElementById('tellSuvidhaCard');
+const tellChips = document.getElementById('tellSuvidhaChips');
 
-function renderSearchResults(query) {
-  homeResults = filterTools(query);
-  selectedResultIdx = 0;
-  searchResults.replaceChildren();
-
-  if (!query.trim()) {
-    searchResults.classList.remove('is-open');
-    return;
-  }
-
-  searchResults.classList.add('is-open');
-
-  if (!homeResults.length) {
-    const empty = document.createElement('div');
-    empty.className = 'search-empty';
-    empty.textContent = 'No matching tools found';
-    searchResults.appendChild(empty);
-    return;
-  }
-
-  homeResults.forEach((tool, i) => {
-    const a = document.createElement('a');
-    a.className = `search-result-item${i === 0 ? ' is-selected' : ''}`;
-    a.href = tool.url;
-    a.setAttribute('role', 'option');
-
-    a.innerHTML = `
-      <div class="search-result-icon">${getToolIcon(tool.iconName)}</div>
-      <div class="search-result-info">
-        <div class="search-result-title">
-          <span>${tool.name}</span>
-          <span class="search-result-category">${tool.category}</span>
+function handleRequirement(raw) {
+  const q = (raw || '').trim();
+  if (!q) {
+    tellCard.style.display = 'block';
+    tellCard.innerHTML = `
+      <div class="recommend-box is-empty">
+        <div class="recommend-top">
+          <span class="recommend-badge" style="color:var(--muted)">Tell Suvidha what you need</span>
+          <button type="button" class="recommend-close" aria-label="Dismiss">✕</button>
         </div>
-        <div class="search-result-desc">${tool.shortDesc}</div>
+        <p class="recommend-empty-msg">Please enter a task (e.g. <em>"Make my PDF smaller than 1 MB"</em> or <em>"Calculate home loan EMI"</em>).</p>
       </div>
-      <span class="search-result-arrow">→</span>
     `;
+    tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
+    return;
+  }
 
-    a.addEventListener('mouseenter', () => {
-      selectedResultIdx = i;
-      updateHomeResultSelection();
+  const result = resolveRequirement(q);
+
+  if (result.type === 'confident') {
+    tellCard.style.display = 'block';
+    tellCard.innerHTML = `
+      <div class="recommend-box">
+        <div class="recommend-top">
+          <span class="recommend-badge">I think you need</span>
+          <button type="button" class="recommend-close" aria-label="Dismiss">✕</button>
+        </div>
+        <div class="recommend-content">
+          <div class="recommend-icon">${getToolIcon(result.tool.iconName)}</div>
+          <div class="recommend-details">
+            <strong class="recommend-name">${result.tool.name}</strong>
+            <div class="recommend-sub">
+              ${result.targetParam ? `<span class="recommend-target-pill">Target: <strong>${result.targetParam.label}</strong></span>` : ''}
+              <span>${result.tool.shortDesc}</span>
+            </div>
+          </div>
+          <a href="${result.url}" class="recommend-cta" id="openRecommendedTool">
+            <span>Open ${result.tool.name}</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
+    tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
+    tellCard.querySelector('#openRecommendedTool').addEventListener('click', () => {
+      recordRecentTool(result.tool);
     });
-
-    a.addEventListener('click', () => {
-      recordRecentTool(tool);
+  } else if (result.type === 'ambiguous') {
+    tellCard.style.display = 'block';
+    tellCard.innerHTML = `
+      <div class="recommend-box is-ambiguous">
+        <div class="recommend-top">
+          <span class="recommend-badge">${result.message}</span>
+          <button type="button" class="recommend-close" aria-label="Dismiss">✕</button>
+        </div>
+        <div class="recommend-choices">
+          ${result.matches.map(m => `
+            <a href="${m.url}" class="recommend-choice-item" data-tool-url="${m.url}">
+              <div class="recommend-choice-icon">${getToolIcon(m.iconName)}</div>
+              <div class="recommend-choice-info">
+                <strong>${m.name}</strong>
+                <small>${m.shortDesc}</small>
+              </div>
+              <span class="recommend-choice-arrow">→</span>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
+    tellCard.querySelectorAll('.recommend-choice-item').forEach(el => {
+      el.addEventListener('click', () => {
+        const matched = result.matches.find(m => m.url === el.dataset.toolUrl);
+        if (matched) recordRecentTool(matched);
+      });
     });
-
-    searchResults.appendChild(a);
-  });
+  } else {
+    tellCard.style.display = 'block';
+    tellCard.innerHTML = `
+      <div class="recommend-box is-empty">
+        <div class="recommend-top">
+          <span class="recommend-badge" style="color:var(--muted)">Need help finding a tool?</span>
+          <button type="button" class="recommend-close" aria-label="Dismiss">✕</button>
+        </div>
+        <p class="recommend-empty-msg">${result.message}</p>
+      </div>
+    `;
+    tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
+  }
 }
 
-function updateHomeResultSelection() {
-  const items = searchResults.querySelectorAll('.search-result-item');
-  items.forEach((el, idx) => {
-    if (idx === selectedResultIdx) {
-      el.classList.add('is-selected');
-      el.scrollIntoView({ block: 'nearest' });
-    } else {
-      el.classList.remove('is-selected');
+if (tellForm && tellInput) {
+  tellForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handleRequirement(tellInput.value);
+  });
+
+  tellInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      tellCard.style.display = 'none';
+      tellInput.blur();
     }
   });
 }
 
-if (searchInput && searchResults) {
-  searchInput.addEventListener('input', (e) => {
-    renderSearchResults(e.target.value);
-  });
-
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (homeResults.length) {
-        selectedResultIdx = (selectedResultIdx + 1) % homeResults.length;
-        updateHomeResultSelection();
-      }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (homeResults.length) {
-        selectedResultIdx = (selectedResultIdx - 1 + homeResults.length) % homeResults.length;
-        updateHomeResultSelection();
-      }
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      if (homeResults[selectedResultIdx]) {
-        recordRecentTool(homeResults[selectedResultIdx]);
-        window.location.href = homeResults[selectedResultIdx].url;
-      }
-    } else if (e.key === 'Escape') {
-      searchResults.classList.remove('is-open');
-      searchInput.blur();
-    }
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-container')) {
-      searchResults.classList.remove('is-open');
-    }
+if (tellChips) {
+  tellChips.querySelectorAll('.task-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = btn.dataset.query;
+      tellInput.value = q;
+      handleRequirement(q);
+      tellInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   });
 }
+
+// Focus Tell Suvidha on pressing "/" if not inside an input
+window.addEventListener('keydown', (e) => {
+  if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+    e.preventDefault();
+    tellInput?.focus();
+    tellInput?.select();
+  }
+});
 
 // 2. Category Tabs Switching & Hash Support
 const tabs = document.querySelectorAll('.category-tab');

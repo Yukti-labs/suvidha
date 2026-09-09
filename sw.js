@@ -24,9 +24,7 @@ const ASSETS_TO_CACHE = [
   './pages/seo/keyword-analyzer.html',
   './pages/utility/qr-generator.html',
   './pages/utility/password-generator.html',
-  './pages/utility/word-counter.html',
-  './pages/utility/email-validator.html',
-  './pages/utility/upi-validator.html'
+  './pages/utility/word-counter.html'
 ];
 
 // Install event - cache assets

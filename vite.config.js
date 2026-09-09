@@ -32,7 +32,8 @@ export default defineConfig({
         sitemapGenerator: resolve(__dirname, 'pages/seo/sitemap-generator.html'),
         keywordAnalyzer: resolve(__dirname, 'pages/seo/keyword-analyzer.html'),
         emailLookup: resolve(__dirname, 'pages/lookup/email-lookup.html'),
-        moneyUpiLookup: resolve(__dirname, 'pages/lookup/money-upi-lookup.html')
+        moneyUpiLookup: resolve(__dirname, 'pages/lookup/money-upi-lookup.html'),
+        privacy: resolve(__dirname, 'pages/privacy.html')
       }
     }
   }

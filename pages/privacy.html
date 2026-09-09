@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Privacy Architecture — Suvidha</title>
+<meta name="description" content="Technical verification and architecture of Suvidha: client-side processing, zero uploads, zero tracking.">
+<script type="module" src="../assets/js/shared-ui-new.js"></script>
+</head>
+<body>
+<div class="content" style="max-width:800px;margin:0 auto;padding:40px 20px 80px;">
+  <div class="header" style="margin-bottom:32px;">
+    <h1>Privacy Architecture</h1>
+    <p class="sub">How Suvidha processes files locally in your browser without transmitting data to any server.</p>
+  </div>
+
+  <div class="card" style="padding:28px;margin-bottom:24px;">
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:12px;color:var(--text);">The Core Principle: Zero Uploads</h2>
+    <p style="font-size:14px;line-height:1.6;color:var(--text);margin-bottom:16px;">
+      Most online converters and utility websites require you to send sensitive files (contracts, resumes, bank statements, photos) to a remote cloud server. Once uploaded, you have no visibility into how long those files are kept, who accesses them, or whether they are logged.
+    </p>
+    <p style="font-size:14px;line-height:1.6;color:var(--text);">
+      <strong>Suvidha works on an entirely different architecture:</strong> modern web browsers are capable of heavy computation using WebAssembly, HTML5 Canvas, and Web Cryptography. Every computation happens inside your browser's isolated sandbox on your local CPU and GPU.
+    </p>
+  </div>
+
+  <div class="card" style="padding:28px;margin-bottom:24px;">
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text);">Technical Verification by Category</h2>
+    
+    <div style="display:flex;flex-direction:column;gap:18px;">
+      <div style="border-bottom:1px solid var(--border);padding-bottom:14px;">
+        <strong style="font-size:15px;color:var(--text);display:block;margin-bottom:4px;">1. PDF Tools (Compressor, Merger, Unlocker)</strong>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5;">
+          Powered by <code>PDF.js</code> and <code>pdf-lib</code> compiled to WebAssembly and client-side JavaScript. Files are read via the HTML5 <code>FileReader</code> API directly into memory buffers. Output PDFs are synthesized locally and downloaded via <code>blob:</code> URLs.
+        </p>
+      </div>
+
+      <div style="border-bottom:1px solid var(--border);padding-bottom:14px;">
+        <strong style="font-size:15px;color:var(--text);display:block;margin-bottom:4px;">2. Image Tools (Compressor, Image to PDF)</strong>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5;">
+          Images are decoded into browser memory using <code>createImageBitmap()</code> and rendered onto an off-screen <code>&lt;canvas&gt;</code> element. Dimension scaling and quality re-encoding occur purely in GPU/canvas memory.
+        </p>
+      </div>
+
+      <div style="border-bottom:1px solid var(--border);padding-bottom:14px;">
+        <strong style="font-size:15px;color:var(--text);display:block;margin-bottom:4px;">3. Financial & Math Calculators</strong>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5;">
+          EMI, GST, and SIP formulas are mathematical algorithms executed synchronously in standard JavaScript. SVG donut charts are calculated using SVG arc geometry without external analytics or charting servers.
+        </p>
+      </div>
+
+      <div>
+        <strong style="font-size:15px;color:var(--text);display:block;margin-bottom:4px;">4. Developer & Everyday Utilities</strong>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5;">
+          JSON formatting, Word Counting, QR code rendering, and Password generation run locally. Passwords use browser-native <code>crypto.getRandomValues()</code> for cryptographically secure randomness.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:28px;margin-bottom:24px;">
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:12px;color:var(--text);">How to Verify Independently</h2>
+    <p style="font-size:14px;line-height:1.6;color:var(--text);margin-bottom:14px;">
+      You don't have to take our word for it. You can inspect network activity in real-time in any web browser:
+    </p>
+    <ol style="padding-left:20px;font-size:13px;line-height:1.6;color:var(--text);display:flex;flex-direction:column;gap:8px;">
+      <li>Press <kbd style="background:var(--surface2);padding:2px 6px;border:1px solid var(--border);border-radius:4px;">F12</kbd> or right-click anywhere and select <strong>Inspect</strong>.</li>
+      <li>Click on the <strong>Network</strong> tab.</li>
+      <li>Select the <strong>Fetch/XHR</strong> filter.</li>
+      <li>Drop a document into PDF Compressor or Image Compressor and process it.</li>
+      <li>Notice that <strong>zero network requests</strong> are transmitted. The only network activity that ever occurred was loading the static HTML, CSS, and JS files when the page first opened.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="padding:28px;">
+    <h2 style="font-size:18px;font-weight:700;margin-bottom:12px;color:var(--text);">Data Storage & Accounts</h2>
+    <p style="font-size:14px;line-height:1.6;color:var(--text);margin-bottom:12px;">
+      Suvidha does not require an account, email address, or phone number. We do not set third-party tracking cookies or advertising pixels.
+    </p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.5;">
+      The only data stored on your device is your UI theme preference (dark/light) and your optional recent tool history stored in your own browser's <code>localStorage</code>, which never leaves your machine and can be cleared at any time.
+    </p>
+  </div>
+</div>
+</body>
+</html>

@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Image Compressor</title>
+<title>Image Compressor — Suvidha</title>
+<meta name="description" content="Compress JPG, PNG, and WebP images locally to 100KB, 50KB, 20KB or custom limits without uploading.">
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
 </head>
 <body>
@@ -33,16 +34,28 @@
       </div>
     </div>
 
-    <div class="slider-wrap" id="sliderWrap" style="display:none">
-      <div class="slider-row">
-        <span class="slider-label">Quality</span>
-        <span class="slider-val" id="qualVal">80%</span>
+    <!-- Target Size & Presets -->
+    <div class="settings" id="targetSettingsWrap">
+      <div class="setting-label">Target Size <span id="targetLabel">≤ 100 KB</span></div>
+      <div class="quality-grid" id="targetGrid">
+        <button type="button" class="q-btn" data-target="0" data-label="Auto (80%)">Auto<small>balanced</small></button>
+        <button type="button" class="q-btn" data-target="20480" data-label="≤ 20 KB">20 KB<small>signature</small></button>
+        <button type="button" class="q-btn" data-target="51200" data-label="≤ 50 KB">50 KB<small>passport photo</small></button>
+        <button type="button" class="q-btn active" data-target="102400" data-label="≤ 100 KB">100 KB<small>standard limit</small></button>
+        <button type="button" class="q-btn" data-target="204800" data-label="≤ 200 KB">200 KB<small>medium</small></button>
+        <button type="button" class="q-btn" data-target="512000" data-label="≤ 500 KB">500 KB<small>high quality</small></button>
+        <button type="button" class="q-btn" data-target="custom" data-label="Custom">Custom<small>enter KB</small></button>
       </div>
-      <input type="range" id="qualSlider" min="10" max="100" value="80" step="1">
-      <div class="fmt-row" id="fmtRow">
-        <button class="fmt-btn active" data-fmt="image/jpeg">JPEG</button>
-        <button class="fmt-btn" data-fmt="image/png">PNG</button>
-        <button class="fmt-btn" data-fmt="image/webp">WEBP</button>
+      <div id="customTargetWrap" style="display:none;margin-top:10px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input type="number" id="customTargetInput" placeholder="e.g. 75" min="5" max="10000" style="width:140px;padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface2);color:var(--text);" />
+          <span style="font-size:13px;color:var(--muted)">KB target</span>
+        </div>
+      </div>
+      <div class="fmt-row" id="fmtRow" style="margin-top:14px;">
+        <button type="button" class="fmt-btn active" data-fmt="image/jpeg">JPEG</button>
+        <button type="button" class="fmt-btn" data-fmt="image/webp">WEBP</button>
+        <button type="button" class="fmt-btn" data-fmt="image/png">PNG</button>
       </div>
     </div>
 
@@ -52,9 +65,26 @@
       <div class="stat"><div class="stat-val good" id="statSaved">—</div><div class="stat-label">Saved</div></div>
     </div>
 
+    <div id="statusBanner" style="display:none;margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;line-height:1.4;"></div>
     <div class="status error" id="statusError"><span>✕</span><span id="errorMsg"></span></div>
+
     <button class="btn" id="compressBtn" disabled>Compress Image</button>
+
+    <!-- Focused Success CTA -->
     <a class="dl-btn" id="dlBtn">Download Compressed Image</a>
+
+    <!-- Optional Tool Chaining and Bookmark UX -->
+    <div id="toolChainWrap" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Suggested Next Actions</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <a href="image-to-pdf.html" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Combine image into PDF →</a>
+        <button type="button" class="related-tool-chip" id="chainAnotherBtn" style="font-size:12px;padding:6px 14px;background:none;cursor:pointer;border:1px solid var(--border);color:var(--text);border-radius:var(--radius-full);">Compress another image</button>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--muted);">
+        Bookmark Suvidha for next time · <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Ctrl+D</kbd> / <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Cmd+D</kbd>
+      </div>
+    </div>
+
     <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
 </div>
@@ -62,48 +92,200 @@
 const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput');
 const compare=document.getElementById('compare'),origImg=document.getElementById('origImg'),compImg=document.getElementById('compImg');
 const origSize=document.getElementById('origSize'),compSize=document.getElementById('compSize');
-const sliderWrap=document.getElementById('sliderWrap'),qualSlider=document.getElementById('qualSlider'),qualVal=document.getElementById('qualVal');
+const targetGrid=document.getElementById('targetGrid'),targetLabel=document.getElementById('targetLabel'),customTargetWrap=document.getElementById('customTargetWrap'),customTargetInput=document.getElementById('customTargetInput');
 const statsWrap=document.getElementById('statsWrap'),statOrig=document.getElementById('statOrig'),statNew=document.getElementById('statNew'),statSaved=document.getElementById('statSaved');
-const statusError=document.getElementById('statusError'),errorMsg=document.getElementById('errorMsg');
+const statusError=document.getElementById('statusError'),errorMsg=document.getElementById('errorMsg'),statusBanner=document.getElementById('statusBanner');
 const compressBtn=document.getElementById('compressBtn'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn');
+const toolChainWrap=document.getElementById('toolChainWrap'),chainAnotherBtn=document.getElementById('chainAnotherBtn');
 
-let selectedFile=null,outputFormat='image/jpeg',previewTimer=null;
+let selectedFile=null,outputFormat='image/jpeg';
+let targetBytes=102400; // Default ≤ 100 KB
 
 function fmt(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(2)+'MB'}
 function showError(m){errorMsg.textContent=m;statusError.classList.add('visible')}
 function hideError(){statusError.classList.remove('visible')}
 
+function selectTarget(val, label){
+  document.querySelectorAll('#targetGrid .q-btn').forEach(x=>x.classList.remove('active'));
+  if(val==='custom'){
+    customTargetWrap.style.display='block';
+    targetBytes=customTargetInput.value?parseInt(customTargetInput.value)*1024:102400;
+    targetLabel.textContent='Custom';
+  } else {
+    customTargetWrap.style.display='none';
+    targetBytes=parseInt(val);
+    targetLabel.textContent=label;
+  }
+}
+
+document.querySelectorAll('#targetGrid .q-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    b.classList.add('active');
+    selectTarget(b.dataset.target, b.dataset.label);
+    if(selectedFile)compressAndPreview();
+  });
+});
+
+customTargetInput.addEventListener('input',()=>{
+  const val=parseInt(customTargetInput.value);
+  if(val>0){
+    targetBytes=val*1024;
+    targetLabel.textContent='≤ '+val+' KB';
+    if(selectedFile)compressAndPreview();
+  }
+});
+
+// Format selector
+document.querySelectorAll('.fmt-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.fmt-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    outputFormat=b.dataset.fmt;
+    if(selectedFile)compressAndPreview();
+  });
+});
+
+// One-Click URL query parameter handling
+const urlParams = new URLSearchParams(window.location.search);
+const targetQuery = (urlParams.get('target')||'').toLowerCase();
+if(targetQuery==='20kb'||targetQuery==='20'){
+  const b=document.querySelector('#targetGrid button[data-target="20480"]');
+  if(b){b.click();}
+} else if(targetQuery==='50kb'||targetQuery==='50'){
+  const b=document.querySelector('#targetGrid button[data-target="51200"]');
+  if(b){b.click();}
+} else if(targetQuery==='100kb'||targetQuery==='100'){
+  const b=document.querySelector('#targetGrid button[data-target="102400"]');
+  if(b){b.click();}
+} else if(targetQuery==='200kb'||targetQuery==='200'){
+  const b=document.querySelector('#targetGrid button[data-target="204800"]');
+  if(b){b.click();}
+} else if(targetQuery==='500kb'||targetQuery==='500'){
+  const b=document.querySelector('#targetGrid button[data-target="512000"]');
+  if(b){b.click();}
+}
+
+// Dual-Factor Optimization Algorithm: evaluates BOTH quality and dimensions
+async function compressToTarget(file, targetLimit, format){
+  const bmp=await createImageBitmap(file);
+  const origW=bmp.width;
+  const origH=bmp.height;
+
+  if(targetLimit<=0){
+    // Auto balanced mode (80% quality at 1.0 scale)
+    const c=document.createElement('canvas');c.width=origW;c.height=origH;
+    const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0);
+    const blob=await new Promise(r=>c.toBlob(r,format,0.80));
+    return {blob, reached:true};
+  }
+
+  // Iterative quality and dimension stepping passes
+  const attempts=[
+    {scale:1.0, q:0.85},
+    {scale:1.0, q:0.72},
+    {scale:1.0, q:0.55},
+    {scale:0.85, q:0.68},
+    {scale:0.85, q:0.50},
+    {scale:0.70, q:0.60},
+    {scale:0.70, q:0.45},
+    {scale:0.55, q:0.55},
+    {scale:0.55, q:0.38},
+    {scale:0.40, q:0.45}
+  ];
+
+  let bestBlob=null;
+  for(const {scale, q} of attempts){
+    const w=Math.max(1, Math.round(origW*scale));
+    const h=Math.max(1, Math.round(origH*scale));
+    const canvas=document.createElement('canvas');
+    canvas.width=w;
+    canvas.height=h;
+    const ctx=canvas.getContext('2d');
+    ctx.drawImage(bmp,0,0,w,h);
+    const blob=await new Promise(r=>canvas.toBlob(r,format,q));
+    if(blob){
+      bestBlob=blob;
+      if(blob.size<=targetLimit){
+        return {blob, reached:true};
+      }
+    }
+  }
+  return {blob:bestBlob, reached:bestBlob?bestBlob.size<=targetLimit:false};
+}
+
 async function compressAndPreview(){
   if(!selectedFile)return;
-  const q=parseInt(qualSlider.value)/100;
-  const bmp=await createImageBitmap(selectedFile);
-  const c=document.createElement('canvas');c.width=bmp.width;c.height=bmp.height;
-  const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0);
-  return new Promise(res=>{
-    c.toBlob(blob=>{
-      const url=URL.createObjectURL(blob);
-      compImg.src=url;
-      compSize.textContent=fmt(blob.size);
-      const saved=Math.max(0,selectedFile.size-blob.size);
-      const pct=Math.round(saved/selectedFile.size*100);
-      statOrig.textContent=fmt(selectedFile.size);
-      statNew.textContent=fmt(blob.size);
-      statSaved.textContent=pct+'%';
-      statsWrap.classList.add('visible');
-      dlBtn.href=url;
-      const ext=outputFormat==='image/jpeg'?'jpg':outputFormat==='image/webp'?'webp':'png';
-      dlBtn.download=selectedFile.name.replace(/\.[^.]+$/,'')+'_compressed.'+ext;
-      dlBtn.classList.add('visible');res(blob);
-    },outputFormat,q);
-  });
+  compressBtn.disabled=true;
+  compressBtn.textContent='Compressing…';
+  hideError();
+  statusBanner.style.display='none';
+
+  try{
+    const {blob, reached}=await compressToTarget(selectedFile, targetBytes, outputFormat);
+    if(!blob){
+      showError('Could not compress this image format.');
+      compressBtn.disabled=false;
+      compressBtn.textContent='Compress Image';
+      return;
+    }
+
+    const url=URL.createObjectURL(blob);
+    compImg.src=url;
+    compSize.textContent=fmt(blob.size);
+
+    const saved=Math.max(0,selectedFile.size-blob.size);
+    const pct=Math.round(saved/selectedFile.size*100);
+    statOrig.textContent=fmt(selectedFile.size);
+    statNew.textContent=fmt(blob.size);
+    statSaved.textContent=pct+'%';
+    statsWrap.classList.add('visible');
+
+    // Status Banner with honest feedback
+    if(targetBytes>0){
+      statusBanner.style.display='block';
+      if(reached || blob.size<=targetBytes){
+        statusBanner.style.background='var(--surface2)';
+        statusBanner.style.border='1px solid var(--success)';
+        statusBanner.style.color='var(--text)';
+        statusBanner.innerHTML='<strong style="color:var(--success)">✓ Target achieved</strong> — output is '+fmt(blob.size)+' (under target ceiling of '+fmt(targetBytes)+').';
+      } else {
+        statusBanner.style.background='var(--surface2)';
+        statusBanner.style.border='1px solid #f59e0b';
+        statusBanner.style.color='var(--text)';
+        statusBanner.innerHTML='<strong style="color:#f59e0b">ℹ Quality limit reached</strong> — could not reach '+fmt(targetBytes)+' without severe degradation. Compressed to '+fmt(blob.size)+' instead.';
+      }
+    }
+
+    dlBtn.href=url;
+    const ext=outputFormat==='image/jpeg'?'jpg':outputFormat==='image/webp'?'webp':'png';
+    dlBtn.download=selectedFile.name.replace(/\.[^.]+$/,'')+'_compressed.'+ext;
+    dlBtn.classList.add('visible');
+    toolChainWrap.style.display='block';
+    resetBtn.style.display='block';
+    compressBtn.disabled=false;
+    compressBtn.textContent='Re-compress';
+  }catch(e){
+    showError('Compression error: '+(e.message||'Unknown error'));
+    compressBtn.disabled=false;
+    compressBtn.textContent='Compress Image';
+  }
 }
 
 function setFile(f){
-  if(!f||!f.type.startsWith('image/')){showError('Please select a valid image file.');return}
-  hideError();selectedFile=f;
-  origImg.src=URL.createObjectURL(f);origSize.textContent=fmt(f.size);
-  compare.classList.add('visible');sliderWrap.style.display='block';compressBtn.disabled=false;
-  statsWrap.classList.remove('visible');dlBtn.classList.remove('visible');resetBtn.style.display='none';
+  if(!f||!f.type.startsWith('image/')){
+    showError('Please select a valid image file.');
+    return;
+  }
+  hideError();
+  selectedFile=f;
+  origImg.src=URL.createObjectURL(f);
+  origSize.textContent=fmt(f.size);
+  compare.classList.add('visible');
+  compressBtn.disabled=false;
+  statsWrap.classList.remove('visible');
+  dlBtn.classList.remove('visible');
+  toolChainWrap.style.display='none';
+  resetBtn.style.display='none';
   compressAndPreview();
 }
 
@@ -112,32 +294,22 @@ dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.a
 dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('over'));
 dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('over');if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0])});
 
-qualSlider.addEventListener('input',()=>{
-  qualVal.textContent=qualSlider.value+'%';
-  clearTimeout(previewTimer);
-  previewTimer=setTimeout(compressAndPreview,200);
-});
+compressBtn.addEventListener('click',compressAndPreview);
 
-document.querySelectorAll('.fmt-btn').forEach(b=>{
-  b.addEventListener('click',()=>{
-    document.querySelectorAll('.fmt-btn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');outputFormat=b.dataset.fmt;
-    compressAndPreview();
-  });
-});
-
-compressBtn.addEventListener('click',async()=>{
-  if(!selectedFile)return;
-  await compressAndPreview();
-  resetBtn.style.display='block';
-});
-
-resetBtn.addEventListener('click',()=>{
-  selectedFile=null;fileInput.value='';
-  compare.classList.remove('visible');sliderWrap.style.display='none';
-  statsWrap.classList.remove('visible');dlBtn.classList.remove('visible');
-  compressBtn.disabled=true;resetBtn.style.display='none';hideError();
-});
+function resetAll(){
+  selectedFile=null;
+  fileInput.value='';
+  compare.classList.remove('visible');
+  statsWrap.classList.remove('visible');
+  dlBtn.classList.remove('visible');
+  toolChainWrap.style.display='none';
+  statusBanner.style.display='none';
+  resetBtn.style.display='none';
+  compressBtn.disabled=true;
+  compressBtn.textContent='Compress Image';
+}
+resetBtn.addEventListener('click',resetAll);
+chainAnotherBtn.addEventListener('click',resetAll);
 </script>
 </body>
 </html>

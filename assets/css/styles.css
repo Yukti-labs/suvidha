@@ -324,6 +324,353 @@ button, input, textarea, select {
   font-size: 13px;
 }
 
+/* Discovery & Tell Suvidha Section */
+.discovery-section {
+  max-width: 820px;
+  margin: 0 auto 52px;
+  padding: 0 20px;
+}
+
+.discovery-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.discovery-head {
+  text-align: center;
+}
+
+.discovery-title {
+  display: block;
+  font-size: clamp(1.2rem, 3vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.discovery-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.tell-suvidha-form {
+  width: 100%;
+}
+
+.tell-suvidha-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 6px 8px 6px 14px;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.tell-suvidha-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.tell-suvidha-icon {
+  display: flex;
+  align-items: center;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.tell-suvidha-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: var(--text);
+  font-family: inherit;
+  min-width: 0;
+  padding: 8px 0;
+}
+
+.tell-suvidha-input::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+.tell-suvidha-box .search-kbd {
+  margin: 0 10px 0 6px;
+  flex-shrink: 0;
+}
+
+.tell-suvidha-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.tell-suvidha-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* Tell Suvidha Result Card */
+.tell-suvidha-card {
+  width: 100%;
+  animation: fadeIn 0.2s ease;
+}
+
+.recommend-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.recommend-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.recommend-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.recommend-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.recommend-close:hover {
+  color: var(--text);
+}
+
+.recommend-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.recommend-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.recommend-details {
+  flex: 1;
+  min-width: 200px;
+}
+
+.recommend-name {
+  font-size: 16px;
+  color: var(--text);
+  display: block;
+}
+
+.recommend-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.recommend-target-pill {
+  display: inline-flex;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.recommend-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.recommend-cta:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+/* Ambiguous Choices */
+.recommend-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recommend-choice-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+
+.recommend-choice-item:hover {
+  border-color: var(--accent);
+  transform: translateX(2px);
+}
+
+.recommend-choice-icon {
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+}
+
+.recommend-choice-info {
+  flex: 1;
+}
+
+.recommend-choice-info strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.recommend-choice-info small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.recommend-choice-arrow {
+  color: var(--muted);
+}
+
+.recommend-empty-msg {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* Task chips */
+.task-chips-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.task-chips-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.task-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.task-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.task-chip:hover {
+  background: var(--surface2);
+  border-color: var(--border-hover);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .tell-suvidha-box {
+    flex-wrap: wrap;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .tell-suvidha-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .tell-suvidha-box .search-kbd {
+    display: none;
+  }
+  .recommend-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .recommend-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* Content Sections */
 .section {
   margin-bottom: 64px;

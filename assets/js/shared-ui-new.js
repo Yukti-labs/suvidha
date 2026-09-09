@@ -34,7 +34,7 @@ import { initCommandPalette } from './modules/search.js';
   // Navigation Links
   const homeUrl = isHome ? '#top' : `${homePrefix}index.html`;
   const toolsUrl = isHome ? '#tools' : `${homePrefix}index.html#tools`;
-  const privacyUrl = isHome ? '#privacy' : `${homePrefix}index.html#privacy`;
+  const privacyUrl = `${homePrefix}pages/privacy.html`;
   const aboutUrl = isHome ? '#about' : `${homePrefix}index.html#about`;
 
   // Inject Navigation Bar Styles
@@ -556,12 +556,46 @@ import { initCommandPalette } from './modules/search.js';
       `;
       toolHeader.insertAdjacentElement('beforebegin', breadcrumbs);
 
-      // 2. Verified Privacy Indicator Tag
+      // 2. Verified Privacy Indicator Tag & Subtle Share Tool Action
       if (!toolHeader.querySelector('.tool-privacy-tag')) {
+        const metaRow = document.createElement('div');
+        metaRow.className = 'tool-meta-row';
+        metaRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;flex-wrap:wrap;';
+
         const privacyTag = document.createElement('div');
         privacyTag.className = 'tool-privacy-tag';
+        privacyTag.style.cssText = 'margin-top:0;';
         privacyTag.innerHTML = `${icons.shield} <span>Processed locally · Nothing leaves your device</span>`;
-        toolHeader.appendChild(privacyTag);
+        metaRow.appendChild(privacyTag);
+
+        const shareBtn = document.createElement('button');
+        shareBtn.type = 'button';
+        shareBtn.className = 'tool-share-btn';
+        shareBtn.title = 'Share link to this tool';
+        shareBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;transition:color 0.15s ease;';
+        shareBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+          <span>Share tool</span>
+        `;
+        shareBtn.addEventListener('click', async () => {
+          const shareUrl = window.location.href.split('?')[0];
+          const shareText = `Use ${currentPage.label} on Suvidha — private browser tool with zero file uploads:`;
+          if (navigator.share) {
+            try {
+              await navigator.share({ title: `${currentPage.label} — Suvidha`, text: shareText, url: shareUrl });
+              return;
+            } catch (err) {
+              // User cancelled share
+            }
+          }
+          await navigator.clipboard.writeText(shareUrl);
+          const origText = shareBtn.innerHTML;
+          shareBtn.innerHTML = `<span style="color:var(--success)">✓ Link copied!</span>`;
+          setTimeout(() => { shareBtn.innerHTML = origText; }, 2200);
+        });
+        metaRow.appendChild(shareBtn);
+
+        toolHeader.appendChild(metaRow);
       }
 
       // 3. Related Tools (Same Category Siblings)
