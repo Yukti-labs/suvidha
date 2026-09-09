@@ -1,5 +1,5 @@
 // Theme management module
-import { themeStorageKey } from './config.js';
+import { themeStorageKey, icons } from './config.js';
 
 export function getPreferredTheme() {
   const savedTheme = localStorage.getItem(themeStorageKey);
@@ -7,30 +7,31 @@ export function getPreferredTheme() {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-export function applyTheme(theme, themeToggles) {
+export function applyTheme(theme, toggles) {
   const nextTheme = theme === 'dark' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', nextTheme);
   localStorage.setItem(themeStorageKey, nextTheme);
   const isDark = nextTheme === 'dark';
   
-  themeToggles.forEach(btn => {
+  const buttons = toggles || document.querySelectorAll('[data-theme-toggle]');
+  buttons.forEach(btn => {
     const icon = btn.querySelector('.theme-icon');
-    const text = btn.querySelector('.theme-text');
-    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
-    if (text) text.textContent = isDark ? 'Light' : 'Dark';
+    if (icon) {
+      icon.innerHTML = isDark ? icons.sun : icons.moon;
+    }
     btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     btn.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
   });
 }
 
-export function initTheme(themeToggles) {
+export function initTheme(toggles) {
   const preferredTheme = getPreferredTheme();
-  applyTheme(preferredTheme, themeToggles);
+  applyTheme(preferredTheme, toggles);
 
-  themeToggles.forEach(btn => {
+  document.querySelectorAll('[data-theme-toggle]').forEach(btn => {
     btn.addEventListener('click', () => {
       const activeTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      applyTheme(activeTheme === 'dark' ? 'light' : 'dark', themeToggles);
+      applyTheme(activeTheme === 'dark' ? 'light' : 'dark', toggles);
     });
   });
 }

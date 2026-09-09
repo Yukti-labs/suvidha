@@ -5,63 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>SIP Calculator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script type="module" src="../../assets/js/shared-ui-new.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
-:root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--accent:#58a6ff;--accent2:#3fb950;--accent3:#f78166;--text:#e6edf3;--muted:#768390;--radius:12px}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Urbanist',sans-serif;min-height:100vh;padding:80px 20px 80px;display:flex;flex-direction:column;align-items:center}
-.content{width:100%;max-width:600px}
-.header{margin-bottom:36px;animation:fadeUp 0.4s ease both}
-.tool-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,17,23,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 20px;transition:all 0.3s ease}
-.tool-nav-content{max-width:600px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.tool-nav-title{font-size:16px;font-weight:500;letter-spacing:-0.02em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s ease}
-.tool-nav-title:hover{color:var(--accent2)}
-.tool-nav-links{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.tool-nav-link{padding:6px 12px;border-radius:999px;background:rgba(88,166,255,0.04);border:1px solid rgba(88,166,255,0.08);color:var(--muted);text-decoration:none;font-size:11px;font-family:'Roboto Mono',monospace;transition:all 0.2s ease}
-.tool-nav-link:hover{background:var(--surface2);color:var(--text);border-color:rgba(88,166,255,0.12)}
-.tool-nav-link.active{background:rgba(63,185,80,0.1);border-color:rgba(63,185,80,0.2);color:var(--accent2)}
-.eyebrow{font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--accent);margin-bottom:10px}
-h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:700;line-height:1.1;letter-spacing:-0.02em}
-h1 em{font-style:normal;color:var(--accent2)}
-.sub{color:var(--muted);font-size:13px;margin-top:8px;font-weight:300}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:14px;animation:fadeUp 0.4s 0.1s ease both}
-.field{margin-bottom:20px}
-.field-label{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.field-val{color:var(--accent);font-size:14px;font-weight:500}
-.input-row{display:flex;align-items:center;gap:10px}
-.prefix{font-family:'Roboto Mono',monospace;font-size:14px;color:var(--muted);flex-shrink:0}
-input[type=number]{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:15px;color:var(--text);font-family:'Urbanist',sans-serif;outline:none;transition:border-color 0.2s;-moz-appearance:textfield}
-input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
-input[type=number]:focus{border-color:var(--accent)}
-input[type=range]{width:100%;height:4px;background:var(--border);border-radius:2px;outline:none;-webkit-appearance:none;appearance:none;margin-top:10px;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);cursor:pointer}
-/* Result grid */
-.result-hero{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.hero-box{border-radius:10px;padding:18px}
-.hero-box.corpus{background:linear-gradient(135deg,#1a3a5c,#0d2137);border:1px solid rgba(88,166,255,0.3)}
-.hero-box.invested{background:var(--surface2);border:1px solid var(--border)}
-.hero-label{font-family:'Roboto Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px}
-.hero-val{font-size:clamp(1.4rem,4vw,2rem);font-weight:700;letter-spacing:-0.02em;font-family:'Roboto Mono',monospace}
-.hero-val.blue{color:var(--accent)}
-.hero-val.green{color:var(--accent2)}
-.result-row-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.rbox{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px}
-.rbox-label{font-family:'Roboto Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
-.rbox-val{font-size:17px;font-weight:600;font-family:'Roboto Mono',monospace}
-.rbox-val.green{color:var(--accent2)}
-.rbox-val.orange{color:var(--accent3)}
-.chart-wrap{height:220px;position:relative;margin-bottom:4px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.results-card{animation:fadeUp 0.4s 0.2s ease both}
-</style>
 </head>
 <body>
 <div class="content">
   <div class="header">
-    <div class="eyebrow">// Wealth Tool</div>
-    <h1>SIP <em>Calculator</em></h1>
-    <p class="sub">Systematic Investment Plan — projected corpus with chart</p>
+    <h1>SIP Calculator</h1>
+    <p class="sub">Systematic Investment Plan — projected wealth and returns</p>
   </div>
   <div class="card">
     <div class="field">
@@ -127,8 +76,7 @@ function calculate(){
     labels.push('Yr '+y);inv.push(Math.round(sip*m));corp.push(Math.round(c));
   }
   const ctx=document.getElementById('myChart').getContext('2d');
-  if(chart)chart.destroy();
-  chart=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Invested',data:inv,backgroundColor:'rgba(55,80,100,0.7)',borderRadius:3,borderSkipped:false},{label:'Corpus',data:corp,backgroundColor:'rgba(88,166,255,0.25)',borderColor:'rgba(88,166,255,0.8)',borderWidth:1.5,borderRadius:3,borderSkipped:false,type:'line',fill:false,tension:0.4,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'Roboto Mono',size:10},color:'#768390',padding:12}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{font:{family:'Roboto Mono',size:9},color:'#768390',maxTicksLimit:10}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{font:{family:'Roboto Mono',size:9},color:'#768390',callback:v=>'₹'+fmtINR(v)}}}}});
+  chart=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Invested',data:inv,backgroundColor:'rgba(148,163,184,0.5)',borderRadius:4,borderSkipped:false},{label:'Corpus',data:corp,backgroundColor:'rgba(79,70,229,0.15)',borderColor:'#4f46e5',borderWidth:2,borderRadius:4,borderSkipped:false,type:'line',fill:false,tension:0.4,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'Inter, sans-serif',size:11},color:'#64748b',padding:12}}},scales:{x:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{family:'Inter, sans-serif',size:10},color:'#64748b',maxTicksLimit:10}},y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{family:'Inter, sans-serif',size:10},color:'#64748b',callback:v=>'₹'+fmtINR(v)}}}}});
 }
 
 function sync(input,range,display,fmt){
