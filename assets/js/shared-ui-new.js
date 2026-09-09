@@ -4,6 +4,9 @@ import { appName, appNameLong, companyName, pageGroups, totalTools, icons, getTo
 import { initTheme } from './modules/theme.js';
 import { getPathInfo, getCurrentPageInfo, getHrefs, initMobileNavigation } from './modules/navigation.js';
 import { initCommandPalette } from './modules/search.js';
+import { initPWA } from './modules/pwa.js';
+import { initAnalytics, analytics, buildShareUrl } from './modules/analytics.js';
+import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
 
 (() => {
   if (document.querySelector('.site-header-shell')) return;
@@ -28,6 +31,33 @@ import { initCommandPalette } from './modules/search.js';
     }
     icon.href = faviconPath;
     icon.type = 'image/svg+xml';
+
+    // PWA Manifest
+    let manifest = document.querySelector('link[rel="manifest"]');
+    if (!manifest) {
+      manifest = document.createElement('link');
+      manifest.rel = 'manifest';
+      document.head.appendChild(manifest);
+    }
+    manifest.href = '/manifest.webmanifest';
+
+    // Apple Touch Icon
+    let appleIcon = document.querySelector('link[rel="apple-touch-icon"]');
+    if (!appleIcon) {
+      appleIcon = document.createElement('link');
+      appleIcon.rel = 'apple-touch-icon';
+      document.head.appendChild(appleIcon);
+    }
+    appleIcon.href = '/apple-touch-icon.png';
+
+    // Theme Color
+    let themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (!themeMeta) {
+      themeMeta = document.createElement('meta');
+      themeMeta.name = 'theme-color';
+      document.head.appendChild(themeMeta);
+    }
+    themeMeta.content = '#09090c';
   };
   ensureBrandMeta();
 
@@ -155,6 +185,335 @@ import { initCommandPalette } from './modules/search.js';
       border: 1px solid var(--border);
       background: var(--surface);
       color: var(--text);
+      cursor: pointer;
+    }
+
+    /* PWA Install CTAs */
+    .pwa-install-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 12px;
+      border-radius: var(--radius-md, 12px);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .pwa-install-btn:hover {
+      border-color: var(--accent);
+      background: var(--surface2);
+      color: var(--text);
+    }
+    .pwa-install-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2;
+    }
+    .mobile-nav-install-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 16px;
+      margin-top: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius-md, 12px);
+      cursor: pointer;
+    }
+
+    /* Floating Tell Suvidha */
+    .floating-tell-btn {
+      position: fixed;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      right: 24px;
+      z-index: 990;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 9999px;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.28);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .floating-tell-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 24px rgba(79, 70, 229, 0.25);
+    }
+    .floating-tell-icon {
+      color: var(--accent);
+      font-size: 14px;
+    }
+    @media (max-width: 640px) {
+      .floating-tell-btn {
+        bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+        right: 18px;
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+      }
+      .floating-tell-label {
+        display: none;
+      }
+      .floating-tell-icon {
+        font-size: 18px;
+      }
+    }
+
+    /* Floating Tell Suvidha Modal */
+    .floating-tell-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+      background: rgba(4, 6, 12, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: cmdFadeIn 0.2s ease-out;
+    }
+    .floating-tell-overlay.is-open {
+      display: flex;
+    }
+    .floating-tell-dialog {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: min(580px, 100%);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .floating-tell-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .floating-tell-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .floating-tell-eyebrow {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .floating-tell-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .floating-tell-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .floating-tell-form {
+      width: 100%;
+    }
+    .floating-tell-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 8px 6px 14px;
+      transition: border-color 0.15s ease;
+    }
+    .floating-tell-input-wrap:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    .floating-tell-input-icon {
+      color: var(--accent);
+      font-size: 14px;
+    }
+    .floating-tell-input-wrap input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+    .floating-tell-submit {
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .floating-tell-chips-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .floating-tell-chips-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    .floating-tell-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .floating-tell-chip {
+      padding: 5px 11px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .floating-tell-chip:hover {
+      border-color: var(--border-hover);
+      color: var(--text);
+    }
+
+    /* iOS Installation Sheet */
+    .ios-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10060;
+      background: rgba(4, 6, 12, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .ios-sheet-overlay.is-open {
+      display: flex;
+    }
+    .ios-sheet-dialog {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px 20px 0 0;
+      width: 100%;
+      max-width: 500px;
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      animation: iosSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes iosSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .ios-sheet-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ios-sheet-title-wrap h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .ios-sheet-title-wrap p {
+      margin: 3px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .ios-sheet-close {
+      margin-left: auto;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .ios-sheet-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .ios-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .ios-step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+    .ios-step-desc {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .ios-share-inline-icon {
+      color: var(--accent);
+      vertical-align: middle;
+    }
+    .ios-sheet-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
       cursor: pointer;
     }
     
@@ -476,6 +835,10 @@ import { initCommandPalette } from './modules/search.js';
           <a class="site-nav-item" href="${aboutUrl}">About</a>
         </nav>
         <div class="site-header-actions">
+          <button type="button" class="pwa-install-btn" data-pwa-install aria-label="Install Suvidha App" style="display:none;">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Install</span>
+          </button>
           <button type="button" class="header-search-trigger" data-open-search aria-label="Search tools">
             ${icons.search}
             <span>Search…</span>
@@ -502,6 +865,10 @@ import { initCommandPalette } from './modules/search.js';
         <a class="drawer-link" href="${toolsUrl}">Tools</a>
         <a class="drawer-link" href="${privacyUrl}">Why Private?</a>
         <a class="drawer-link" href="${aboutUrl}">About</a>
+        <button type="button" class="mobile-nav-install-btn" data-pwa-install aria-label="Install Suvidha App" style="display:none;">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Install Suvidha</span>
+        </button>
       </div>
       <div class="drawer-category-title">Categories</div>
       <div class="drawer-categories">
@@ -578,8 +945,10 @@ import { initCommandPalette } from './modules/search.js';
           <span>Share tool</span>
         `;
         shareBtn.addEventListener('click', async () => {
-          const shareUrl = window.location.href.split('?')[0];
+          const toolSlug = currentPage.file.replace('.html', '');
+          const shareUrl = buildShareUrl(window.location.href, toolSlug);
           const shareText = `Use ${currentPage.label} on Suvidha — private browser tool with zero file uploads:`;
+          analytics.shareClicked(toolSlug);
           if (navigator.share) {
             try {
               await navigator.share({ title: `${currentPage.label} — Suvidha`, text: shareText, url: shareUrl });
@@ -629,4 +998,18 @@ import { initCommandPalette } from './modules/search.js';
   const mobileOverlay = document.getElementById('mobileOverlay');
   const mobileClose = document.getElementById('mobileClose');
   initMobileNavigation(mobileToggle, mobileDrawer, mobileOverlay, mobileClose);
+
+  // Tool Slug for analytics and contextual assistant
+  const toolSlug = (!isHome && currentPage) ? currentPage.file.replace('.html', '') : '';
+
+  if (toolSlug && currentGroup) {
+    analytics.toolOpened(toolSlug, currentGroup.label);
+  }
+
+  // Initialize PWA, Analytics, Floating Tell Suvidha
+  window.suvidhaAnalytics = analytics;
+  initAnalytics();
+  initPWA({ serviceWorkerPath: `${homePrefix}sw.js` });
+  initFloatingTellSuvidha({ toolSlug });
 })();
+

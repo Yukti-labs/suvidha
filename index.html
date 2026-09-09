@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Suvidha Tools — Private Browser-Based Tools</title>
 <script type="module" src="assets/js/shared-ui-new.js"></script>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4f46e5">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#09090c">
 
 <!-- SEO & Metadata -->
 <meta name="description" content="Private browser-based tools for PDFs, images, finance, developer utilities, and SEO. Processed locally on your device with zero uploads.">
@@ -579,6 +581,7 @@
 <script type="module">
 import { filterTools, resolveRequirement, recordRecentTool } from './assets/js/modules/search.js';
 import { getToolIcon } from './assets/js/modules/config.js';
+import { analytics } from './assets/js/modules/analytics.js';
 
 // 1. Tell Suvidha Conversational Requirement Router
 const tellInput = document.getElementById('tellSuvidhaInput');
@@ -586,8 +589,21 @@ const tellForm = document.getElementById('tellSuvidhaForm');
 const tellCard = document.getElementById('tellSuvidhaCard');
 const tellChips = document.getElementById('tellSuvidhaChips');
 
+// Support ?tell=1 PWA shortcut
+try {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('tell') === '1') {
+    setTimeout(() => {
+      tellInput?.focus();
+      tellInput?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
+  }
+} catch {}
+
 function handleRequirement(raw) {
   const q = (raw || '').trim();
+  analytics.tellSuvidhaOpened();
+
   if (!q) {
     tellCard.style.display = 'block';
     tellCard.innerHTML = `
@@ -632,6 +648,8 @@ function handleRequirement(raw) {
     tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
     tellCard.querySelector('#openRecommendedTool').addEventListener('click', () => {
       recordRecentTool(result.tool);
+      const toolSlug = result.tool.url.split('/').pop().replace('.html', '');
+      analytics.tellSuvidhaRoute(toolSlug);
     });
   } else if (result.type === 'ambiguous') {
     tellCard.style.display = 'block';
@@ -659,7 +677,11 @@ function handleRequirement(raw) {
     tellCard.querySelectorAll('.recommend-choice-item').forEach(el => {
       el.addEventListener('click', () => {
         const matched = result.matches.find(m => m.url === el.dataset.toolUrl);
-        if (matched) recordRecentTool(matched);
+        if (matched) {
+          recordRecentTool(matched);
+          const toolSlug = matched.url.split('/').pop().replace('.html', '');
+          analytics.tellSuvidhaRoute(toolSlug);
+        }
       });
     });
   } else {

@@ -215,6 +215,7 @@ async function compressToTarget(file, targetLimit, format){
 
 async function compressAndPreview(){
   if(!selectedFile)return;
+  window.suvidhaAnalytics?.toolStarted('image-compressor');
   compressBtn.disabled=true;
   compressBtn.textContent='Compressing…';
   hideError();
@@ -264,12 +265,17 @@ async function compressAndPreview(){
     resetBtn.style.display='block';
     compressBtn.disabled=false;
     compressBtn.textContent='Re-compress';
+    window.suvidhaAnalytics?.toolCompleted('image-compressor');
   }catch(e){
     showError('Compression error: '+(e.message||'Unknown error'));
     compressBtn.disabled=false;
     compressBtn.textContent='Compress Image';
   }
 }
+
+dlBtn.addEventListener('click',()=>{
+  window.suvidhaAnalytics?.toolDownloaded('image-compressor');
+});
 
 function setFile(f){
   if(!f||!f.type.startsWith('image/')){

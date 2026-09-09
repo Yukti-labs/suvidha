@@ -105,6 +105,7 @@ resetBtn.addEventListener('click',()=>{images.forEach(i=>URL.revokeObjectURL(i.u
 
 convertBtn.addEventListener('click',async()=>{
   if(images.length===0)return;
+  window.suvidhaAnalytics?.toolStarted('image-to-pdf');
   hideAll();convertBtn.disabled=true;progressWrap.classList.add('visible');progressFill.style.width='0%';
   const pageSize=document.getElementById('pageSize').value;
   const orientation=document.getElementById('orientation').value;
@@ -145,7 +146,12 @@ convertBtn.addEventListener('click',async()=>{
     dlBtn.href=URL.createObjectURL(blob);dlBtn.download='images.pdf';
     successMsg.textContent=`Done! ${images.length} page${images.length!==1?'s':''} · ${fmt(bytes.length)}`;
     statusSuccess.classList.add('visible');dlBtn.classList.add('visible');toolChainWrap.style.display='block';resetBtn.style.display='block';convertBtn.disabled=false;
+    window.suvidhaAnalytics?.toolCompleted('image-to-pdf');
   }catch(e){showError('Error: '+(e.message||'Unknown'));convertBtn.disabled=false}
+});
+
+dlBtn.addEventListener('click',()=>{
+  window.suvidhaAnalytics?.toolDownloaded('image-to-pdf');
 });
 </script>
 </body>
