@@ -11,78 +11,165 @@ export function flattenTools() {
   })));
 }
 
+const TYPO_MAP = {
+  'compresss': 'compress',
+  'imgae': 'image',
+  'formater': 'formatter',
+  'resum': 'resume',
+  'calculater': 'calculator',
+  'dokuments': 'documents',
+  'dokment': 'document',
+  'docment': 'document'
+};
+
+export function normalizeQuery(text) {
+  let cleaned = (text || '').toLowerCase().trim();
+  for (const [typo, fixed] of Object.entries(TYPO_MAP)) {
+    cleaned = cleaned.replace(new RegExp(`\\b${typo}\\b`, 'g'), fixed);
+  }
+  return cleaned;
+}
+
+export function detectTargetSize(text) {
+  const t = (text || '').toLowerCase();
+  
+  // MB matching (e.g. 1 MB, 1mb, 2mb, 500kb as 0.5mb)
+  const mbMatch = t.match(/(\d+(?:\.\d+)?)\s*(?:mb|megabytes?)/i);
+  if (mbMatch) {
+    const val = parseFloat(mbMatch[1]);
+    if (val === 1) return { param: 'target=1mb', label: '≤ 1 MB', bytes: 1048576 };
+    if (val === 2) return { param: 'target=2mb', label: '≤ 2 MB', bytes: 2097152 };
+    if (val === 0.5) return { param: 'target=500kb', label: '≤ 500 KB', bytes: 512000 };
+    return { param: `target=${Math.round(val * 1024)}`, label: `≤ ${val} MB`, bytes: Math.round(val * 1048576) };
+  }
+
+  // KB matching (e.g. 500 KB, 100kb, 50 kb, 20kb)
+  const kbMatch = t.match(/(\d+)\s*(?:kb|kilobytes?)/i);
+  if (kbMatch) {
+    const val = parseInt(kbMatch[1], 10);
+    if (val === 500) return { param: 'target=500kb', label: '≤ 500 KB', bytes: 512000 };
+    if (val === 200) return { param: 'target=200kb', label: '≤ 200 KB', bytes: 204800 };
+    if (val === 100) return { param: 'target=100kb', label: '≤ 100 KB', bytes: 102400 };
+    if (val === 50) return { param: 'target=50kb', label: '≤ 50 KB', bytes: 51200 };
+    if (val === 20) return { param: 'target=20kb', label: '≤ 20 KB', bytes: 20480 };
+    return { param: `target=${val}kb`, label: `≤ ${val} KB`, bytes: val * 1024 };
+  }
+
+  return null;
+}
+
 const INTENT_RULES = [
   {
-    patterns: ['make pdf smaller', 'pdf smaller', 'shrink pdf', 'pdf 1mb', 'compress pdf', 'reduce pdf', 'pdf under 1mb', 'small pdf', 'pdf kb', 'compress'],
+    patterns: [
+      'make my pdf smaller than 1 mb', 'make my pdf smaller', 'make pdf smaller', 'pdf smaller',
+      'shrink pdf', 'pdf 1mb', 'make pdf under 1mb', 'pdf under 1mb', 'pdf below 500kb',
+      'pdf under 500kb', 'pdf 500kb', 'pdf small', 'make pdf small', 'reduce pdf size',
+      'reduce pdf', 'compress pdf', 'compresss pdf', 'pdf 2mb', 'small pdf'
+    ],
     toolName: 'PDF Compressor',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['reduce image size', 'photo 20kb', 'photo 50kb', 'photo 100kb', 'image 100kb', 'photo under 100kb', 'shrink photo', 'passport photo', 'signature', 'compress image', 'make image smaller', 'photo size', 'compress photo'],
+    patterns: [
+      'make my photo under 100 kb', 'make my photo under 100kb', 'photo 100kb', 'photo under 100kb',
+      'photo 50kb', 'photo below 50 kb', 'photo under 50kb', 'photo 20kb', 'photo below 20kb',
+      'reduce image size', 'image less than 100kb', 'imgae compressor', 'compress photo',
+      'photo size', 'compress image', 'make image smaller', 'passport photo', 'signature'
+    ],
     toolName: 'Image Compressor',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['make these photos one pdf', 'photos to pdf', 'images to pdf', 'convert photo to pdf', 'jpg to pdf', 'png to pdf', 'combine images to pdf', 'send photos as pdf'],
+    patterns: [
+      'combine these photos into one pdf', 'combine photos into one pdf', 'combine photos to pdf',
+      'make these photos one pdf', 'many images into pdf', 'many photos and want one pdf',
+      'convert photos to pdf', 'photos to pdf', 'images to pdf', 'convert photo to pdf',
+      'jpg to pdf', 'png to pdf', 'combine images to pdf'
+    ],
     toolName: 'Image to PDF',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['loan monthly payment', 'calculate emi', 'home loan', 'car loan', 'loan emi', 'monthly installment', 'calculate loan', 'emi'],
+    patterns: [
+      'calculate my home loan emi', 'calculate my loan emi', 'calculate my emi',
+      'calculate home loan emi', 'home loan emi', 'monthly home loan', 'emi for 20 lakh',
+      'loan monthly payment', 'calculate emi', 'home loan', 'car loan', 'monthly installment'
+    ],
     toolName: 'EMI Calculator',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['make json readable', 'json beautify', 'json prettify', 'format json', 'clean json', 'indent json', 'json'],
+    patterns: [
+      'make this json readable', 'make json readable', 'beautify my json', 'beautify json',
+      'json pretty', 'json formater', 'json beautify', 'json prettify', 'format json', 'clean json', 'indent json'
+    ],
     toolName: 'JSON Formatter',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['count words', 'character count', 'word count', 'reading time', 'article length'],
+    patterns: [
+      'count words', 'character count', 'word count', 'reading time', 'article length'
+    ],
     toolName: 'Word Counter',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['create a qr', 'qr code', 'upi qr', 'generate qr', 'make qr', 'wifi qr', 'qr'],
+    patterns: [
+      'create qr for my website', 'make a qr for my website', 'create a qr code',
+      'create a qr', 'qr code', 'upi qr', 'generate qr', 'make qr', 'wifi qr'
+    ],
     toolName: 'QR Code Generator',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['build my resume', 'make resume', 'create cv', 'biodata', 'curriculum vitae', 'resume'],
+    patterns: [
+      'build my resume', 'create cv', 'create a cv', 'create cv', 'cv maker',
+      'resume for job', 'resum builder', 'make resume', 'biodata', 'curriculum vitae'
+    ],
     toolName: 'Resume Builder',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['merge pdf', 'combine pdf', 'join pdf', 'combine documents'],
+    patterns: [
+      'merge pdf', 'combine pdf', 'join pdf', 'combine documents'
+    ],
     toolName: 'PDF Merger',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['unlock pdf', 'remove pdf password', 'decrypt pdf'],
+    patterns: [
+      'unlock pdf', 'remove pdf password', 'decrypt pdf', 'unprotect pdf'
+    ],
     toolName: 'PDF Unlocker',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['calculate gst', 'gst tax', 'reverse gst', 'cgst sgst', 'gst split'],
+    patterns: [
+      'calculate gst', 'gst tax', 'reverse gst', 'cgst sgst', 'gst split'
+    ],
     toolName: 'GST Calculator',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['sip calculator', 'mutual fund returns', 'compounding investment', 'sip returns'],
+    patterns: [
+      'sip calculator', 'mutual fund returns', 'compounding investment', 'sip returns'
+    ],
     toolName: 'SIP Calculator',
-    boost: 120
+    boost: 140
   },
   {
-    patterns: ['generate password', 'random password', 'secure password', 'password generator'],
+    patterns: [
+      'generate password', 'random password', 'secure password', 'password generator'
+    ],
     toolName: 'Password Generator',
-    boost: 120
+    boost: 140
   }
 ];
 
-export function filterTools(query) {
-  const q = query.toLowerCase().trim();
+export function scoreTools(query) {
+  const q = normalizeQuery(query);
   const tools = flattenTools();
-  if (!q) return tools;
+  if (!q) return [];
 
   const scored = [];
   const words = q.split(/\s+/).filter(Boolean);
@@ -94,15 +181,18 @@ export function filterTools(query) {
     const descLower = tool.shortDesc.toLowerCase();
 
     // Exact name match
-    if (nameLower === q) score += 150;
-    else if (nameLower.startsWith(q)) score += 90;
-    else if (nameLower.includes(q)) score += 60;
+    if (nameLower === q) score += 180;
+    else if (nameLower.startsWith(q)) score += 100;
+    else if (nameLower.includes(q)) score += 70;
 
     // Intent rules check
     for (const rule of INTENT_RULES) {
       if (rule.toolName === tool.name) {
         for (const pattern of rule.patterns) {
-          if (q === pattern || q.includes(pattern) || pattern.includes(q)) {
+          if (q === pattern) {
+            score += rule.boost + 40;
+            break;
+          } else if (q.includes(pattern) || pattern.includes(q)) {
             score += rule.boost;
             break;
           }
@@ -113,15 +203,15 @@ export function filterTools(query) {
     // Keyword matching
     for (const kw of tool.keywords) {
       const kwLower = kw.toLowerCase();
-      if (kwLower === q) score += 80;
-      else if (kwLower.includes(q)) score += 40;
+      if (kwLower === q) score += 90;
+      else if (kwLower.includes(q) || q.includes(kwLower)) score += 45;
     }
 
     // Word token overlaps
     for (const w of words) {
-      if (nameLower.includes(w)) score += 25;
-      if (tool.keywords.some(k => k.toLowerCase().includes(w))) score += 15;
-      if (descLower.includes(w)) score += 10;
+      if (nameLower.includes(w)) score += 30;
+      if (tool.keywords.some(k => k.toLowerCase().includes(w))) score += 20;
+      if (descLower.includes(w)) score += 12;
       if (catLower.includes(w)) score += 10;
     }
 
@@ -131,7 +221,71 @@ export function filterTools(query) {
   }
 
   scored.sort((a, b) => b.score - a.score);
+  return scored;
+}
+
+export function filterTools(query) {
+  const scored = scoreTools(query);
   return scored.map(item => item.tool);
+}
+
+// "Tell Suvidha" conversational tool router (pure client-side)
+export function resolveRequirement(query) {
+  const q = normalizeQuery(query);
+  if (!q || q.length === 0) {
+    return {
+      type: 'none',
+      message: 'Please describe what you want to do (e.g. "Make my PDF smaller than 1 MB").'
+    };
+  }
+
+  // Detect any target size parameter (e.g. 1mb, 500kb, 100kb)
+  const targetParam = detectTargetSize(q);
+  const scored = scoreTools(q);
+
+  if (scored.length === 0 || scored[0].score < 20) {
+    return {
+      type: 'none',
+      message: "I couldn't identify a tool for that request. Try an example below or browse the directory."
+    };
+  }
+
+  // Check for ambiguous generic requests (e.g. "change my document" or "edit document")
+  const isGenericDocument = (q.includes('document') || q.includes('file')) && 
+    !q.includes('compress') && !q.includes('small') && !q.includes('merge') && 
+    !q.includes('combine') && !q.includes('unlock') && !q.includes('password');
+
+  const isCloseRunnerUp = scored.length > 1 && 
+    (scored[0].score - scored[1].score < 18) && 
+    scored[0].score < 110;
+
+  if (isGenericDocument || isCloseRunnerUp) {
+    const topMatches = scored.slice(0, 3).map(s => {
+      const tool = s.tool;
+      const url = targetParam && (tool.name.includes('Compressor')) ? `${tool.url}?${targetParam.param}` : tool.url;
+      return { ...tool, url };
+    });
+    return {
+      type: 'ambiguous',
+      message: 'I can help with that. Which one do you mean?',
+      matches: topMatches
+    };
+  }
+
+  // Confident match
+  const best = scored[0].tool;
+  let finalUrl = best.url;
+  if (targetParam && best.name.includes('Compressor')) {
+    finalUrl += `?${targetParam.param}`;
+  }
+
+  return {
+    type: 'confident',
+    tool: best,
+    targetParam: (best.name.includes('Compressor')) ? targetParam : null,
+    url: finalUrl,
+    reason: 'I think you need:'
+  };
 }
 
 export function initCommandPalette({ homePrefix = '', pageHref } = {}) {
