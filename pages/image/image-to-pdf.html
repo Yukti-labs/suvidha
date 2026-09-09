@@ -49,14 +49,24 @@
     <div class="status success" id="statusSuccess"><span>✓</span><span id="successMsg"></span></div>
     <div class="status error" id="statusError"><span>✕</span><span id="errorMsg"></span></div>
     <a class="dl-btn" id="dlBtn">Download PDF</a>
+    <div id="toolChainWrap" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Suggested Next Actions</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <a href="../pdf/pdf-compressor.html?target=1mb" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Compress resulting PDF (≤ 1 MB) →</a>
+        <a href="../pdf/pdf-merger.html" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Merge with another PDF →</a>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--muted);">
+        Bookmark Suvidha for next time · <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Ctrl+D</kbd> / <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Cmd+D</kbd>
+      </div>
+    </div>
     <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
 </div>
 <script>
-const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),previewGrid=document.getElementById('previewGrid'),hint=document.getElementById('hint'),settings=document.getElementById('settings'),convertBtn=document.getElementById('convertBtn'),progressWrap=document.getElementById('progressWrap'),progressLabel=document.getElementById('progressLabel'),progressFill=document.getElementById('progressFill'),statusSuccess=document.getElementById('statusSuccess'),statusError=document.getElementById('statusError'),successMsg=document.getElementById('successMsg'),errorMsg=document.getElementById('errorMsg'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn');
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),previewGrid=document.getElementById('previewGrid'),hint=document.getElementById('hint'),settings=document.getElementById('settings'),convertBtn=document.getElementById('convertBtn'),progressWrap=document.getElementById('progressWrap'),progressLabel=document.getElementById('progressLabel'),progressFill=document.getElementById('progressFill'),statusSuccess=document.getElementById('statusSuccess'),statusError=document.getElementById('statusError'),successMsg=document.getElementById('successMsg'),errorMsg=document.getElementById('errorMsg'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn'),toolChainWrap=document.getElementById('toolChainWrap');
 let images=[];let dragSrc=null;
 const PAGE_SIZES={A4:[595,842],Letter:[612,792]};
-function hideAll(){progressWrap.classList.remove('visible');statusSuccess.classList.remove('visible');statusError.classList.remove('visible');dlBtn.classList.remove('visible')}
+function hideAll(){progressWrap.classList.remove('visible');statusSuccess.classList.remove('visible');statusError.classList.remove('visible');dlBtn.classList.remove('visible');toolChainWrap.style.display='none'}
 function showError(m){hideAll();errorMsg.textContent=m;statusError.classList.add('visible')}
 function fmt(b){if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(2)+'MB'}
 
@@ -134,7 +144,7 @@ convertBtn.addEventListener('click',async()=>{
     const blob=new Blob([bytes],{type:'application/pdf'});
     dlBtn.href=URL.createObjectURL(blob);dlBtn.download='images.pdf';
     successMsg.textContent=`Done! ${images.length} page${images.length!==1?'s':''} · ${fmt(bytes.length)}`;
-    statusSuccess.classList.add('visible');dlBtn.classList.add('visible');resetBtn.style.display='block';convertBtn.disabled=false;
+    statusSuccess.classList.add('visible');dlBtn.classList.add('visible');toolChainWrap.style.display='block';resetBtn.style.display='block';convertBtn.disabled=false;
   }catch(e){showError('Error: '+(e.message||'Unknown'));convertBtn.disabled=false}
 });
 </script>

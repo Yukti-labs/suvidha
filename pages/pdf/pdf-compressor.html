@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PDF Compressor</title>
+<title>PDF Compressor — Suvidha</title>
+<meta name="description" content="Compress PDF files locally to 1MB, 500KB or custom targets without uploading.">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -31,81 +32,256 @@
       <div class="file-name" id="fileName"></div>
       <div class="file-size" id="fileSize"></div>
     </div>
+
+    <!-- Target Size & Presets -->
     <div class="settings">
-      <div class="setting-label">Quality <span id="qualLabel">Medium</span></div>
-      <div class="quality-grid">
-        <button class="q-btn" data-q="0.5" data-label="Low">Low<small>max compress</small></button>
-        <button class="q-btn active" data-q="0.75" data-label="Medium">Medium<small>balanced</small></button>
-        <button class="q-btn" data-q="0.92" data-label="High">High<small>best quality</small></button>
+      <div class="setting-label">Target Size <span id="targetLabel">≤ 1 MB</span></div>
+      <div class="quality-grid" id="targetGrid">
+        <button type="button" class="q-btn" data-target="0" data-label="Auto (Balanced)">Auto<small>balanced</small></button>
+        <button type="button" class="q-btn" data-target="512000" data-label="≤ 500 KB">500 KB<small>max compress</small></button>
+        <button type="button" class="q-btn active" data-target="1048576" data-label="≤ 1 MB">1 MB<small>standard limit</small></button>
+        <button type="button" class="q-btn" data-target="2097152" data-label="≤ 2 MB">2 MB<small>high quality</small></button>
+        <button type="button" class="q-btn" data-target="custom" data-label="Custom">Custom<small>enter KB</small></button>
+      </div>
+      <div id="customTargetWrap" style="display:none;margin-top:10px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input type="number" id="customTargetInput" placeholder="e.g. 750" min="50" max="20000" style="width:140px;padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface2);color:var(--text);" />
+          <span style="font-size:13px;color:var(--muted)">KB target</span>
+        </div>
       </div>
     </div>
+
     <button class="btn" id="compressBtn" disabled>Compress PDF</button>
+
     <div class="progress-wrap" id="progressWrap">
       <div class="progress-label"><span id="progressLabel">Processing…</span><span id="progressPct">0%</span></div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     </div>
+
     <div class="result-stats" id="resultStats">
       <div class="stat"><div class="stat-val" id="statOrig">—</div><div class="stat-label">Original</div></div>
       <div class="stat"><div class="stat-val good" id="statNew">—</div><div class="stat-label">Compressed</div></div>
       <div class="stat"><div class="stat-val good" id="statSaved">—</div><div class="stat-label">Saved</div></div>
     </div>
+
+    <div id="statusBanner" style="display:none;margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;line-height:1.4;"></div>
     <div class="status error" id="statusError"><span>✕</span><span id="errorMsg"></span></div>
+
+    <!-- Focused Success CTA -->
     <a class="dl-btn" id="dlBtn">Download Compressed PDF</a>
+
+    <!-- Optional Tool Chaining and Bookmark UX -->
+    <div id="toolChainWrap" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Suggested Next Actions</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <a href="pdf-merger.html" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Merge with another PDF →</a>
+        <a href="pdf-unlock.html" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Unlock PDF →</a>
+        <button type="button" class="related-tool-chip" id="chainAnotherBtn" style="font-size:12px;padding:6px 14px;background:none;cursor:pointer;border:1px solid var(--border);color:var(--text);border-radius:var(--radius-full);">Compress another file</button>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--muted);">
+        Bookmark Suvidha for next time · <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Ctrl+D</kbd> / <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Cmd+D</kbd>
+      </div>
+    </div>
+
     <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
 </div>
 <script>
-const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),fileInfo=document.getElementById('fileInfo'),fileName=document.getElementById('fileName'),fileSize=document.getElementById('fileSize'),compressBtn=document.getElementById('compressBtn'),progressWrap=document.getElementById('progressWrap'),progressLabel=document.getElementById('progressLabel'),progressPct=document.getElementById('progressPct'),progressFill=document.getElementById('progressFill'),resultStats=document.getElementById('resultStats'),statOrig=document.getElementById('statOrig'),statNew=document.getElementById('statNew'),statSaved=document.getElementById('statSaved'),statusError=document.getElementById('statusError'),errorMsg=document.getElementById('errorMsg'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn'),qualLabel=document.getElementById('qualLabel');
-let selectedFile=null,quality=0.75;
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),fileInfo=document.getElementById('fileInfo'),fileName=document.getElementById('fileName'),fileSize=document.getElementById('fileSize'),compressBtn=document.getElementById('compressBtn'),progressWrap=document.getElementById('progressWrap'),progressLabel=document.getElementById('progressLabel'),progressPct=document.getElementById('progressPct'),progressFill=document.getElementById('progressFill'),resultStats=document.getElementById('resultStats'),statOrig=document.getElementById('statOrig'),statNew=document.getElementById('statNew'),statSaved=document.getElementById('statSaved'),statusError=document.getElementById('statusError'),errorMsg=document.getElementById('errorMsg'),statusBanner=document.getElementById('statusBanner'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn'),targetLabel=document.getElementById('targetLabel'),targetGrid=document.getElementById('targetGrid'),customTargetWrap=document.getElementById('customTargetWrap'),customTargetInput=document.getElementById('customTargetInput'),toolChainWrap=document.getElementById('toolChainWrap'),chainAnotherBtn=document.getElementById('chainAnotherBtn');
+
+let selectedFile=null;
+let targetBytes=1048576; // Default ≤ 1 MB
+
 function fmt(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(2)+'MB'}
 function setProgress(pct,label){progressFill.style.width=pct+'%';progressPct.textContent=Math.round(pct)+'%';if(label)progressLabel.textContent=label}
-function hideAll(){progressWrap.classList.remove('visible');resultStats.classList.remove('visible');statusError.classList.remove('visible');dlBtn.classList.remove('visible')}
+function hideAll(){progressWrap.classList.remove('visible');resultStats.classList.remove('visible');statusError.classList.remove('visible');statusBanner.style.display='none';dlBtn.classList.remove('visible');toolChainWrap.style.display='none'}
 function showError(m){hideAll();errorMsg.textContent=m;statusError.classList.add('visible')}
-function setFile(f){if(!f||(!f.type.includes('pdf')&&!f.name.endsWith('.pdf'))){showError('Please select a PDF file.');return}selectedFile=f;fileName.textContent=f.name;fileSize.textContent=fmt(f.size);fileInfo.classList.add('visible');compressBtn.disabled=false;hideAll();resetBtn.style.display='none'}
+
+function selectTarget(val, label){
+  document.querySelectorAll('#targetGrid .q-btn').forEach(x=>x.classList.remove('active'));
+  if(val==='custom'){
+    customTargetWrap.style.display='block';
+    targetBytes=customTargetInput.value?parseInt(customTargetInput.value)*1024:1048576;
+    targetLabel.textContent='Custom';
+  } else {
+    customTargetWrap.style.display='none';
+    targetBytes=parseInt(val);
+    targetLabel.textContent=label;
+  }
+}
+
+// Preset Buttons Event Handlers
+document.querySelectorAll('#targetGrid .q-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    b.classList.add('active');
+    selectTarget(b.dataset.target, b.dataset.label);
+  });
+});
+
+customTargetInput.addEventListener('input',()=>{
+  const val=parseInt(customTargetInput.value);
+  if(val>0){
+    targetBytes=val*1024;
+    targetLabel.textContent='≤ '+val+' KB';
+  }
+});
+
+// URL Parameter Handling for One-Click Task Integration
+const urlParams = new URLSearchParams(window.location.search);
+const targetQuery = (urlParams.get('target')||'').toLowerCase();
+if(targetQuery==='500kb'||targetQuery==='500'){
+  const b=document.querySelector('#targetGrid button[data-target="512000"]');
+  if(b){b.click();}
+} else if(targetQuery==='1mb'||targetQuery==='1024'||targetQuery==='1000'){
+  const b=document.querySelector('#targetGrid button[data-target="1048576"]');
+  if(b){b.click();}
+} else if(targetQuery==='2mb'||targetQuery==='2048'){
+  const b=document.querySelector('#targetGrid button[data-target="2097152"]');
+  if(b){b.click();}
+} else if(targetQuery==='auto'){
+  const b=document.querySelector('#targetGrid button[data-target="0"]');
+  if(b){b.click();}
+}
+
+function setFile(f){
+  if(!f||(!f.type.includes('pdf')&&!f.name.endsWith('.pdf'))){
+    showError('Please select a PDF file.');
+    return;
+  }
+  selectedFile=f;
+  fileName.textContent=f.name;
+  fileSize.textContent=fmt(f.size);
+  fileInfo.classList.add('visible');
+  compressBtn.disabled=false;
+  hideAll();
+  resetBtn.style.display='none';
+}
+
 fileInput.addEventListener('change',e=>{if(e.target.files[0])setFile(e.target.files[0])});
 dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('over')});
 dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('over'));
 dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('over');if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0])});
-document.querySelectorAll('.q-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.q-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');quality=parseFloat(b.dataset.q);qualLabel.textContent=b.dataset.label})});
-resetBtn.addEventListener('click',()=>{selectedFile=null;fileInput.value='';fileInfo.classList.remove('visible');compressBtn.disabled=true;hideAll();resetBtn.style.display='none'});
+
+function resetAll(){
+  selectedFile=null;
+  fileInput.value='';
+  fileInfo.classList.remove('visible');
+  compressBtn.disabled=true;
+  hideAll();
+  resetBtn.style.display='none';
+}
+resetBtn.addEventListener('click',resetAll);
+chainAnotherBtn.addEventListener('click',resetAll);
+
+// Iterative Optimization Loop
+async function renderAndCompress(pdfDoc, total, scale, quality){
+  const {PDFDocument}=PDFLib;
+  const outDoc=await PDFDocument.create();
+  for(let i=1;i<=total;i++){
+    setProgress(5+(i-1)/total*85,`Rendering page ${i} of ${total}…`);
+    const page=await pdfDoc.getPage(i);
+    const vp=page.getViewport({scale:scale});
+    const canvas=document.createElement('canvas');
+    canvas.width=vp.width;
+    canvas.height=vp.height;
+    const ctx=canvas.getContext('2d');
+    await page.render({canvasContext:ctx,viewport:vp}).promise;
+    const dataUrl=canvas.toDataURL('image/jpeg',quality);
+    const b64=dataUrl.split(',')[1];
+    const imgBytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+    const jpg=await outDoc.embedJpg(imgBytes);
+    const p=outDoc.addPage([vp.width/scale,vp.height/scale]);
+    p.drawImage(jpg,{x:0,y:0,width:vp.width/scale,height:vp.height/scale});
+  }
+  setProgress(95,'Saving PDF…');
+  const bytes=await outDoc.save();
+  return bytes;
+}
+
 compressBtn.addEventListener('click',async()=>{
   if(!selectedFile)return;
-  hideAll();compressBtn.disabled=true;progressWrap.classList.add('visible');setProgress(0,'Loading PDF…');
+  hideAll();
+  compressBtn.disabled=true;
+  progressWrap.classList.add('visible');
+  setProgress(0,'Opening PDF locally…');
+
   try{
     const origSize=selectedFile.size;
     const buf=await selectedFile.arrayBuffer();
-    let pdfDoc;try{pdfDoc=await pdfjsLib.getDocument({data:new Uint8Array(buf)}).promise}catch(e){showError('Cannot open this PDF.');compressBtn.disabled=false;return}
-    const total=pdfDoc.numPages;
-    const {PDFDocument}=PDFLib;
-    const outDoc=await PDFDocument.create();
-    for(let i=1;i<=total;i++){
-      setProgress(5+(i-1)/total*85,`Rendering page ${i} of ${total}…`);
-      const page=await pdfDoc.getPage(i);
-      const vp=page.getViewport({scale:1.5});
-      const canvas=document.createElement('canvas');
-      canvas.width=vp.width;canvas.height=vp.height;
-      const ctx=canvas.getContext('2d');
-      await page.render({canvasContext:ctx,viewport:vp}).promise;
-      const dataUrl=canvas.toDataURL('image/jpeg',quality);
-      const b64=dataUrl.split(',')[1];
-      const imgBytes=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
-      const jpg=await outDoc.embedJpg(imgBytes);
-      const p=outDoc.addPage([vp.width/1.5,vp.height/1.5]);
-      p.drawImage(jpg,{x:0,y:0,width:vp.width/1.5,height:vp.height/1.5});
+    let pdfDoc;
+    try{
+      pdfDoc=await pdfjsLib.getDocument({data:new Uint8Array(buf)}).promise;
+    }catch(e){
+      showError('Cannot open this PDF (it may be encrypted or corrupted).');
+      compressBtn.disabled=false;
+      return;
     }
-    setProgress(97,'Saving…');
-    const bytes=await outDoc.save();
+
+    const total=pdfDoc.numPages;
+    let finalBytes=null;
+    let reachedTarget=false;
+
+    if(targetBytes<=0){
+      // Auto balanced
+      finalBytes=await renderAndCompress(pdfDoc, total, 1.25, 0.72);
+    } else {
+      // Iterative passes toward targetBytes
+      const attempts=[
+        {scale:1.3, q:0.75},
+        {scale:1.05, q:0.62},
+        {scale:0.85, q:0.48},
+        {scale:0.70, q:0.35}
+      ];
+
+      for(let step=0; step<attempts.length; step++){
+        setProgress(3, `Pass ${step+1}/${attempts.length}: Optimizing for ${fmt(targetBytes)}…`);
+        const {scale, q}=attempts[step];
+        finalBytes=await renderAndCompress(pdfDoc, total, scale, q);
+        if(finalBytes.length<=targetBytes){
+          reachedTarget=true;
+          break;
+        }
+      }
+    }
+
     setProgress(100,'Done!');
-    const newSize=bytes.length;
+    const newSize=finalBytes.length;
     const saved=Math.max(0,origSize-newSize);
     const pct=origSize>0?Math.round(saved/origSize*100):0;
-    statOrig.textContent=fmt(origSize);statNew.textContent=fmt(newSize);statSaved.textContent=pct+'%';
-    progressWrap.classList.remove('visible');resultStats.classList.add('visible');
-    const blob=new Blob([bytes],{type:'application/pdf'});
+    statOrig.textContent=fmt(origSize);
+    statNew.textContent=fmt(newSize);
+    statSaved.textContent=pct+'%';
+
+    progressWrap.classList.remove('visible');
+    resultStats.classList.add('visible');
+
+    // Status Banner with honest feedback
+    if(targetBytes>0){
+      statusBanner.style.display='block';
+      if(newSize<=targetBytes){
+        statusBanner.style.background='var(--surface2)';
+        statusBanner.style.border='1px solid var(--success)';
+        statusBanner.style.color='var(--text)';
+        statusBanner.innerHTML='<strong style="color:var(--success)">✓ Target achieved</strong> — output is '+fmt(newSize)+' (under target ceiling of '+fmt(targetBytes)+').';
+      } else {
+        statusBanner.style.background='var(--surface2)';
+        statusBanner.style.border='1px solid #f59e0b';
+        statusBanner.style.color='var(--text)';
+        statusBanner.innerHTML='<strong style="color:#f59e0b">ℹ Quality limit reached</strong> — could not reach '+fmt(targetBytes)+' without severe degradation. Compressed to '+fmt(newSize)+' instead.';
+      }
+    }
+
+    const blob=new Blob([finalBytes],{type:'application/pdf'});
     dlBtn.href=URL.createObjectURL(blob);
     dlBtn.download=selectedFile.name.replace(/\.pdf$/i,'')+'_compressed.pdf';
-    dlBtn.classList.add('visible');resetBtn.style.display='block';compressBtn.disabled=false;
-  }catch(e){showError('Error: '+(e.message||'Unknown'));compressBtn.disabled=false}
+    dlBtn.classList.add('visible');
+    toolChainWrap.style.display='block';
+    resetBtn.style.display='block';
+    compressBtn.disabled=false;
+  }catch(e){
+    showError('Error: '+(e.message||'Unknown compression error'));
+    compressBtn.disabled=false;
+  }
 });
 </script>
 </body>

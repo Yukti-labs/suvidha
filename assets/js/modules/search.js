@@ -11,18 +11,127 @@ export function flattenTools() {
   })));
 }
 
+const INTENT_RULES = [
+  {
+    patterns: ['make pdf smaller', 'pdf smaller', 'shrink pdf', 'pdf 1mb', 'compress pdf', 'reduce pdf', 'pdf under 1mb', 'small pdf', 'pdf kb', 'compress'],
+    toolName: 'PDF Compressor',
+    boost: 120
+  },
+  {
+    patterns: ['reduce image size', 'photo 20kb', 'photo 50kb', 'photo 100kb', 'image 100kb', 'photo under 100kb', 'shrink photo', 'passport photo', 'signature', 'compress image', 'make image smaller', 'photo size', 'compress photo'],
+    toolName: 'Image Compressor',
+    boost: 120
+  },
+  {
+    patterns: ['make these photos one pdf', 'photos to pdf', 'images to pdf', 'convert photo to pdf', 'jpg to pdf', 'png to pdf', 'combine images to pdf', 'send photos as pdf'],
+    toolName: 'Image to PDF',
+    boost: 120
+  },
+  {
+    patterns: ['loan monthly payment', 'calculate emi', 'home loan', 'car loan', 'loan emi', 'monthly installment', 'calculate loan', 'emi'],
+    toolName: 'EMI Calculator',
+    boost: 120
+  },
+  {
+    patterns: ['make json readable', 'json beautify', 'json prettify', 'format json', 'clean json', 'indent json', 'json'],
+    toolName: 'JSON Formatter',
+    boost: 120
+  },
+  {
+    patterns: ['count words', 'character count', 'word count', 'reading time', 'article length'],
+    toolName: 'Word Counter',
+    boost: 120
+  },
+  {
+    patterns: ['create a qr', 'qr code', 'upi qr', 'generate qr', 'make qr', 'wifi qr', 'qr'],
+    toolName: 'QR Code Generator',
+    boost: 120
+  },
+  {
+    patterns: ['build my resume', 'make resume', 'create cv', 'biodata', 'curriculum vitae', 'resume'],
+    toolName: 'Resume Builder',
+    boost: 120
+  },
+  {
+    patterns: ['merge pdf', 'combine pdf', 'join pdf', 'combine documents'],
+    toolName: 'PDF Merger',
+    boost: 120
+  },
+  {
+    patterns: ['unlock pdf', 'remove pdf password', 'decrypt pdf'],
+    toolName: 'PDF Unlocker',
+    boost: 120
+  },
+  {
+    patterns: ['calculate gst', 'gst tax', 'reverse gst', 'cgst sgst', 'gst split'],
+    toolName: 'GST Calculator',
+    boost: 120
+  },
+  {
+    patterns: ['sip calculator', 'mutual fund returns', 'compounding investment', 'sip returns'],
+    toolName: 'SIP Calculator',
+    boost: 120
+  },
+  {
+    patterns: ['generate password', 'random password', 'secure password', 'password generator'],
+    toolName: 'Password Generator',
+    boost: 120
+  }
+];
+
 export function filterTools(query) {
   const q = query.toLowerCase().trim();
   const tools = flattenTools();
   if (!q) return tools;
-  
-  return tools.filter(tool => {
-    const nameMatch = tool.name.toLowerCase().includes(q);
-    const catMatch = tool.category.toLowerCase().includes(q);
-    const descMatch = tool.shortDesc.toLowerCase().includes(q);
-    const kwMatch = tool.keywords.some(kw => kw.toLowerCase().includes(q));
-    return nameMatch || catMatch || descMatch || kwMatch;
-  });
+
+  const scored = [];
+  const words = q.split(/\s+/).filter(Boolean);
+
+  for (const tool of tools) {
+    let score = 0;
+    const nameLower = tool.name.toLowerCase();
+    const catLower = tool.category.toLowerCase();
+    const descLower = tool.shortDesc.toLowerCase();
+
+    // Exact name match
+    if (nameLower === q) score += 150;
+    else if (nameLower.startsWith(q)) score += 90;
+    else if (nameLower.includes(q)) score += 60;
+
+    // Intent rules check
+    for (const rule of INTENT_RULES) {
+      if (rule.toolName === tool.name) {
+        for (const pattern of rule.patterns) {
+          if (q === pattern || q.includes(pattern) || pattern.includes(q)) {
+            score += rule.boost;
+            break;
+          }
+        }
+      }
+    }
+
+    // Keyword matching
+    for (const kw of tool.keywords) {
+      const kwLower = kw.toLowerCase();
+      if (kwLower === q) score += 80;
+      else if (kwLower.includes(q)) score += 40;
+    }
+
+    // Word token overlaps
+    for (const w of words) {
+      if (nameLower.includes(w)) score += 25;
+      if (tool.keywords.some(k => k.toLowerCase().includes(w))) score += 15;
+      if (descLower.includes(w)) score += 10;
+      if (catLower.includes(w)) score += 10;
+    }
+
+    if (score > 0) {
+      scored.push({ tool, score });
+    }
+  }
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored.map(item => item.tool);
 }
 
 export function initCommandPalette({ homePrefix = '', pageHref } = {}) {
