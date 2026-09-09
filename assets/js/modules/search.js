@@ -58,121 +58,86 @@ export function detectTargetSize(text) {
   return null;
 }
 
-const INTENT_RULES = [
-  {
-    patterns: [
-      'make my pdf smaller than 1 mb', 'make my pdf smaller', 'make pdf smaller', 'pdf smaller',
-      'shrink pdf', 'pdf 1mb', 'make pdf under 1mb', 'pdf under 1mb', 'pdf below 500kb',
-      'pdf under 500kb', 'pdf 500kb', 'pdf small', 'make pdf small', 'reduce pdf size',
-      'reduce pdf', 'compress pdf', 'compresss pdf', 'pdf 2mb', 'small pdf'
-    ],
-    toolName: 'PDF Compressor',
-    boost: 140
-  },
-  {
-    patterns: [
-      'make my photo under 100 kb', 'make my photo under 100kb', 'photo 100kb', 'photo under 100kb',
-      'photo 50kb', 'photo below 50 kb', 'photo under 50kb', 'photo 20kb', 'photo below 20kb',
-      'reduce image size', 'image less than 100kb', 'imgae compressor', 'compress photo',
-      'photo size', 'compress image', 'make image smaller', 'passport photo', 'signature'
-    ],
-    toolName: 'Image Compressor',
-    boost: 140
-  },
-  {
-    patterns: [
-      'combine these photos into one pdf', 'combine photos into one pdf', 'combine photos to pdf',
-      'make these photos one pdf', 'many images into pdf', 'many photos and want one pdf',
-      'convert photos to pdf', 'photos to pdf', 'images to pdf', 'convert photo to pdf',
-      'jpg to pdf', 'png to pdf', 'combine images to pdf'
-    ],
-    toolName: 'Image to PDF',
-    boost: 140
-  },
-  {
-    patterns: [
-      'calculate my home loan emi', 'calculate my loan emi', 'calculate my emi',
-      'calculate home loan emi', 'home loan emi', 'monthly home loan', 'emi for 20 lakh',
-      'loan monthly payment', 'calculate emi', 'home loan', 'car loan', 'monthly installment'
-    ],
-    toolName: 'EMI Calculator',
-    boost: 140
-  },
-  {
-    patterns: [
-      'make this json readable', 'make json readable', 'beautify my json', 'beautify json',
-      'json pretty', 'json formater', 'json beautify', 'json prettify', 'format json', 'clean json', 'indent json'
-    ],
-    toolName: 'JSON Formatter',
-    boost: 140
-  },
-  {
-    patterns: [
-      'count words', 'character count', 'word count', 'reading time', 'article length'
-    ],
-    toolName: 'Word Counter',
-    boost: 140
-  },
-  {
-    patterns: [
-      'create qr for my website', 'make a qr for my website', 'create a qr code',
-      'create a qr', 'qr code', 'upi qr', 'generate qr', 'make qr', 'wifi qr'
-    ],
-    toolName: 'QR Code Generator',
-    boost: 140
-  },
-  {
-    patterns: [
-      'build my resume', 'create cv', 'create a cv', 'create cv', 'cv maker',
-      'resume for job', 'resum builder', 'make resume', 'biodata', 'curriculum vitae'
-    ],
-    toolName: 'Resume Builder',
-    boost: 140
-  },
-  {
-    patterns: [
-      'merge pdf', 'combine pdf', 'join pdf', 'combine documents'
-    ],
-    toolName: 'PDF Merger',
-    boost: 140
-  },
-  {
-    patterns: [
-      'unlock pdf', 'remove pdf password', 'decrypt pdf', 'unprotect pdf'
-    ],
-    toolName: 'PDF Unlocker',
-    boost: 140
-  },
-  {
-    patterns: [
-      'calculate gst', 'gst tax', 'reverse gst', 'cgst sgst', 'gst split'
-    ],
-    toolName: 'GST Calculator',
-    boost: 140
-  },
-  {
-    patterns: [
-      'sip calculator', 'mutual fund returns', 'compounding investment', 'sip returns'
-    ],
-    toolName: 'SIP Calculator',
-    boost: 140
-  },
-  {
-    patterns: [
-      'generate password', 'random password', 'secure password', 'password generator'
-    ],
-    toolName: 'Password Generator',
-    boost: 140
-  }
-];
+const STOP_WORDS = new Set([
+  'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'you', 'your', 'yours',
+  'he', 'him', 'his', 'she', 'her', 'it', 'its', 'they', 'them', 'their',
+  'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those',
+  'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+  'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing',
+  'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until',
+  'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between',
+  'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to',
+  'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again',
+  'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how',
+  'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some',
+  'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too',
+  'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now',
+  'need', 'want', 'please', 'help', 'make', 'get', 'give'
+]);
+
+export function analyzeIntent(text) {
+  const q = normalizeQuery(text);
+  const targetParam = detectTargetSize(q);
+
+  // Object flags
+  const hasExplicitPdf = /\b(pdf|pdfs)\b/i.test(q);
+  const hasDoc = /\b(doc|docs|document|documents|file|files)\b/i.test(q);
+  const hasImage = /\b(image|images|img|imgs|photo|photos|pic|pics|picture|pictures|jpg|jpeg|png|webp)\b/i.test(q);
+  const hasJson = /\b(json|jsons)\b/i.test(q);
+  const hasQr = /\b(qr|qr-code|qrcode|barcode)\b/i.test(q);
+  const hasResume = /\b(resume|resumes|cv|cvs|biodata|curriculum vitae)\b/i.test(q);
+  const hasEmi = /\b(emi|loan|loans|mortgage|interest|repayment|amortization)\b/i.test(q);
+  const hasGst = /\b(gst|cgst|sgst|tax|taxes)\b/i.test(q);
+  const hasSip = /\b(sip|mutual fund|compounding|investment)\b/i.test(q);
+  const hasPassword = /\b(password|passwords|passphrase)\b/i.test(q);
+  const hasWords = /\b(word count|word counter|character count|reading time|words|count words)\b/i.test(q);
+
+  // Intent / Action flags
+  const isCompression = Boolean(targetParam) || 
+    /\b(compress|compressor|compression|shrink|reduce|smaller|small|below|under|less than|kb|mb|size|downsize|optimize size)\b/i.test(q);
+  const isConvertCombine = /\b(convert|conversion|combine|join|into|to pdf|into pdf|from photos|from images)\b/i.test(q);
+  const isUnlock = /\b(unlock|unlocker|decrypt|remove password|unprotect|forgot password)\b/i.test(q);
+  const isMerge = /\b(merge|combine pdf|combine pdfs|join pdf|join pdfs|multi pdf)\b/i.test(q);
+  const isFormat = /\b(format|formatter|pretty|prettify|beautify|clean|indent|lint|validate)\b/i.test(q);
+  const isCreate = /\b(create|generate|generator|make|build|builder)\b/i.test(q);
+
+  return {
+    q,
+    targetParam,
+    hasExplicitPdf,
+    hasPdf: hasExplicitPdf,
+    hasDoc,
+    hasImage,
+    hasJson,
+    hasQr,
+    hasResume,
+    hasEmi,
+    hasGst,
+    hasSip,
+    hasPassword,
+    hasWords,
+    isCompression,
+    isConvertCombine,
+    isUnlock,
+    isMerge,
+    isFormat,
+    isCreate
+  };
+}
 
 export function scoreTools(query) {
-  const q = normalizeQuery(query);
-  const tools = flattenTools();
+  const analysis = analyzeIntent(query);
+  const { q, targetParam, hasExplicitPdf, hasDoc, hasImage, hasJson, hasQr, hasResume,
+    hasEmi, hasGst, hasSip, hasPassword, hasWords, isCompression, isConvertCombine,
+    isUnlock, isMerge, isFormat, isCreate } = analysis;
+
   if (!q) return [];
+  const tools = flattenTools();
+
+  const rawWords = q.split(/\s+/).filter(Boolean);
+  const meaningfulWords = rawWords.filter(w => w.length > 1 && !STOP_WORDS.has(w));
 
   const scored = [];
-  const words = q.split(/\s+/).filter(Boolean);
 
   for (const tool of tools) {
     let score = 0;
@@ -180,39 +145,67 @@ export function scoreTools(query) {
     const catLower = tool.category.toLowerCase();
     const descLower = tool.shortDesc.toLowerCase();
 
-    // Exact name match
-    if (nameLower === q) score += 180;
-    else if (nameLower.startsWith(q)) score += 100;
-    else if (nameLower.includes(q)) score += 70;
-
-    // Intent rules check
-    for (const rule of INTENT_RULES) {
-      if (rule.toolName === tool.name) {
-        for (const pattern of rule.patterns) {
-          if (q === pattern) {
-            score += rule.boost + 40;
-            break;
-          } else if (q.includes(pattern) || pattern.includes(q)) {
-            score += rule.boost;
-            break;
-          }
-        }
-      }
+    // Semantic Intent Matrix (Precedence: Action + Object + Parameter)
+    if (tool.name === 'PDF Compressor') {
+      if ((hasExplicitPdf || hasDoc) && isCompression && !hasImage) score += 320;
+      if (hasExplicitPdf && targetParam && !hasImage) score += 100;
+      // Penalize if query explicitly targets images without PDF
+      if (hasImage && !hasExplicitPdf) score -= 250;
+    } else if (tool.name === 'Image Compressor') {
+      if (hasImage && isCompression && !hasExplicitPdf) score += 320;
+      if (hasImage && targetParam && !hasExplicitPdf) score += 100;
+      // Penalize if query explicitly targets PDF without images
+      if (hasExplicitPdf && !hasImage) score -= 250;
+    } else if (tool.name === 'Image to PDF') {
+      // Explicit conversion/combination intent between images and pdf
+      if (hasImage && (hasExplicitPdf || isConvertCombine)) score += 350;
+      // If query is pure PDF compression with NO image intent, heavily penalize
+      if ((hasExplicitPdf || isCompression) && !hasImage) score -= 400;
+      // If query is pure image compression with NO pdf/combine intent, penalize
+      if (hasImage && isCompression && !hasExplicitPdf && !isConvertCombine) score -= 200;
+    } else if (tool.name === 'PDF Merger') {
+      if ((hasExplicitPdf || hasDoc) && isMerge && !hasImage) score += 320;
+      if (isCompression) score -= 150;
+    } else if (tool.name === 'PDF Unlocker') {
+      if ((hasExplicitPdf || hasDoc) && isUnlock) score += 320;
+      if (isCompression) score -= 150;
+    } else if (tool.name === 'EMI Calculator') {
+      if (hasEmi) score += 320;
+    } else if (tool.name === 'JSON Formatter') {
+      if (hasJson && (isFormat || !descLower.includes('csv'))) score += 320;
+    } else if (tool.name === 'QR Code Generator') {
+      if (hasQr) score += 320;
+    } else if (tool.name === 'Resume Builder') {
+      if (hasResume) score += 320;
+    } else if (tool.name === 'Word Counter') {
+      if (hasWords) score += 320;
+    } else if (tool.name === 'GST Calculator') {
+      if (hasGst) score += 320;
+    } else if (tool.name === 'SIP Calculator') {
+      if (hasSip) score += 320;
+    } else if (tool.name === 'Password Generator') {
+      if (hasPassword) score += 320;
     }
 
-    // Keyword matching
+    // Exact name match
+    if (nameLower === q) score += 200;
+    else if (nameLower.startsWith(q)) score += 120;
+    else if (nameLower.includes(q)) score += 80;
+
+    // Word token matching with whole-word regex to avoid stopword / substring pollution
+    for (const w of meaningfulWords) {
+      const wRegex = new RegExp(`\\b${w}\\b`, 'i');
+      if (wRegex.test(nameLower)) score += 35;
+      if (tool.keywords.some(k => wRegex.test(k))) score += 25;
+      if (wRegex.test(descLower)) score += 15;
+      if (wRegex.test(catLower)) score += 10;
+    }
+
+    // Direct keyword exact phrase match
     for (const kw of tool.keywords) {
       const kwLower = kw.toLowerCase();
-      if (kwLower === q) score += 90;
-      else if (kwLower.includes(q) || q.includes(kwLower)) score += 45;
-    }
-
-    // Word token overlaps
-    for (const w of words) {
-      if (nameLower.includes(w)) score += 30;
-      if (tool.keywords.some(k => k.toLowerCase().includes(w))) score += 20;
-      if (descLower.includes(w)) score += 12;
-      if (catLower.includes(w)) score += 10;
+      if (kwLower === q) score += 100;
+      else if (q.includes(kwLower) && kwLower.length > 3) score += 50;
     }
 
     if (score > 0) {
@@ -231,7 +224,9 @@ export function filterTools(query) {
 
 // "Tell Suvidha" conversational tool router (pure client-side)
 export function resolveRequirement(query) {
-  const q = normalizeQuery(query);
+  const analysis = analyzeIntent(query);
+  const { q, targetParam, hasDoc, hasExplicitPdf, hasImage, isCompression, isMerge, isUnlock } = analysis;
+
   if (!q || q.length === 0) {
     return {
       type: 'none',
@@ -239,25 +234,18 @@ export function resolveRequirement(query) {
     };
   }
 
-  // Detect any target size parameter (e.g. 1mb, 500kb, 100kb)
-  const targetParam = detectTargetSize(q);
   const scored = scoreTools(q);
 
-  if (scored.length === 0 || scored[0].score < 20) {
+  if (scored.length === 0 || scored[0].score < 25) {
     return {
       type: 'none',
       message: "I couldn't identify a tool for that request. Try an example below or browse the directory."
     };
   }
 
-  // Check for ambiguous generic requests (e.g. "change my document" or "edit document")
-  const isGenericDocument = (q.includes('document') || q.includes('file')) && 
-    !q.includes('compress') && !q.includes('small') && !q.includes('merge') && 
-    !q.includes('combine') && !q.includes('unlock') && !q.includes('password');
-
-  const isCloseRunnerUp = scored.length > 1 && 
-    (scored[0].score - scored[1].score < 18) && 
-    scored[0].score < 110;
+  // Check for ambiguous generic document requests (e.g. "I need to change my document", "document file")
+  const isGenericDocument = hasDoc && !hasExplicitPdf && !hasImage && !isCompression && !isMerge && !isUnlock;
+  const isCloseRunnerUp = scored.length > 1 && (scored[0].score - scored[1].score < 20) && scored[0].score < 150;
 
   if (isGenericDocument || isCloseRunnerUp) {
     const topMatches = scored.slice(0, 3).map(s => {
