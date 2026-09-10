@@ -942,17 +942,19 @@ import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
 
     if (pageContainer && toolHeader) {
       // 1. Breadcrumbs
-      const breadcrumbs = document.createElement('nav');
-      breadcrumbs.className = 'tool-breadcrumb';
-      breadcrumbs.setAttribute('aria-label', 'Breadcrumb');
-      breadcrumbs.innerHTML = `
-        <a href="${homeUrl}">Suvidha</a>
-        <span class="crumb-sep">/</span>
-        <a href="${isHome ? currentGroup.anchor : `${homePrefix}index.html${currentGroup.anchor}`}">${currentGroup.label}</a>
-        <span class="crumb-sep">/</span>
-        <span class="crumb-current">${currentPage.label}</span>
-      `;
-      toolHeader.insertAdjacentElement('beforebegin', breadcrumbs);
+      if (!document.querySelector('.tool-breadcrumb')) {
+        const breadcrumbs = document.createElement('nav');
+        breadcrumbs.className = 'tool-breadcrumb';
+        breadcrumbs.setAttribute('aria-label', 'Breadcrumb');
+        breadcrumbs.innerHTML = `
+          <a href="${homeUrl}">Suvidha</a>
+          <span class="crumb-sep">/</span>
+          <a href="${isHome ? currentGroup.anchor : `${homePrefix}index.html${currentGroup.anchor}`}">${currentGroup.label}</a>
+          <span class="crumb-sep">/</span>
+          <span class="crumb-current">${currentPage.label}</span>
+        `;
+        toolHeader.insertAdjacentElement('beforebegin', breadcrumbs);
+      }
 
       // 2. Verified Privacy Indicator Tag & Subtle Share Tool Action
       if (!toolHeader.querySelector('.tool-privacy-tag')) {
@@ -963,7 +965,7 @@ import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
         const privacyTag = document.createElement('div');
         privacyTag.className = 'tool-privacy-tag';
         privacyTag.style.cssText = 'margin-top:0;';
-        privacyTag.innerHTML = `${icons.shield} <span>Processed locally · Nothing leaves your device</span>`;
+        privacyTag.innerHTML = `${icons.shield} <span>Processed directly in your browser · Zero server uploads</span>`;
         metaRow.appendChild(privacyTag);
 
         const shareBtn = document.createElement('button');
