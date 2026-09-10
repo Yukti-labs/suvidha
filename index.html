@@ -63,14 +63,14 @@
   <section class="hero">
     <div class="hero-inner">
       <h1 class="hero-headline">Useful tools.<br>Without uploading your files.</h1>
-      <p class="hero-sub">Compress, convert, calculate, format and create — directly in your browser. Your files stay on your device.</p>
+      <p class="hero-sub">Tell me what you need to do, and I'll get you there quickly — without your files leaving your device.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#tools">Explore tools</a>
-        <a class="btn btn-secondary" href="#privacy">Why private?</a>
+        <a class="btn btn-primary" href="#discovery">Tell Suvidha</a>
+        <a class="btn btn-secondary" href="#popular-tools">Explore tools</a>
       </div>
       <div class="hero-privacy-statement">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        <span>Processed locally · No uploads · No account required</span>
+        <span>Processed directly in your browser · No server uploads · No account required</span>
       </div>
     </div>
   </section>
@@ -79,8 +79,8 @@
   <section class="discovery-section" id="discovery">
     <div class="discovery-container">
       <div class="discovery-head">
-        <label for="tellSuvidhaInput" class="discovery-title">Tell Suvidha what you need</label>
-        <span class="discovery-subtitle">Type your requirement in plain words — we'll match and configure the right tool locally.</span>
+        <label for="tellSuvidhaInput" class="discovery-title">What do you need to do?</label>
+        <span class="discovery-subtitle">Describe your task in plain words — we'll match and configure the right tool directly on your device.</span>
       </div>
 
       <form class="tell-suvidha-form" id="tellSuvidhaForm">
@@ -92,12 +92,12 @@
             type="text" 
             class="tell-suvidha-input" 
             id="tellSuvidhaInput" 
-            placeholder="e.g. I need to make my PDF smaller than 1 MB" 
+            placeholder="e.g. Make my PDF smaller than 1 MB, or compress a photo under 100 KB..." 
             autocomplete="off" 
             enterkeyhint="go"
-            aria-label="Tell Suvidha what you need"
+            aria-label="What do you need to do?"
           />
-          <kbd class="search-kbd" title="Press / to search">/</kbd>
+          <kbd class="search-kbd" title="Press / to focus">/</kbd>
           <button type="submit" class="tell-suvidha-btn" id="tellSuvidhaBtn" aria-label="Find tool">
             <span>Find tool</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
@@ -114,9 +114,10 @@
         <div class="task-chips" id="tellSuvidhaChips">
           <button type="button" class="task-chip" data-query="Make my PDF smaller than 1 MB">PDF under 1 MB</button>
           <button type="button" class="task-chip" data-query="Make my photo under 100 KB">Photo under 100 KB</button>
-          <button type="button" class="task-chip" data-query="Combine photos into one PDF">Photos to PDF</button>
+          <button type="button" class="task-chip" data-query="Compress photo under 50 KB">Photo under 50 KB</button>
+          <button type="button" class="task-chip" data-query="Combine photos into one PDF">Combine photos into PDF</button>
           <button type="button" class="task-chip" data-query="Calculate my home loan EMI">Calculate EMI</button>
-          <button type="button" class="task-chip" data-query="Make this JSON readable">Beautify JSON</button>
+          <button type="button" class="task-chip" data-query="Make this JSON readable">Make JSON readable</button>
           <button type="button" class="task-chip" data-query="Create a QR code">Create QR</button>
           <button type="button" class="task-chip" data-query="Build my resume">Build resume</button>
         </div>
@@ -124,7 +125,7 @@
     </div>
   </section>
 
-  <!-- Popular Tools Section (Restrained, 6 Most Useful) -->
+  <!-- Popular Tools Section (Curated 8 High-Intent Tools) -->
   <section class="section" id="popular-tools">
     <div class="section-head">
       <div class="section-eyebrow">Quick Access</div>
@@ -132,7 +133,7 @@
       <p class="section-desc">Our most frequently used utilities, fast and ready.</p>
     </div>
     <div class="tools-grid">
-      <a href="pages/pdf/pdf-compressor.html" class="tool-card" data-tool-url="pages/pdf/pdf-compressor.html">
+      <a href="/pages/pdf/pdf-compressor.html" class="tool-card" data-tool-slug="pdf-compressor">
         <div class="tool-card-head">
           <div class="tool-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
@@ -143,7 +144,7 @@
         <div class="tool-card-desc">Reduce PDF size without uploading</div>
       </a>
 
-      <a href="pages/image/image-compressor.html" class="tool-card" data-tool-url="pages/image/image-compressor.html">
+      <a href="/pages/image/image-compressor.html" class="tool-card" data-tool-slug="image-compressor">
         <div class="tool-card-head">
           <div class="tool-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V4h10"/><path d="M20 10v10H10"/><rect width="8" height="8" x="8" y="8" rx="1"/></svg>
@@ -154,7 +155,7 @@
         <div class="tool-card-desc">Shrink JPG, PNG, and WebP images locally</div>
       </a>
 
-      <a href="pages/pdf/pdf-merger.html" class="tool-card" data-tool-url="pages/pdf/pdf-merger.html">
+      <a href="/pages/pdf/pdf-merger.html" class="tool-card" data-tool-slug="pdf-merger">
         <div class="tool-card-head">
           <div class="tool-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/></svg>
@@ -165,18 +166,7 @@
         <div class="tool-card-desc">Combine multiple PDFs into one document</div>
       </a>
 
-      <a href="pages/json/json-formatter.html" class="tool-card" data-tool-url="pages/json/json-formatter.html">
-        <div class="tool-card-head">
-          <div class="tool-card-icon">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-          </div>
-          <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-        </div>
-        <div class="tool-card-name">JSON Formatter</div>
-        <div class="tool-card-desc">Beautify, validate, and minify JSON data</div>
-      </a>
-
-      <a href="pages/image/image-to-pdf.html" class="tool-card" data-tool-url="pages/image/image-to-pdf.html">
+      <a href="/pages/image/image-to-pdf.html" class="tool-card" data-tool-slug="image-to-pdf">
         <div class="tool-card-head">
           <div class="tool-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
@@ -187,7 +177,18 @@
         <div class="tool-card-desc">Convert and combine images into clean PDFs</div>
       </a>
 
-      <a href="pages/finance/emi-calculator.html" class="tool-card" data-tool-url="pages/finance/emi-calculator.html">
+      <a href="/pages/json/json-formatter.html" class="tool-card" data-tool-slug="json-formatter">
+        <div class="tool-card-head">
+          <div class="tool-card-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+          </div>
+          <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+        <div class="tool-card-name">JSON Formatter</div>
+        <div class="tool-card-desc">Beautify, validate, and minify JSON data</div>
+      </a>
+
+      <a href="/pages/finance/emi-calculator.html" class="tool-card" data-tool-slug="emi-calculator">
         <div class="tool-card-head">
           <div class="tool-card-icon">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
@@ -197,6 +198,28 @@
         <div class="tool-card-name">EMI Calculator</div>
         <div class="tool-card-desc">Calculate monthly loan repayments and interest</div>
       </a>
+
+      <a href="/pages/resume/resume-builder.html" class="tool-card" data-tool-slug="resume-builder">
+        <div class="tool-card-head">
+          <div class="tool-card-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+          </div>
+          <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+        <div class="tool-card-name">Resume Builder</div>
+        <div class="tool-card-desc">Build clean, professional resumes with live preview</div>
+      </a>
+
+      <a href="/pages/utility/qr-generator.html" class="tool-card" data-tool-slug="qr-generator">
+        <div class="tool-card-head">
+          <div class="tool-card-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+          </div>
+          <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </div>
+        <div class="tool-card-name">QR Code Generator</div>
+        <div class="tool-card-desc">Create instant QR codes for URLs, text, and UPI</div>
+      </a>
     </div>
   </section>
 
@@ -204,7 +227,7 @@
   <section class="section recent-shelf" id="recent-tools" style="display: none;">
     <div class="section-head" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
       <div>
-        <div class="section-eyebrow">History</div>
+        <div class="section-eyebrow">Workspace</div>
         <h2 class="section-title">Recently used</h2>
       </div>
       <button type="button" class="btn btn-secondary" id="clearRecentBtn" style="height: 32px; font-size: 12px; padding: 0 12px;">Clear history</button>
@@ -212,226 +235,245 @@
     <div class="tools-grid" id="recentToolsGrid"></div>
   </section>
 
-  <!-- All Tools Section (Clean Category Tabs with Progressive Disclosure) -->
+  <!-- All Tools Section (Progressive Disclosure) -->
   <section class="section" id="tools">
     <div class="section-head">
       <div class="section-eyebrow">Directory</div>
       <h2 class="section-title">All tools</h2>
-      <p class="section-desc">Browse by category. Zero clutter, instant selection.</p>
-    </div>
-
-    <!-- Category Tabs -->
-    <div class="category-tabs" role="tablist" aria-label="Tool Categories">
-      <button type="button" class="category-tab is-active" data-tab="pdf" role="tab" aria-selected="true" aria-controls="panel-pdf">
-        <span>PDF</span>
-        <span class="category-tab-count">3</span>
-      </button>
-      <button type="button" class="category-tab" data-tab="images" role="tab" aria-selected="false" aria-controls="panel-images">
-        <span>Images</span>
-        <span class="category-tab-count">2</span>
-      </button>
-      <button type="button" class="category-tab" data-tab="utilities" role="tab" aria-selected="false" aria-controls="panel-utilities">
-        <span>Utilities</span>
-        <span class="category-tab-count">4</span>
-      </button>
-      <button type="button" class="category-tab" data-tab="finance" role="tab" aria-selected="false" aria-controls="panel-finance">
-        <span>Finance</span>
-        <span class="category-tab-count">3</span>
-      </button>
-      <button type="button" class="category-tab" data-tab="developer" role="tab" aria-selected="false" aria-controls="panel-developer">
-        <span>Developer</span>
-        <span class="category-tab-count">3</span>
-      </button>
-      <button type="button" class="category-tab" data-tab="seo" role="tab" aria-selected="false" aria-controls="panel-seo">
-        <span>SEO</span>
-        <span class="category-tab-count">3</span>
-      </button>
-    </div>
-
-    <!-- Category Panels -->
-    <!-- PDF Panel -->
-    <div class="category-panel is-active" id="panel-pdf" role="tabpanel">
-      <div class="category-panel-meta">Compress, merge, and unlock documents without uploading.</div>
-      <div class="tools-grid">
-        <a href="pages/pdf/pdf-compressor.html" class="tool-card" data-tool-url="pages/pdf/pdf-compressor.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">PDF Compressor</div>
-          <div class="tool-card-desc">Reduce PDF size without uploading</div>
-        </a>
-        <a href="pages/pdf/pdf-merger.html" class="tool-card" data-tool-url="pages/pdf/pdf-merger.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">PDF Merger</div>
-          <div class="tool-card-desc">Combine multiple PDFs into one document</div>
-        </a>
-        <a href="pages/pdf/pdf-unlock.html" class="tool-card" data-tool-url="pages/pdf/pdf-unlock.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">PDF Unlocker</div>
-          <div class="tool-card-desc">Remove passwords from protected PDFs</div>
-        </a>
+      <p class="section-desc">Browse the complete collection of 18 private browser tools.</p>
+      <div class="all-tools-toggle-wrap">
+        <button type="button" class="btn btn-secondary all-tools-toggle" id="toggleAllToolsBtn" aria-expanded="false" aria-controls="allToolsContent">
+          <span class="all-tools-toggle-text">View all 18 tools</span>
+          <svg class="all-tools-toggle-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
       </div>
     </div>
 
-    <!-- Images Panel -->
-    <div class="category-panel" id="panel-images" role="tabpanel">
-      <div class="category-panel-meta">Convert and compress photos directly in canvas memory.</div>
-      <div class="tools-grid">
-        <a href="pages/image/image-compressor.html" class="tool-card" data-tool-url="pages/image/image-compressor.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V4h10"/><path d="M20 10v10H10"/><rect width="8" height="8" x="8" y="8" rx="1"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Image Compressor</div>
-          <div class="tool-card-desc">Compress JPG, PNG, and WebP images locally</div>
-        </a>
-        <a href="pages/image/image-to-pdf.html" class="tool-card" data-tool-url="pages/image/image-to-pdf.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Image to PDF</div>
-          <div class="tool-card-desc">Convert and combine images into clean PDFs</div>
-        </a>
+    <div class="all-tools-content" id="allToolsContent" style="display: none;">
+      <!-- Category Tabs -->
+      <div class="category-tabs" role="tablist" aria-label="Tool Categories">
+        <button type="button" class="category-tab is-active" data-tab="pdf" role="tab" aria-selected="true" aria-controls="panel-pdf">
+          <span>PDF</span>
+          <span class="category-tab-count">3</span>
+        </button>
+        <button type="button" class="category-tab" data-tab="images" role="tab" aria-selected="false" aria-controls="panel-images">
+          <span>Images</span>
+          <span class="category-tab-count">2</span>
+        </button>
+        <button type="button" class="category-tab" data-tab="finance" role="tab" aria-selected="false" aria-controls="panel-finance">
+          <span>Finance</span>
+          <span class="category-tab-count">3</span>
+        </button>
+        <button type="button" class="category-tab" data-tab="developer" role="tab" aria-selected="false" aria-controls="panel-developer">
+          <span>JSON / Developer</span>
+          <span class="category-tab-count">3</span>
+        </button>
+        <button type="button" class="category-tab" data-tab="seo" role="tab" aria-selected="false" aria-controls="panel-seo">
+          <span>SEO</span>
+          <span class="category-tab-count">3</span>
+        </button>
+        <button type="button" class="category-tab" data-tab="career" role="tab" aria-selected="false" aria-controls="panel-career">
+          <span>Career</span>
+          <span class="category-tab-count">1</span>
+        </button>
+        <button type="button" class="category-tab" data-tab="utilities" role="tab" aria-selected="false" aria-controls="panel-utilities">
+          <span>Utilities</span>
+          <span class="category-tab-count">3</span>
+        </button>
       </div>
-    </div>
 
-    <!-- Utilities Panel -->
-    <div class="category-panel" id="panel-utilities" role="tabpanel">
-      <div class="category-panel-meta">Fast everyday tools for productivity, validation, and credentials.</div>
-      <div class="tools-grid">
-        <a href="pages/utility/qr-generator.html" class="tool-card" data-tool-url="pages/utility/qr-generator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">QR Code Generator</div>
-          <div class="tool-card-desc">Create instant QR codes for URLs, text, and UPI</div>
-        </a>
-        <a href="pages/utility/password-generator.html" class="tool-card" data-tool-url="pages/utility/password-generator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Password Generator</div>
-          <div class="tool-card-desc">Generate strong cryptographically random passwords</div>
-        </a>
-        <a href="pages/resume/resume-builder.html" class="tool-card" data-tool-url="pages/resume/resume-builder.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Resume Builder</div>
-          <div class="tool-card-desc">Build clean, professional resumes with live preview</div>
-        </a>
-        <a href="pages/utility/word-counter.html" class="tool-card" data-tool-url="pages/utility/word-counter.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Word Counter</div>
-          <div class="tool-card-desc">Count words, characters, and reading time</div>
-        </a>
+      <!-- Category Panels -->
+      <!-- PDF Panel (3) -->
+      <div class="category-panel is-active" id="panel-pdf" role="tabpanel">
+        <div class="category-panel-meta">Compress, merge, and unlock documents without uploading.</div>
+        <div class="tools-grid">
+          <a href="/pages/pdf/pdf-compressor.html" class="tool-card" data-tool-slug="pdf-compressor">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">PDF Compressor</div>
+            <div class="tool-card-desc">Reduce PDF size without uploading</div>
+          </a>
+          <a href="/pages/pdf/pdf-merger.html" class="tool-card" data-tool-slug="pdf-merger">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">PDF Merger</div>
+            <div class="tool-card-desc">Combine multiple PDFs into one document</div>
+          </a>
+          <a href="/pages/pdf/pdf-unlock.html" class="tool-card" data-tool-slug="pdf-unlock">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">PDF Unlocker</div>
+            <div class="tool-card-desc">Remove passwords from protected PDFs</div>
+          </a>
+        </div>
       </div>
-    </div>
 
-    <!-- Finance Panel -->
-    <div class="category-panel" id="panel-finance" role="tabpanel">
-      <div class="category-panel-meta">Loan, investment, and tax calculations with clear summaries.</div>
-      <div class="tools-grid">
-        <a href="pages/finance/emi-calculator.html" class="tool-card" data-tool-url="pages/finance/emi-calculator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">EMI Calculator</div>
-          <div class="tool-card-desc">Calculate monthly loan repayments and interest</div>
-        </a>
-        <a href="pages/finance/gst-calculator.html" class="tool-card" data-tool-url="pages/finance/gst-calculator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 6v12"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">GST Calculator</div>
-          <div class="tool-card-desc">Add or remove GST with instant CGST and SGST splits</div>
-        </a>
-        <a href="pages/finance/sip-calculator.html" class="tool-card" data-tool-url="pages/finance/sip-calculator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">SIP Calculator</div>
-          <div class="tool-card-desc">Project mutual fund growth and compounding wealth</div>
-        </a>
+      <!-- Images Panel (2) -->
+      <div class="category-panel" id="panel-images" role="tabpanel">
+        <div class="category-panel-meta">Convert and compress photos directly in canvas memory.</div>
+        <div class="tools-grid">
+          <a href="/pages/image/image-compressor.html" class="tool-card" data-tool-slug="image-compressor">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V4h10"/><path d="M20 10v10H10"/><rect width="8" height="8" x="8" y="8" rx="1"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Image Compressor</div>
+            <div class="tool-card-desc">Compress JPG, PNG, and WebP images locally</div>
+          </a>
+          <a href="/pages/image/image-to-pdf.html" class="tool-card" data-tool-slug="image-to-pdf">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Image to PDF</div>
+            <div class="tool-card-desc">Convert and combine images into clean PDFs</div>
+          </a>
+        </div>
       </div>
-    </div>
 
-    <!-- Developer Panel -->
-    <div class="category-panel" id="panel-developer" role="tabpanel">
-      <div class="category-panel-meta">Format, validate, and convert JSON and structured data.</div>
-      <div class="tools-grid">
-        <a href="pages/json/json-formatter.html" class="tool-card" data-tool-url="pages/json/json-formatter.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">JSON Formatter</div>
-          <div class="tool-card-desc">Beautify, validate, and minify JSON data</div>
-        </a>
-        <a href="pages/json/json-validator.html" class="tool-card" data-tool-url="pages/json/json-validator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">JSON Validator</div>
-          <div class="tool-card-desc">Validate JSON syntax with line and error markers</div>
-        </a>
-        <a href="pages/json/json-to-csv.html" class="tool-card" data-tool-url="pages/json/json-to-csv.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">JSON to CSV</div>
-          <div class="tool-card-desc">Convert nested JSON arrays into tabular CSV format</div>
-        </a>
+      <!-- Finance Panel (3) -->
+      <div class="category-panel" id="panel-finance" role="tabpanel">
+        <div class="category-panel-meta">Loan, investment, and tax calculations with clear summaries.</div>
+        <div class="tools-grid">
+          <a href="/pages/finance/emi-calculator.html" class="tool-card" data-tool-slug="emi-calculator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">EMI Calculator</div>
+            <div class="tool-card-desc">Calculate monthly loan repayments and interest</div>
+          </a>
+          <a href="/pages/finance/gst-calculator.html" class="tool-card" data-tool-slug="gst-calculator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 6v12"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">GST Calculator</div>
+            <div class="tool-card-desc">Add or remove GST with instant CGST and SGST splits</div>
+          </a>
+          <a href="/pages/finance/sip-calculator.html" class="tool-card" data-tool-slug="sip-calculator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">SIP Calculator</div>
+            <div class="tool-card-desc">Project mutual fund growth and compounding wealth</div>
+          </a>
+        </div>
       </div>
-    </div>
 
-    <!-- SEO Panel -->
-    <div class="category-panel" id="panel-seo" role="tabpanel">
-      <div class="category-panel-meta">Metadata, sitemaps, and keyword density for websites.</div>
-      <div class="tools-grid">
-        <a href="pages/seo/meta-tag-generator.html" class="tool-card" data-tool-url="pages/seo/meta-tag-generator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Meta Tag Generator</div>
-          <div class="tool-card-desc">Generate Open Graph, Twitter, and SEO meta tags</div>
-        </a>
-        <a href="pages/seo/sitemap-generator.html" class="tool-card" data-tool-url="pages/seo/sitemap-generator.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Sitemap Generator</div>
-          <div class="tool-card-desc">Build clean XML sitemaps from URL lists</div>
-        </a>
-        <a href="pages/seo/keyword-analyzer.html" class="tool-card" data-tool-url="pages/seo/keyword-analyzer.html">
-          <div class="tool-card-head">
-            <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div>
-            <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
-          </div>
-          <div class="tool-card-name">Keyword Analyzer</div>
-          <div class="tool-card-desc">Analyze keyword frequency and content density</div>
-        </a>
+      <!-- JSON / Developer Panel (3) -->
+      <div class="category-panel" id="panel-developer" role="tabpanel">
+        <div class="category-panel-meta">Format, validate, and convert JSON and structured data.</div>
+        <div class="tools-grid">
+          <a href="/pages/json/json-formatter.html" class="tool-card" data-tool-slug="json-formatter">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">JSON Formatter</div>
+            <div class="tool-card-desc">Beautify, validate, and minify JSON data</div>
+          </a>
+          <a href="/pages/json/json-validator.html" class="tool-card" data-tool-slug="json-validator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">JSON Validator</div>
+            <div class="tool-card-desc">Validate JSON syntax with line and error markers</div>
+          </a>
+          <a href="/pages/json/json-to-csv.html" class="tool-card" data-tool-slug="json-to-csv">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">JSON to CSV</div>
+            <div class="tool-card-desc">Convert nested JSON arrays into tabular CSV format</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- SEO Panel (3) -->
+      <div class="category-panel" id="panel-seo" role="tabpanel">
+        <div class="category-panel-meta">Metadata, sitemaps, and keyword density for websites.</div>
+        <div class="tools-grid">
+          <a href="/pages/seo/meta-tag-generator.html" class="tool-card" data-tool-slug="meta-tag-generator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Meta Tag Generator</div>
+            <div class="tool-card-desc">Generate Open Graph, Twitter, and SEO meta tags</div>
+          </a>
+          <a href="/pages/seo/sitemap-generator.html" class="tool-card" data-tool-slug="sitemap-generator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Sitemap Generator</div>
+            <div class="tool-card-desc">Build clean XML sitemaps from URL lists</div>
+          </a>
+          <a href="/pages/seo/keyword-analyzer.html" class="tool-card" data-tool-slug="keyword-analyzer">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Keyword Analyzer</div>
+            <div class="tool-card-desc">Analyze keyword frequency and content density</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Career Panel (1) -->
+      <div class="category-panel" id="panel-career" role="tabpanel">
+        <div class="category-panel-meta">Build job-ready career documents without sending personal details to servers.</div>
+        <div class="tools-grid">
+          <a href="/pages/resume/resume-builder.html" class="tool-card" data-tool-slug="resume-builder">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Resume Builder</div>
+            <div class="tool-card-desc">Build clean, professional resumes with live preview</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Utilities Panel (3) -->
+      <div class="category-panel" id="panel-utilities" role="tabpanel">
+        <div class="category-panel-meta">Fast everyday tools for productivity, validation, and credentials.</div>
+        <div class="tools-grid">
+          <a href="/pages/utility/qr-generator.html" class="tool-card" data-tool-slug="qr-generator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">QR Code Generator</div>
+            <div class="tool-card-desc">Create instant QR codes for URLs, text, and UPI</div>
+          </a>
+          <a href="/pages/utility/password-generator.html" class="tool-card" data-tool-slug="password-generator">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Password Generator</div>
+            <div class="tool-card-desc">Generate strong cryptographically random passwords</div>
+          </a>
+          <a href="/pages/utility/word-counter.html" class="tool-card" data-tool-slug="word-counter">
+            <div class="tool-card-head">
+              <div class="tool-card-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></div>
+              <span class="tool-card-arrow"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+            </div>
+            <div class="tool-card-name">Word Counter</div>
+            <div class="tool-card-desc">Count words, characters, and reading time</div>
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -481,28 +523,28 @@
         <span class="pillar-check"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
         <div class="pillar-text">
           <strong>No server upload</strong>
-          <span>Zero bytes of document content travel over any network.</span>
+          <span>Your files are processed directly in your browser and aren't uploaded to Suvidha's servers.</span>
         </div>
       </div>
       <div class="pillar">
         <span class="pillar-check"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
         <div class="pillar-text">
-          <strong>No account</strong>
+          <strong>No account required</strong>
           <span>No registration, passwords, email collection, or paywalls.</span>
         </div>
       </div>
       <div class="pillar">
         <span class="pillar-check"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
         <div class="pillar-text">
-          <strong>No file storage</strong>
-          <span>Files exist only in browser memory and are cleared on close.</span>
+          <strong>In-memory processing</strong>
+          <span>Files exist only in temporary browser memory and are cleared on close.</span>
         </div>
       </div>
       <div class="pillar">
         <span class="pillar-check"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
         <div class="pillar-text">
-          <strong>No tracking</strong>
-          <span>No analytics or telemetry inspects your files or output.</span>
+          <strong>Privacy-first analytics</strong>
+          <span>Only anonymous aggregate page-level metrics are measured. Your files and outputs are never inspected.</span>
         </div>
       </div>
     </div>
@@ -604,9 +646,10 @@
 </main>
 
 <script type="module">
-import { filterTools, resolveRequirement, recordRecentTool } from './assets/js/modules/search.js';
+import { resolveRequirement } from './assets/js/modules/search.js';
 import { getToolIcon } from './assets/js/modules/config.js';
 import { analytics } from './assets/js/modules/analytics.js';
+import { renderRecentToolsShelf, recordRecentTool } from './assets/js/modules/workspace.js';
 
 // 1. Tell Suvidha Conversational Requirement Router
 const tellInput = document.getElementById('tellSuvidhaInput');
@@ -672,8 +715,8 @@ function handleRequirement(raw) {
     `;
     tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
     tellCard.querySelector('#openRecommendedTool').addEventListener('click', () => {
-      recordRecentTool(result.tool);
-      const toolSlug = result.tool.url.split('/').pop().replace('.html', '');
+      recordRecentTool(result.tool.slug || result.tool);
+      const toolSlug = result.tool.slug || result.tool.url.split('/').pop().replace('.html', '');
       analytics.tellSuvidhaRoute(toolSlug);
     });
   } else if (result.type === 'ambiguous') {
@@ -686,7 +729,7 @@ function handleRequirement(raw) {
         </div>
         <div class="recommend-choices">
           ${result.matches.map(m => `
-            <a href="${m.url}" class="recommend-choice-item" data-tool-url="${m.url}">
+            <a href="${m.url}" class="recommend-choice-item" data-tool-slug="${m.slug || ''}" data-tool-url="${m.url}">
               <div class="recommend-choice-icon">${getToolIcon(m.iconName)}</div>
               <div class="recommend-choice-info">
                 <strong>${m.name}</strong>
@@ -701,12 +744,9 @@ function handleRequirement(raw) {
     tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
     tellCard.querySelectorAll('.recommend-choice-item').forEach(el => {
       el.addEventListener('click', () => {
-        const matched = result.matches.find(m => m.url === el.dataset.toolUrl);
-        if (matched) {
-          recordRecentTool(matched);
-          const toolSlug = matched.url.split('/').pop().replace('.html', '');
-          analytics.tellSuvidhaRoute(toolSlug);
-        }
+        const slug = el.dataset.toolSlug || el.dataset.toolUrl.split('/').pop().replace('.html', '');
+        recordRecentTool(slug);
+        analytics.tellSuvidhaRoute(slug);
       });
     });
   } else {
@@ -717,7 +757,7 @@ function handleRequirement(raw) {
           <span class="recommend-badge" style="color:var(--muted)">Need help finding a tool?</span>
           <button type="button" class="recommend-close" aria-label="Dismiss">✕</button>
         </div>
-        <p class="recommend-empty-msg">${result.message}</p>
+        <p class="recommend-empty-msg">${result.message} Try describing your task (e.g. <em>"compress photo under 100 KB"</em> or <em>"merge PDF"</em>), or explore all tools below.</p>
       </div>
     `;
     tellCard.querySelector('.recommend-close').addEventListener('click', () => { tellCard.style.display = 'none'; });
@@ -758,11 +798,34 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// 2. Category Tabs Switching & Hash Support
+// 2. Progressive Disclosure for "All tools"
+const toggleAllToolsBtn = document.getElementById('toggleAllToolsBtn');
+const allToolsContent = document.getElementById('allToolsContent');
+
+function setAllToolsVisible(visible) {
+  if (!allToolsContent || !toggleAllToolsBtn) return;
+  allToolsContent.style.display = visible ? 'block' : 'none';
+  toggleAllToolsBtn.setAttribute('aria-expanded', String(visible));
+  toggleAllToolsBtn.classList.toggle('is-expanded', visible);
+  const textEl = toggleAllToolsBtn.querySelector('.all-tools-toggle-text');
+  if (textEl) {
+    textEl.textContent = visible ? 'Hide all 18 tools' : 'View all 18 tools';
+  }
+}
+
+if (toggleAllToolsBtn && allToolsContent) {
+  toggleAllToolsBtn.addEventListener('click', () => {
+    const isExpanded = toggleAllToolsBtn.getAttribute('aria-expanded') === 'true';
+    setAllToolsVisible(!isExpanded);
+  });
+}
+
+// 3. Category Tabs Switching & Hash Support
 const tabs = document.querySelectorAll('.category-tab');
 const panels = document.querySelectorAll('.category-panel');
 
 function switchCategory(tabId) {
+  setAllToolsVisible(true);
   tabs.forEach(tab => {
     const isActive = tab.dataset.tab === tabId;
     tab.classList.toggle('is-active', isActive);
@@ -781,72 +844,52 @@ tabs.forEach(tab => {
   });
 });
 
-// Hash navigation support (e.g. #pdf-tools or #finance-tools)
+// Hash navigation support (e.g. #tools, #pdf, #images, #finance)
 function handleHashChange() {
   const hash = window.location.hash.toLowerCase();
-  if (hash.includes('pdf')) switchCategory('pdf');
-  else if (hash.includes('image')) switchCategory('images');
-  else if (hash.includes('util')) switchCategory('utilities');
-  else if (hash.includes('finan')) switchCategory('finance');
-  else if (hash.includes('dev') || hash.includes('json')) switchCategory('developer');
-  else if (hash.includes('seo')) switchCategory('seo');
+  if (hash.includes('tools')) {
+    setAllToolsVisible(true);
+  } else if (hash.includes('pdf')) {
+    switchCategory('pdf');
+  } else if (hash.includes('image')) {
+    switchCategory('images');
+  } else if (hash.includes('finan')) {
+    switchCategory('finance');
+  } else if (hash.includes('dev') || hash.includes('json')) {
+    switchCategory('developer');
+  } else if (hash.includes('seo')) {
+    switchCategory('seo');
+  } else if (hash.includes('career') || hash.includes('resume')) {
+    switchCategory('career');
+  } else if (hash.includes('util')) {
+    switchCategory('utilities');
+  }
 }
 
 window.addEventListener('hashchange', handleHashChange);
 if (window.location.hash) handleHashChange();
 
-// 3. Recently Used Shelf Management
-function renderRecentTools() {
-  const recentSection = document.getElementById('recent-tools');
-  const recentGrid = document.getElementById('recentToolsGrid');
-  if (!recentSection || !recentGrid) return;
+// 4. Recently Used Shelf Management (Single Source of Truth via workspace.js)
+const recentSection = document.getElementById('recent-tools');
+const recentGrid = document.getElementById('recentToolsGrid');
 
-  try {
-    const raw = localStorage.getItem('suvidha_recent_tools');
-    const tools = raw ? JSON.parse(raw) : [];
-
-    if (!tools || tools.length === 0) {
-      recentSection.style.display = 'none';
-      return;
-    }
-
-    recentSection.style.display = 'block';
-    recentGrid.innerHTML = tools.map(tool => `
-      <a href="${tool.url}" class="tool-card" data-tool-url="${tool.url}">
-        <div class="tool-card-head">
-          <div class="tool-card-icon">${getToolIcon(tool.iconName)}</div>
-          <span class="tool-card-arrow">→</span>
-        </div>
-        <div class="tool-card-name">${tool.name}</div>
-        <div class="tool-card-desc">${tool.shortDesc || tool.category}</div>
-      </a>
-    `).join('');
-  } catch {
-    recentSection.style.display = 'none';
-  }
+function refreshRecentTools() {
+  renderRecentToolsShelf(recentSection, recentGrid);
 }
 
-const clearRecentBtn = document.getElementById('clearRecentBtn');
-if (clearRecentBtn) {
-  clearRecentBtn.addEventListener('click', () => {
-    localStorage.removeItem('suvidha_recent_tools');
-    renderRecentTools();
-  });
-}
+refreshRecentTools();
 
-// Track clicks on all tool cards
+// Track clicks on all tool cards across homepage
 document.querySelectorAll('.tool-card').forEach(card => {
   card.addEventListener('click', () => {
-    const url = card.getAttribute('href');
-    const name = card.querySelector('.tool-card-name')?.textContent || '';
-    const desc = card.querySelector('.tool-card-desc')?.textContent || '';
-    recordRecentTool({ url, name, shortDesc: desc });
+    const slug = card.dataset.toolSlug || card.getAttribute('href')?.split('/').pop()?.replace('.html', '');
+    if (slug) {
+      recordRecentTool(slug);
+    }
   });
 });
 
-renderRecentTools();
-
-// 4. Register Service Worker
+// 5. Register Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});

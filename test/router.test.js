@@ -252,9 +252,139 @@ for (const sc of searchCases) {
   }
 }
 
+// Unified Search Parameterized & Canonical Routing Tests (Step 3 Item 8)
+const searchParamCases = [
+  { q: 'compress pdf', expectedTool: 'PDF Compressor', expectedRoute: '/pages/pdf/pdf-compressor.html' },
+  { q: 'photo below 50 kb', expectedTool: 'Image Compressor', expectedRoute: '/pages/image/image-compressor.html?target=50kb' },
+  { q: 'pdf under 1mb', expectedTool: 'PDF Compressor', expectedRoute: '/pages/pdf/pdf-compressor.html?target=1mb' }
+];
+
+for (const sc of searchParamCases) {
+  const tools = filterTools(sc.q);
+  const top = tools[0];
+  assert.ok(top, `Expected result for "${sc.q}"`);
+  assert.strictEqual(top.name, sc.expectedTool);
+  assert.strictEqual(top.url, sc.expectedRoute);
+  console.log(`✓ PASS: Unified Search "${sc.q}" -> ${top.name} (${top.url})`);
+}
+
+// 3. Suvidha 2.2: Complete 18-Tool Intent Coverage & Canonical Routing Tests
+console.log('\n=== Running 18-Tool Intent & Canonical Routing Tests ===\n');
+
+import { TOOL_ROUTES, getToolRoute, isValidToolRoute } from '../assets/js/modules/routes.js';
+import { detectTargetSize } from '../assets/js/modules/search.js';
+
+const all18ToolIntentCases = [
+  { q: 'compress this pdf below 1 mb', expectedTool: 'PDF Compressor', expectedRoute: '/pages/pdf/pdf-compressor.html?target=1mb' },
+  { q: 'merge two pdf files', expectedTool: 'PDF Merger', expectedRoute: '/pages/pdf/pdf-merger.html' },
+  { q: 'unlock password protected pdf', expectedTool: 'PDF Unlocker', expectedRoute: '/pages/pdf/pdf-unlock.html' },
+  { q: 'photo under 100 kb', expectedTool: 'Image Compressor', expectedRoute: '/pages/image/image-compressor.html?target=100kb' },
+  { q: 'image below 50kb', expectedTool: 'Image Compressor', expectedRoute: '/pages/image/image-compressor.html?target=50kb' },
+  { q: 'photo under 20 KB', expectedTool: 'Image Compressor', expectedRoute: '/pages/image/image-compressor.html?target=20kb' },
+  { q: 'make these photos into one pdf', expectedTool: 'Image to PDF', expectedRoute: '/pages/image/image-to-pdf.html' },
+  { q: 'calculate home loan emi', expectedTool: 'EMI Calculator', expectedRoute: '/pages/finance/emi-calculator.html' },
+  { q: 'calculate gst for my bill', expectedTool: 'GST Calculator', expectedRoute: '/pages/finance/gst-calculator.html' },
+  { q: 'plan mutual fund sip returns', expectedTool: 'SIP Calculator', expectedRoute: '/pages/finance/sip-calculator.html' },
+  { q: 'make my json readable', expectedTool: 'JSON Formatter', expectedRoute: '/pages/json/json-formatter.html' },
+  { q: 'check whether this json is valid', expectedTool: 'JSON Validator', expectedRoute: '/pages/json/json-validator.html' },
+  { q: 'convert json to csv spreadsheet', expectedTool: 'JSON to CSV', expectedRoute: '/pages/json/json-to-csv.html' },
+  { q: 'create meta tags for my website', expectedTool: 'Meta Tag Generator', expectedRoute: '/pages/seo/meta-tag-generator.html' },
+  { q: 'generate sitemap xml', expectedTool: 'Sitemap Generator', expectedRoute: '/pages/seo/sitemap-generator.html' },
+  { q: 'analyze keyword density in text', expectedTool: 'Keyword Analyzer', expectedRoute: '/pages/seo/keyword-analyzer.html' },
+  { q: 'create my resume for job', expectedTool: 'Resume Builder', expectedRoute: '/pages/resume/resume-builder.html' },
+  { q: 'count words in my article', expectedTool: 'Word Counter', expectedRoute: '/pages/utility/word-counter.html' },
+  { q: 'create a qr code for my website', expectedTool: 'QR Code Generator', expectedRoute: '/pages/utility/qr-generator.html' },
+  { q: 'generate a strong random password', expectedTool: 'Password Generator', expectedRoute: '/pages/utility/password-generator.html' }
+];
+
+for (const tc of all18ToolIntentCases) {
+  const res = resolveRequirement(tc.q);
+  try {
+    assert.strictEqual(res.type, 'confident', `Expected confident match for "${tc.q}"`);
+    assert.strictEqual(res.tool.name, tc.expectedTool, `Expected ${tc.expectedTool}, got ${res.tool.name}`);
+    assert.strictEqual(res.url, tc.expectedRoute, `Expected route ${tc.expectedRoute}, got ${res.url}`);
+    assert.ok(!res.url.includes('/pages/image/pages/image/'), `Route must not contain nested /pages/ paths: ${res.url}`);
+    assert.ok(res.url.startsWith('/pages/'), `Route must be root-relative: ${res.url}`);
+    console.log(`✓ PASS: Intent "${tc.q}" -> ${res.tool.name} (${res.url})`);
+  } catch (err) {
+    failedCount++;
+    console.error(`✗ FAIL: Intent "${tc.q}"`);
+    console.error(`  Error: ${err.message}`);
+  }
+}
+
+// 4. Parameter Extraction Tests
+console.log('\n=== Running Parameter Extraction Tests ===\n');
+
+const paramCases = [
+  { text: '1 mb', expectedParam: 'target=1mb', expectedLabel: '≤ 1 MB' },
+  { text: '500kb', expectedParam: 'target=500kb', expectedLabel: '≤ 500 KB' },
+  { text: '100 kb', expectedParam: 'target=100kb', expectedLabel: '≤ 100 KB' },
+  { text: '50kb', expectedParam: 'target=50kb', expectedLabel: '≤ 50 KB' },
+  { text: '20 kb', expectedParam: 'target=20kb', expectedLabel: '≤ 20 KB' },
+  { text: '2mb', expectedParam: 'target=2mb', expectedLabel: '≤ 2 MB' }
+];
+
+for (const pc of paramCases) {
+  const res = detectTargetSize(pc.text);
+  try {
+    assert.ok(res, `Expected target size match for "${pc.text}"`);
+    assert.strictEqual(res.param, pc.expectedParam, `Expected param ${pc.expectedParam}, got ${res?.param}`);
+    assert.strictEqual(res.label, pc.expectedLabel, `Expected label ${pc.expectedLabel}, got ${res?.label}`);
+    console.log(`✓ PASS: Param "${pc.text}" -> ${res.label} [${res.param}]`);
+  } catch (err) {
+    failedCount++;
+    console.error(`✗ FAIL: Param "${pc.text}"`);
+    console.error(`  Error: ${err.message}`);
+  }
+}
+
+// 5. Empty & No-Match Tests
+console.log('\n=== Running Empty & No-Match Tests ===\n');
+
+const noMatchCases = [
+  '',
+  '   ',
+  'hello',
+  'what is the weather',
+  'tell me a joke'
+];
+
+for (const nm of noMatchCases) {
+  const res = resolveRequirement(nm);
+  try {
+    assert.strictEqual(res.type, 'none', `Expected type "none" for "${nm}", got ${res.type}`);
+    console.log(`✓ PASS: No-match query "${nm}" correctly returned type: "none"`);
+  } catch (err) {
+    failedCount++;
+    console.error(`✗ FAIL: No-match query "${nm}"`);
+    console.error(`  Error: ${err.message}`);
+  }
+}
+
+// 6. Centralized Route Registry Integrity
+console.log('\n=== Running Route Registry Integrity Tests ===\n');
+
+assert.strictEqual(Object.keys(TOOL_ROUTES).length, 18, 'Registry must contain exactly 18 tools');
+
+for (const [slug, route] of Object.entries(TOOL_ROUTES)) {
+  try {
+    assert.ok(route.startsWith('/pages/'), `Route for ${slug} must start with /pages/`);
+    assert.ok(route.endsWith('.html'), `Route for ${slug} must end with .html`);
+    assert.ok(isValidToolRoute(route), `Route ${route} must be valid`);
+    assert.ok(!route.includes('/pages/image/pages/image/'), `Route must not contain duplicate paths`);
+    console.log(`✓ PASS: Canonical route verified: ${slug} -> ${route}`);
+  } catch (err) {
+    failedCount++;
+    console.error(`✗ FAIL: Route check for ${slug}`);
+    console.error(`  Error: ${err.message}`);
+  }
+}
+
 console.log(`\n========================================`);
+const totalTests = routerCases.length + searchCases.length + all18ToolIntentCases.length + paramCases.length + noMatchCases.length + Object.keys(TOOL_ROUTES).length;
 if (failedCount === 0) {
-  console.log(`All ${routerCases.length + searchCases.length} regression tests PASSED successfully!`);
+  console.log(`All ${totalTests} tests PASSED successfully!`);
   process.exit(0);
 } else {
   console.error(`${failedCount} tests FAILED.`);

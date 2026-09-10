@@ -1,9 +1,11 @@
 import { pageGroups, icons, getToolIcon } from './config.js';
+import { getToolRoute } from './routes.js';
 
 export function flattenTools() {
   return pageGroups.flatMap(group => group.pages.map(page => ({
     name: page.label,
-    url: page.path,
+    url: getToolRoute(page.file),
+    slug: page.file.replace('.html', ''),
     category: group.label,
     iconName: page.iconName,
     shortDesc: page.shortDesc || '',
@@ -34,7 +36,7 @@ export function detectTargetSize(text) {
   const t = (text || '').toLowerCase();
   
   // MB matching (e.g. 1 MB, 1mb, 2mb, 500kb as 0.5mb)
-  const mbMatch = t.match(/(\d+(?:\.\d+)?)\s*(?:mb|megabytes?)/i);
+  const mbMatch = t.match(/\b(\d+(?:\.\d+)?)\s*(?:mb|megabytes?|m\b)/i);
   if (mbMatch) {
     const val = parseFloat(mbMatch[1]);
     if (val === 1) return { param: 'target=1mb', label: '≤ 1 MB', bytes: 1048576 };
@@ -44,7 +46,7 @@ export function detectTargetSize(text) {
   }
 
   // KB matching (e.g. 500 KB, 100kb, 50 kb, 20kb)
-  const kbMatch = t.match(/(\d+)\s*(?:kb|kilobytes?)/i);
+  const kbMatch = t.match(/\b(\d+)\s*(?:kb|kilobytes?|k\b)/i);
   if (kbMatch) {
     const val = parseInt(kbMatch[1], 10);
     if (val === 500) return { param: 'target=500kb', label: '≤ 500 KB', bytes: 512000 };
@@ -79,7 +81,7 @@ export function analyzeIntent(text) {
   const q = normalizeQuery(text);
   const targetParam = detectTargetSize(q);
 
-  // Object flags
+  // Object flags (whole-word regex to avoid substring false positives)
   const hasExplicitPdf = /\b(pdf|pdfs)\b/i.test(q);
   const hasDoc = /\b(doc|docs|document|documents|file|files)\b/i.test(q);
   const hasImage = /\b(image|images|img|imgs|photo|photos|pic|pics|picture|pictures|jpg|jpeg|png|webp)\b/i.test(q);
@@ -91,6 +93,9 @@ export function analyzeIntent(text) {
   const hasSip = /\b(sip|mutual fund|compounding|investment)\b/i.test(q);
   const hasPassword = /\b(password|passwords|passphrase)\b/i.test(q);
   const hasWords = /\b(word count|word counter|character count|reading time|words|count words)\b/i.test(q);
+  const hasMetaTags = /\b(meta\s*tag|meta\s*tags|opengraph|open\s*graph|twitter\s*card|social\s*tags|seo\s*meta)\b/i.test(q);
+  const hasSitemap = /\b(sitemap|sitemaps|xml\s*sitemap|sitemap\s*generator|sitemap\s*xml)\b/i.test(q);
+  const hasKeyword = /\b(keyword|keywords|keyword\s*density|keyword\s*analyzer|keyword\s*count|keyword\s*frequency|n-?gram)\b/i.test(q);
 
   // Intent / Action flags
   const isCompression = Boolean(targetParam) || 
@@ -98,7 +103,9 @@ export function analyzeIntent(text) {
   const isConvertCombine = /\b(convert|conversion|combine|join|into|to pdf|into pdf|from photos|from images)\b/i.test(q);
   const isUnlock = /\b(unlock|unlocker|decrypt|remove password|unprotect|forgot password)\b/i.test(q);
   const isMerge = /\b(merge|combine pdf|combine pdfs|join pdf|join pdfs|multi pdf)\b/i.test(q);
-  const isFormat = /\b(format|formatter|pretty|prettify|beautify|clean|indent|lint|validate)\b/i.test(q);
+  const isValidate = /\b(validate|validator|validation|valid|syntax|lint|check\s*syntax|is\s*valid|check\s*json|check\s*whether)\b/i.test(q);
+  const isCsv = /\b(csv|table|tabular|spreadsheet|excel|to\s*csv)\b/i.test(q);
+  const isFormat = /\b(format|formatter|pretty|prettify|beautify|clean|indent|readable)\b/i.test(q);
   const isCreate = /\b(create|generate|generator|make|build|builder)\b/i.test(q);
 
   return {
@@ -116,10 +123,15 @@ export function analyzeIntent(text) {
     hasSip,
     hasPassword,
     hasWords,
+    hasMetaTags,
+    hasSitemap,
+    hasKeyword,
     isCompression,
     isConvertCombine,
     isUnlock,
     isMerge,
+    isValidate,
+    isCsv,
     isFormat,
     isCreate
   };
@@ -128,8 +140,8 @@ export function analyzeIntent(text) {
 export function scoreTools(query) {
   const analysis = analyzeIntent(query);
   const { q, targetParam, hasExplicitPdf, hasDoc, hasImage, hasJson, hasQr, hasResume,
-    hasEmi, hasGst, hasSip, hasPassword, hasWords, isCompression, isConvertCombine,
-    isUnlock, isMerge, isFormat, isCreate } = analysis;
+    hasEmi, hasGst, hasSip, hasPassword, hasWords, hasMetaTags, hasSitemap, hasKeyword,
+    isCompression, isConvertCombine, isUnlock, isMerge, isValidate, isCsv, isFormat, isCreate } = analysis;
 
   if (!q) return [];
   const tools = flattenTools();
@@ -171,20 +183,31 @@ export function scoreTools(query) {
       if (isCompression) score -= 150;
     } else if (tool.name === 'EMI Calculator') {
       if (hasEmi) score += 320;
-    } else if (tool.name === 'JSON Formatter') {
-      if (hasJson && (isFormat || !descLower.includes('csv'))) score += 320;
-    } else if (tool.name === 'QR Code Generator') {
-      if (hasQr) score += 320;
-    } else if (tool.name === 'Resume Builder') {
-      if (hasResume) score += 320;
-    } else if (tool.name === 'Word Counter') {
-      if (hasWords) score += 320;
     } else if (tool.name === 'GST Calculator') {
       if (hasGst) score += 320;
     } else if (tool.name === 'SIP Calculator') {
       if (hasSip) score += 320;
+    } else if (tool.name === 'JSON Formatter') {
+      if (hasJson && (isFormat || (!isValidate && !isCsv))) score += 320;
+      if (isValidate || isCsv) score -= 100;
+    } else if (tool.name === 'JSON Validator') {
+      if (hasJson && isValidate) score += 360;
+    } else if (tool.name === 'JSON to CSV') {
+      if (hasJson && isCsv) score += 360;
+    } else if (tool.name === 'Meta Tag Generator') {
+      if (hasMetaTags) score += 350;
+    } else if (tool.name === 'Sitemap Generator') {
+      if (hasSitemap) score += 350;
+    } else if (tool.name === 'Keyword Analyzer') {
+      if (hasKeyword) score += 350;
+    } else if (tool.name === 'Resume Builder') {
+      if (hasResume) score += 350;
+    } else if (tool.name === 'Word Counter') {
+      if (hasWords) score += 350;
+    } else if (tool.name === 'QR Code Generator') {
+      if (hasQr) score += 350;
     } else if (tool.name === 'Password Generator') {
-      if (hasPassword) score += 320;
+      if (hasPassword) score += 350;
     }
 
     // Exact name match
@@ -218,8 +241,27 @@ export function scoreTools(query) {
 }
 
 export function filterTools(query) {
+  const analysis = analyzeIntent(query);
   const scored = scoreTools(query);
-  return scored.map(item => item.tool);
+  return scored.map(item => {
+    if (analysis.targetParam) {
+      if (item.tool.slug === 'pdf-compressor' && (analysis.hasExplicitPdf || (!analysis.hasImage && analysis.targetParam.param.includes('mb')))) {
+        return {
+          ...item.tool,
+          url: `${item.tool.url}?${analysis.targetParam.param}`,
+          targetParam: analysis.targetParam
+        };
+      }
+      if (item.tool.slug === 'image-compressor' && (analysis.hasImage || (!analysis.hasExplicitPdf && analysis.targetParam.param.includes('kb')))) {
+        return {
+          ...item.tool,
+          url: `${item.tool.url}?${analysis.targetParam.param}`,
+          targetParam: analysis.targetParam
+        };
+      }
+    }
+    return item.tool;
+  });
 }
 
 // "Tell Suvidha" conversational tool router (pure client-side)
@@ -239,7 +281,7 @@ export function resolveRequirement(query) {
   if (scored.length === 0 || scored[0].score < 25) {
     return {
       type: 'none',
-      message: "I couldn't identify a tool for that request. Try an example below or browse the directory."
+      message: "I couldn't find a Suvidha tool for that yet."
     };
   }
 
@@ -250,22 +292,19 @@ export function resolveRequirement(query) {
   if (isGenericDocument || isCloseRunnerUp) {
     const topMatches = scored.slice(0, 3).map(s => {
       const tool = s.tool;
-      const url = targetParam && (tool.name.includes('Compressor')) ? `${tool.url}?${targetParam.param}` : tool.url;
+      const url = getToolRoute(tool.url, (targetParam && tool.name.includes('Compressor')) ? targetParam.param : '');
       return { ...tool, url };
     });
     return {
       type: 'ambiguous',
-      message: 'I can help with that. Which one do you mean?',
+      message: 'I think you may need one of these tools:',
       matches: topMatches
     };
   }
 
   // Confident match
   const best = scored[0].tool;
-  let finalUrl = best.url;
-  if (targetParam && best.name.includes('Compressor')) {
-    finalUrl += `?${targetParam.param}`;
-  }
+  const finalUrl = getToolRoute(best.url, (targetParam && best.name.includes('Compressor')) ? targetParam.param : '');
 
   return {
     type: 'confident',
@@ -453,21 +492,5 @@ export function initCommandPalette({ homePrefix = '', pageHref } = {}) {
   return { open, close };
 }
 
-export function recordRecentTool(tool) {
-  try {
-    const key = 'suvidha_recent_tools';
-    const raw = localStorage.getItem(key);
-    const list = raw ? JSON.parse(raw) : [];
-    const filtered = list.filter(item => item.url !== tool.url);
-    filtered.unshift({
-      name: tool.name,
-      url: tool.url,
-      category: tool.category,
-      shortDesc: tool.shortDesc || '',
-      iconName: tool.iconName || 'browser'
-    });
-    localStorage.setItem(key, JSON.stringify(filtered.slice(0, 6)));
-  } catch {
-    // Ignore storage quota or disabled errors
-  }
-}
+export { recordRecentTool, getRecentTools, clearRecentTools, getRecentToolObjects } from './workspace.js';
+

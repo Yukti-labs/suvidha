@@ -775,6 +775,45 @@ button, input, textarea, select {
   flex: 1;
 }
 
+/* All Tools Progressive Disclosure */
+.all-tools-toggle-wrap {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.all-tools-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all 0.18s ease;
+}
+
+.all-tools-toggle:hover {
+  background: var(--surface2);
+  border-color: var(--border-hover);
+}
+
+.all-tools-toggle-arrow {
+  transition: transform 0.2s ease;
+}
+
+.all-tools-toggle.is-expanded .all-tools-toggle-arrow {
+  transform: rotate(180deg);
+}
+
+.all-tools-content {
+  margin-top: 24px;
+}
+
 /* Category Navigation & Tabs */
 .category-tabs {
   display: flex;

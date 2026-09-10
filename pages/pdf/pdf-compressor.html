@@ -147,24 +147,14 @@
     <!-- Focused Success CTA -->
     <a class="dl-btn" id="dlBtn">Download Compressed PDF</a>
 
-    <!-- Optional Tool Chaining and Bookmark UX -->
-    <div id="toolChainWrap" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
-      <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Suggested Next Actions</div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-        <a href="pdf-merger.html" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Merge with another PDF →</a>
-        <a href="pdf-unlock.html" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Unlock PDF →</a>
-        <button type="button" class="related-tool-chip" id="chainAnotherBtn" style="font-size:12px;padding:6px 14px;background:none;cursor:pointer;border:1px solid var(--border);color:var(--text);border-radius:var(--radius-full);">Compress another file</button>
-      </div>
-      <div style="margin-top:14px;font-size:12px;color:var(--muted);">
-        Bookmark Suvidha for next time · <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Ctrl+D</kbd> / <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Cmd+D</kbd>
-      </div>
-    </div>
+    <!-- Tool Chaining UX -->
+    <div id="toolChainWrap" style="display:none;"></div>
 
     <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
 </div>
 <script>
-const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),fileInfo=document.getElementById('fileInfo'),fileName=document.getElementById('fileName'),fileSize=document.getElementById('fileSize'),compressBtn=document.getElementById('compressBtn'),progressWrap=document.getElementById('progressWrap'),progressLabel=document.getElementById('progressLabel'),progressPct=document.getElementById('progressPct'),progressFill=document.getElementById('progressFill'),resultStats=document.getElementById('resultStats'),statOrig=document.getElementById('statOrig'),statNew=document.getElementById('statNew'),statSaved=document.getElementById('statSaved'),statusError=document.getElementById('statusError'),errorMsg=document.getElementById('errorMsg'),statusBanner=document.getElementById('statusBanner'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn'),targetLabel=document.getElementById('targetLabel'),targetGrid=document.getElementById('targetGrid'),customTargetWrap=document.getElementById('customTargetWrap'),customTargetInput=document.getElementById('customTargetInput'),toolChainWrap=document.getElementById('toolChainWrap'),chainAnotherBtn=document.getElementById('chainAnotherBtn');
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),fileInfo=document.getElementById('fileInfo'),fileName=document.getElementById('fileName'),fileSize=document.getElementById('fileSize'),compressBtn=document.getElementById('compressBtn'),progressWrap=document.getElementById('progressWrap'),progressLabel=document.getElementById('progressLabel'),progressPct=document.getElementById('progressPct'),progressFill=document.getElementById('progressFill'),resultStats=document.getElementById('resultStats'),statOrig=document.getElementById('statOrig'),statNew=document.getElementById('statNew'),statSaved=document.getElementById('statSaved'),statusError=document.getElementById('statusError'),errorMsg=document.getElementById('errorMsg'),statusBanner=document.getElementById('statusBanner'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn'),targetLabel=document.getElementById('targetLabel'),targetGrid=document.getElementById('targetGrid'),customTargetWrap=document.getElementById('customTargetWrap'),customTargetInput=document.getElementById('customTargetInput'),toolChainWrap=document.getElementById('toolChainWrap');
 
 let selectedFile=null;
 let targetBytes=1048576; // Default ≤ 1 MB
@@ -248,7 +238,6 @@ function resetAll(){
   resetBtn.style.display='none';
 }
 resetBtn.addEventListener('click',resetAll);
-chainAnotherBtn.addEventListener('click',resetAll);
 
 // Iterative Optimization Loop
 async function renderAndCompress(pdfDoc, total, scale, quality){
@@ -353,7 +342,7 @@ compressBtn.addEventListener('click',async()=>{
     dlBtn.href=URL.createObjectURL(blob);
     dlBtn.download=selectedFile.name.replace(/\.pdf$/i,'')+'_compressed.pdf';
     dlBtn.classList.add('visible');
-    toolChainWrap.style.display='block';
+    window.suvidhaChaining?.render(toolChainWrap, { toolSlug: 'pdf-compressor', onReset: resetAll });
     resetBtn.style.display='block';
     compressBtn.disabled=false;
     window.suvidhaAnalytics?.toolCompleted('pdf-compressor');

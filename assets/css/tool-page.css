@@ -1449,6 +1449,109 @@ body:not(#top) .preview {
   color: var(--accent);
 }
 
+/* Suvidha 2.2 Task Chaining ("Continue with Suvidha") */
+.suvidha-task-chain {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: var(--radius-md, 12px);
+  background: var(--surface2, rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--border);
+  animation: fadeInChain 0.2s ease-out;
+}
+
+@keyframes fadeInChain {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.task-chain-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.task-chain-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--success, #10b981);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 3px 8px;
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.task-chain-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.task-chain-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.task-chain-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.task-chain-btn:hover {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.task-chain-btn svg {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.task-chain-btn:hover svg {
+  color: var(--accent);
+}
+
+.task-chain-arrow {
+  font-size: 13px;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+
+.task-chain-btn:hover .task-chain-arrow {
+  color: var(--accent);
+  transform: translateX(2px);
+}
+
+.task-chain-btn.is-tell {
+  border-style: dashed;
+}
+
 @media (max-width: 640px) {
   .tool-page,
   body:not(#top) .content,
