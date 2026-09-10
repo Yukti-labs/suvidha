@@ -95,6 +95,10 @@ export function openTellSuvidhaModal({ toolSlug = '', initialQuery = '' } = {}) 
   input.value = initialQuery || '';
 
   overlay.classList.add('is-open');
+  try {
+    window.dispatchEvent(new CustomEvent('suvidha:tell-modal-open', { detail: { toolSlug } }));
+  } catch (e) {}
+
   requestAnimationFrame(() => {
     input.focus();
     if (initialQuery) handleFloatingRequirement(initialQuery);
@@ -104,6 +108,9 @@ export function openTellSuvidhaModal({ toolSlug = '', initialQuery = '' } = {}) 
 export function closeTellSuvidhaModal() {
   if (modalEl) {
     modalEl.classList.remove('is-open');
+    try {
+      window.dispatchEvent(new CustomEvent('suvidha:tell-modal-close'));
+    } catch (e) {}
     if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
       try {
         previousActiveElement.focus();
