@@ -143,7 +143,10 @@
       <span id="errorMsg">Incorrect password. Please try again.</span>
     </div>
 
-    <a class="download-btn" id="downloadBtn" download="unlocked.pdf">Download Unlocked PDF</a>
+    <div class="dl-row" id="dlRow" style="display:none;margin-top:12px;">
+      <a class="download-btn" id="downloadBtn" download="unlocked.pdf" style="margin-top:0;">Download Unlocked PDF</a>
+      <button type="button" class="download-btn outline" id="shareBtn" style="margin-top:0;">Share</button>
+    </div>
     <div id="toolChainWrap" style="display:none"></div>
 
     <button class="reset-link" id="resetBtn" style="display:none">Start over with another file</button>
@@ -167,10 +170,14 @@
   const successMsg    = document.getElementById('successMsg');
   const errorMsg      = document.getElementById('errorMsg');
   const downloadBtn   = document.getElementById('downloadBtn');
+  const shareBtn      = document.getElementById('shareBtn');
+  const dlRow         = document.getElementById('dlRow');
   const resetBtn      = document.getElementById('resetBtn');
   const toolChainWrap = document.getElementById('toolChainWrap');
 
   let selectedFile = null;
+  let currentPdfBlob = null;
+  let currentPdfUrl = null;
 
   function formatSize(bytes) {
     if (bytes < 1024) return bytes + ' B';
@@ -183,6 +190,7 @@
     statusSuccess.classList.remove('visible');
     statusError.classList.remove('visible');
     downloadBtn.classList.remove('visible');
+    if (dlRow) dlRow.style.display = 'none';
     if (toolChainWrap) toolChainWrap.style.display = 'none';
   }
 
@@ -227,6 +235,8 @@
 
   resetBtn.addEventListener('click', () => {
     selectedFile = null;
+    if (currentPdfUrl) { URL.revokeObjectURL(currentPdfUrl); currentPdfUrl = null; }
+    currentPdfBlob = null;
     fileInput.value = '';
     fileInfo.classList.remove('visible');
     passwordInput.value = '';
@@ -346,15 +356,18 @@
 
       // Step 4 — build download link
       const blob = new Blob([unlockedBytes], { type: 'application/pdf' });
-      const url  = URL.createObjectURL(blob);
+      currentPdfBlob = blob;
+      if (currentPdfUrl) URL.revokeObjectURL(currentPdfUrl);
+      currentPdfUrl = URL.createObjectURL(blob);
       const base = selectedFile.name.replace(/\.pdf$/i, '');
-      downloadBtn.href     = url;
+      downloadBtn.href     = currentPdfUrl;
       downloadBtn.download = base + '_unlocked.pdf';
 
       progressWrap.classList.remove('visible');
       successMsg.textContent = `Done! ${totalPages} page${totalPages !== 1 ? 's' : ''} · ${formatSize(unlockedBytes.length)}`;
       statusSuccess.classList.add('visible');
       downloadBtn.classList.add('visible');
+      if (dlRow) dlRow.style.display = 'flex';
       window.suvidhaAnalytics?.toolCompleted('pdf-unlock');
       window.suvidhaChaining?.render(toolChainWrap, {
         toolSlug: 'pdf-unlock',
@@ -371,6 +384,15 @@
 
   downloadBtn.addEventListener('click', () => {
     window.suvidhaAnalytics?.toolDownloaded('pdf-unlock');
+  });
+
+  shareBtn.addEventListener('click', () => {
+    if (!currentPdfBlob) return;
+    window.suvidhaShare?.shareFile(currentPdfBlob, {
+      filename: downloadBtn.download || 'unlocked.pdf',
+      toolSlug: 'pdf-unlock',
+      action: 'Processed PDF'
+    });
   });
 </script>
 </body>

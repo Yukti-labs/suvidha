@@ -148,7 +148,10 @@
     <button class="btn" id="compressBtn" disabled>Compress Image</button>
 
     <!-- Focused Success CTA -->
-    <a class="dl-btn" id="dlBtn">Download Compressed Image</a>
+    <div class="dl-row" id="dlRow" style="display:none;margin-top:12px;">
+      <a class="dl-btn" id="dlBtn" style="margin-top:0;">Download Compressed Image</a>
+      <button type="button" class="dl-btn outline" id="shareBtn" style="margin-top:0;">Share</button>
+    </div>
 
     <!-- Standardized Tool Chaining -->
     <div id="toolChainWrap" style="display:none"></div>
@@ -163,11 +166,12 @@ const origSize=document.getElementById('origSize'),compSize=document.getElementB
 const targetGrid=document.getElementById('targetGrid'),targetLabel=document.getElementById('targetLabel'),customTargetWrap=document.getElementById('customTargetWrap'),customTargetInput=document.getElementById('customTargetInput');
 const statsWrap=document.getElementById('statsWrap'),statOrig=document.getElementById('statOrig'),statNew=document.getElementById('statNew'),statSaved=document.getElementById('statSaved');
 const statusError=document.getElementById('statusError'),errorMsg=document.getElementById('errorMsg'),statusBanner=document.getElementById('statusBanner');
-const compressBtn=document.getElementById('compressBtn'),dlBtn=document.getElementById('dlBtn'),resetBtn=document.getElementById('resetBtn');
+const compressBtn=document.getElementById('compressBtn'),dlBtn=document.getElementById('dlBtn'),shareBtn=document.getElementById('shareBtn'),dlRow=document.getElementById('dlRow'),resetBtn=document.getElementById('resetBtn');
 const toolChainWrap=document.getElementById('toolChainWrap'),chainAnotherBtn=document.getElementById('chainAnotherBtn');
 
 let selectedFile=null,outputFormat='image/jpeg';
 let targetBytes=102400; // Default ≤ 100 KB
+let currentBlob=null,currentBlobUrl=null,currentOrigUrl=null;
 
 function fmt(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(2)+'MB'}
 function showError(m){errorMsg.textContent=m;statusError.classList.add('visible')}
@@ -298,8 +302,10 @@ async function compressAndPreview(){
       return;
     }
 
-    const url=URL.createObjectURL(blob);
-    compImg.src=url;
+    currentBlob=blob;
+    if(currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+    currentBlobUrl=URL.createObjectURL(blob);
+    compImg.src=currentBlobUrl;
     compSize.textContent=fmt(blob.size);
 
     const saved=Math.max(0,selectedFile.size-blob.size);
@@ -325,10 +331,11 @@ async function compressAndPreview(){
       }
     }
 
-    dlBtn.href=url;
+    dlBtn.href=currentBlobUrl;
     const ext=outputFormat==='image/jpeg'?'jpg':outputFormat==='image/webp'?'webp':'png';
     dlBtn.download=selectedFile.name.replace(/\.[^.]+$/,'')+'_compressed.'+ext;
     dlBtn.classList.add('visible');
+    if(dlRow) dlRow.style.display='flex';
     window.suvidhaAnalytics?.toolCompleted('image-compressor');
     window.suvidhaChaining?.render(toolChainWrap, {
       toolSlug: 'image-compressor',
@@ -349,6 +356,15 @@ dlBtn.addEventListener('click',()=>{
   window.suvidhaAnalytics?.toolDownloaded('image-compressor');
 });
 
+shareBtn.addEventListener('click',()=>{
+  if(!currentBlob) return;
+  window.suvidhaShare?.shareFile(currentBlob, {
+    filename: dlBtn.download || 'compressed_image.jpg',
+    toolSlug: 'image-compressor',
+    action: 'Compressed Image'
+  });
+});
+
 function setFile(f){
   if(!f||!f.type.startsWith('image/')){
     showError('Please select a valid image file.');
@@ -356,12 +372,15 @@ function setFile(f){
   }
   hideError();
   selectedFile=f;
-  origImg.src=URL.createObjectURL(f);
+  if(currentOrigUrl) URL.revokeObjectURL(currentOrigUrl);
+  currentOrigUrl=URL.createObjectURL(f);
+  origImg.src=currentOrigUrl;
   origSize.textContent=fmt(f.size);
   compare.classList.add('visible');
   compressBtn.disabled=false;
   statsWrap.classList.remove('visible');
   dlBtn.classList.remove('visible');
+  if(dlRow) dlRow.style.display='none';
   toolChainWrap.style.display='none';
   resetBtn.style.display='none';
   compressAndPreview();
@@ -377,9 +396,13 @@ compressBtn.addEventListener('click',compressAndPreview);
 function resetAll(){
   selectedFile=null;
   fileInput.value='';
+  if(currentBlobUrl){ URL.revokeObjectURL(currentBlobUrl); currentBlobUrl=null; }
+  if(currentOrigUrl){ URL.revokeObjectURL(currentOrigUrl); currentOrigUrl=null; }
+  currentBlob=null;
   compare.classList.remove('visible');
   statsWrap.classList.remove('visible');
   dlBtn.classList.remove('visible');
+  if(dlRow) dlRow.style.display='none';
   toolChainWrap.style.display='none';
   statusBanner.style.display='none';
   resetBtn.style.display='none';

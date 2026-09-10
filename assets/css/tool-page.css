@@ -1241,6 +1241,28 @@ body:not(#top) .dl-row {
   display: flex !important;
   gap: 10px !important;
   width: 100% !important;
+  margin-top: 12px !important;
+}
+
+body:not(#top) .dl-row .dl-btn,
+body:not(#top) .dl-row .download-btn {
+  flex: 1 1 0 !important;
+  margin-top: 0 !important;
+  min-height: 46px !important;
+}
+
+body:not(#top) .dl-row .dl-btn.outline,
+body:not(#top) .dl-row .download-btn.outline {
+  background: var(--surface2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+body:not(#top) .dl-row .dl-btn.outline:hover,
+body:not(#top) .dl-row .download-btn.outline:hover {
+  background: var(--surface) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
 }
 
 /* PDF Unlocker Specific Components */
