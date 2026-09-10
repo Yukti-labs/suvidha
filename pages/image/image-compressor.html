@@ -150,17 +150,8 @@
     <!-- Focused Success CTA -->
     <a class="dl-btn" id="dlBtn">Download Compressed Image</a>
 
-    <!-- Optional Tool Chaining and Bookmark UX -->
-    <div id="toolChainWrap" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
-      <div style="font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Suggested Next Actions</div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;">
-        <a href="image-to-pdf.html" class="related-tool-chip" style="font-size:12px;padding:6px 14px;text-decoration:none;">Combine image into PDF →</a>
-        <button type="button" class="related-tool-chip" id="chainAnotherBtn" style="font-size:12px;padding:6px 14px;background:none;cursor:pointer;border:1px solid var(--border);color:var(--text);border-radius:var(--radius-full);">Compress another image</button>
-      </div>
-      <div style="margin-top:14px;font-size:12px;color:var(--muted);">
-        Bookmark Suvidha for next time · <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Ctrl+D</kbd> / <kbd style="background:var(--surface2);padding:2px 5px;border:1px solid var(--border);border-radius:3px;font-size:11px;">Cmd+D</kbd>
-      </div>
-    </div>
+    <!-- Standardized Tool Chaining -->
+    <div id="toolChainWrap" style="display:none"></div>
 
     <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
@@ -338,11 +329,15 @@ async function compressAndPreview(){
     const ext=outputFormat==='image/jpeg'?'jpg':outputFormat==='image/webp'?'webp':'png';
     dlBtn.download=selectedFile.name.replace(/\.[^.]+$/,'')+'_compressed.'+ext;
     dlBtn.classList.add('visible');
-    toolChainWrap.style.display='block';
+    window.suvidhaAnalytics?.toolCompleted('image-compressor');
+    window.suvidhaChaining?.render(toolChainWrap, {
+      toolSlug: 'image-compressor',
+      payload: { file: blob, name: dlBtn.download, mime: outputFormat },
+      onReset: resetAll
+    });
     resetBtn.style.display='block';
     compressBtn.disabled=false;
     compressBtn.textContent='Re-compress';
-    window.suvidhaAnalytics?.toolCompleted('image-compressor');
   }catch(e){
     showError('Compression error: '+(e.message||'Unknown error'));
     compressBtn.disabled=false;
@@ -392,7 +387,20 @@ function resetAll(){
   compressBtn.textContent='Compress Image';
 }
 resetBtn.addEventListener('click',resetAll);
-chainAnotherBtn.addEventListener('click',resetAll);
+if (chainAnotherBtn) chainAnotherBtn.addEventListener('click',resetAll);
+
+// Consume carried-over image payload if navigating from another tool
+(async () => {
+  try {
+    const payload = await window.suvidhaChaining?.consumePayload();
+    if (payload && payload.file) {
+      const file = payload.file instanceof File
+        ? payload.file
+        : new File([payload.file], payload.name || 'image.jpg', { type: payload.mime || 'image/jpeg' });
+      setFile(file);
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

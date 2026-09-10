@@ -100,9 +100,12 @@
       <div class="stat"><span>Read time</span><strong id="read">0 min</strong></div>
     </div>
   </div>
+  <div id="toolChainWrap" style="display:none; margin-top:20px;"></div>
 </div>
 <script>
 const el = document.getElementById('textInput');
+const toolChainWrap = document.getElementById('toolChainWrap');
+
 function count() {
   const text = el.value;
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
@@ -113,6 +116,21 @@ function count() {
   document.getElementById('chars').textContent = chars;
   document.getElementById('sentences').textContent = sentences;
   document.getElementById('read').textContent = minutes ? minutes + ' min' : '0 min';
+
+  if (words > 0) {
+    window.suvidhaAnalytics?.toolCompleted('word-counter');
+    window.suvidhaChaining?.render(toolChainWrap, {
+      toolSlug: 'word-counter',
+      onReset: () => {
+        el.value = '';
+        count();
+        toolChainWrap.style.display = 'none';
+        el.focus();
+      }
+    });
+  } else {
+    toolChainWrap.style.display = 'none';
+  }
 }
 el.addEventListener('input', count);
 count();

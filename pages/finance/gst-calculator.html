@@ -128,11 +128,13 @@
     <div class="breakdown-row"><span class="breakdown-label">Total GST</span><span class="breakdown-val tax" id="bTotalGst">₹1,800</span></div>
     <div class="breakdown-row" style="background:#f0f7ff"><span class="breakdown-label" style="color:var(--text)">Final Amount</span><span class="breakdown-val" style="color:var(--accent);font-size:15px" id="bFinal">₹11,800</span></div>
   </div>
+  <div id="toolChainWrap" style="margin-top:24px;"></div>
 </div>
 <script>
 let mode='add',rate=18;
 const fmtINR=n=>new Intl.NumberFormat('en-IN',{maximumFractionDigits:2}).format(Math.round(n*100)/100);
 const f=n=>'₹'+fmtINR(n);
+const toolChainWrap=document.getElementById('toolChainWrap');
 
 function calculate(){
   const amount=parseFloat(document.getElementById('amount').value)||0;
@@ -152,6 +154,22 @@ function calculate(){
   document.getElementById('bSgst').textContent=f(half);
   document.getElementById('bTotalGst').textContent=f(gst);
   document.getElementById('bFinal').textContent=f(total);
+
+  window.suvidhaChaining?.render(toolChainWrap, {
+    toolSlug: 'gst-calculator',
+    onReset: () => {
+      document.getElementById('amount').value = 10000;
+      mode = 'add';
+      document.getElementById('modeAdd').classList.add('active');
+      document.getElementById('modeRemove').classList.remove('active');
+      rate = 18;
+      document.querySelectorAll('.rate-btn').forEach(x => {
+        x.classList.toggle('active', x.dataset.r === '18');
+      });
+      document.getElementById('customRate').style.display = 'none';
+      calculate();
+    }
+  });
 }
 
 document.getElementById('amount').addEventListener('input',calculate);

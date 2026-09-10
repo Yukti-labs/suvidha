@@ -124,12 +124,14 @@
     </div>
     <div class="chart-wrap"><canvas id="myChart"></canvas></div>
   </div>
+  <div id="toolChainWrap" style="margin-top:24px;"></div>
 </div>
 <script>
 const sipEl=document.getElementById('sip'),rSip=document.getElementById('rSip'),dSip=document.getElementById('dSip');
 const rateEl=document.getElementById('rate'),rRate=document.getElementById('rRate'),dRate=document.getElementById('dRate');
 const periodEl=document.getElementById('period'),rPeriod=document.getElementById('rPeriod'),dPeriod=document.getElementById('dPeriod');
 const fmtINR=n=>new Intl.NumberFormat('en-IN',{maximumFractionDigits:0}).format(Math.round(n));
+const toolChainWrap=document.getElementById('toolChainWrap');
 let chart=null;
 
 function calculate(){
@@ -154,6 +156,22 @@ function calculate(){
   }
   const ctx=document.getElementById('myChart').getContext('2d');
   chart=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'Invested',data:inv,backgroundColor:'rgba(148,163,184,0.5)',borderRadius:4,borderSkipped:false},{label:'Corpus',data:corp,backgroundColor:'rgba(79,70,229,0.15)',borderColor:'#4f46e5',borderWidth:2,borderRadius:4,borderSkipped:false,type:'line',fill:false,tension:0.4,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{family:'Inter, sans-serif',size:11},color:'#64748b',padding:12}}},scales:{x:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{family:'Inter, sans-serif',size:10},color:'#64748b',maxTicksLimit:10}},y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{font:{family:'Inter, sans-serif',size:10},color:'#64748b',callback:v=>'₹'+fmtINR(v)}}}}});
+
+  window.suvidhaChaining?.render(toolChainWrap, {
+    toolSlug: 'sip-calculator',
+    onReset: () => {
+      sipEl.value = 5000;
+      rSip.value = 5000;
+      dSip.textContent = '₹5,000';
+      rateEl.value = 12;
+      rRate.value = 12;
+      dRate.textContent = '12.0% p.a.';
+      periodEl.value = 10;
+      rPeriod.value = 10;
+      dPeriod.textContent = '10 Years';
+      calculate();
+    }
+  });
 }
 
 function sync(input,range,display,fmt){

@@ -8,7 +8,7 @@ import { initPWA } from './modules/pwa.js';
 import { initAnalytics, analytics, buildShareUrl } from './modules/analytics.js';
 import { initFloatingTellSuvidha, openTellSuvidhaModal, closeTellSuvidhaModal } from './modules/tell-suvidha-modal.js';
 import { recordRecentTool, getRecentTools, clearRecentTools, getRecentToolObjects, renderRecentToolsShelf } from './modules/workspace.js';
-import { renderContinueWithSuvidha, getToolChain } from './modules/tool-chaining.js';
+import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainPayload, setChainTextPayload, consumeChainTextPayload } from './modules/tool-chaining.js';
 
 (() => {
   if (document.querySelector('.site-header-shell')) return;
@@ -1046,7 +1046,11 @@ import { renderContinueWithSuvidha, getToolChain } from './modules/tool-chaining
   window.suvidhaAnalytics = analytics;
   window.suvidhaChaining = {
     render: renderContinueWithSuvidha,
-    getChain: getToolChain
+    getChain: getToolChain,
+    setPayload: setChainPayload,
+    consumePayload: consumeChainPayload,
+    setTextPayload: setChainTextPayload,
+    consumeTextPayload: consumeChainTextPayload
   };
   window.suvidhaWorkspace = {
     recordRecentTool,

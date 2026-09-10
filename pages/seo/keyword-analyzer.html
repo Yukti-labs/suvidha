@@ -100,11 +100,13 @@
     </div>
   </div>
   <div class="tool-output" id="output"></div>
+  <div id="toolChainWrap" style="display:none; margin-top:20px;"></div>
 </div>
 <script>
 const textInput = document.getElementById('textInput');
 const analyzeBtn = document.getElementById('analyzeBtn');
 const outputDiv = document.getElementById('output');
+const toolChainWrap = document.getElementById('toolChainWrap');
 
 const STOP_WORDS = new Set([
   'the','and','of','to','in','is','it','you','that','he','was','for','on','are','as','with','his','they','i','at','be','this','have','from','or','one','had','by','word','but','not','what','all','were','we','when','your','can','said','there','use','an','each','which','she','do','how','their','if'
@@ -118,6 +120,7 @@ function analyze() {
   const text = textInput.value.trim();
   if (!text) {
     outputDiv.textContent = 'Paste some text first.';
+    toolChainWrap.style.display = 'none';
     return;
   }
   const tokens = tokenize(text);
@@ -149,6 +152,16 @@ function analyze() {
     }
   }
   outputDiv.innerHTML = html;
+  window.suvidhaAnalytics?.toolCompleted('keyword-analyzer');
+  window.suvidhaChaining?.render(toolChainWrap, {
+    toolSlug: 'keyword-analyzer',
+    onReset: () => {
+      textInput.value = '';
+      outputDiv.innerHTML = '';
+      toolChainWrap.style.display = 'none';
+      textInput.focus();
+    }
+  });
 }
 
 analyzeBtn.addEventListener('click', analyze);

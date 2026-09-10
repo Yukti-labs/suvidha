@@ -109,6 +109,7 @@
     </div>
   </div>
   <div id="result" class="result"></div>
+  <div id="toolChainWrap" style="display:none; margin-top:20px;"></div>
 </div>
 <script>
 const input = document.getElementById('jsonInput');
@@ -116,10 +117,28 @@ const resultDiv = document.getElementById('result');
 const formatBtn = document.getElementById('formatBtn');
 const minifyBtn = document.getElementById('minifyBtn');
 const indentSelect = document.getElementById('indentSelect');
+const toolChainWrap = document.getElementById('toolChainWrap');
 
 function getIndent() {
   const val = indentSelect.value;
   return val === 'tab' ? '\t' : Number(val);
+}
+
+function handleSuccess(msg) {
+  resultDiv.textContent = msg;
+  resultDiv.className = 'result valid';
+  window.suvidhaAnalytics?.toolCompleted('json-formatter');
+  window.suvidhaChaining?.render(toolChainWrap, {
+    toolSlug: 'json-formatter',
+    textPayload: input.value,
+    onReset: () => {
+      input.value = '';
+      resultDiv.textContent = '';
+      resultDiv.className = 'result';
+      toolChainWrap.style.display = 'none';
+      input.focus();
+    }
+  });
 }
 
 formatBtn.addEventListener('click', () => {
@@ -127,16 +146,17 @@ formatBtn.addEventListener('click', () => {
   if (!text) {
     resultDiv.textContent = 'Paste JSON first.';
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
     return;
   }
   try {
     const obj = JSON.parse(text);
     input.value = JSON.stringify(obj, null, getIndent());
-    resultDiv.textContent = 'Formatted in the editor.';
-    resultDiv.className = 'result valid';
+    handleSuccess('Formatted in the editor.');
   } catch (e) {
     resultDiv.textContent = 'Invalid JSON: ' + e.message;
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
   }
 });
 
@@ -145,18 +165,30 @@ minifyBtn.addEventListener('click', () => {
   if (!text) {
     resultDiv.textContent = 'Paste JSON first.';
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
     return;
   }
   try {
     const obj = JSON.parse(text);
     input.value = JSON.stringify(obj);
-    resultDiv.textContent = 'Minified in the editor.';
-    resultDiv.className = 'result valid';
+    handleSuccess('Minified in the editor.');
   } catch (e) {
     resultDiv.textContent = 'Invalid JSON: ' + e.message;
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
   }
 });
+
+// Consume carried-over text payload if navigating from another JSON tool
+(() => {
+  try {
+    const text = window.suvidhaChaining?.consumeTextPayload();
+    if (text) {
+      input.value = text;
+      formatBtn.click();
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

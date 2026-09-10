@@ -127,16 +127,20 @@
     </div>
     <div class="tool-actions">
       <button type="submit" class="tool-btn">Update preview</button>
+      <button type="button" class="tool-btn tool-btn-ghost" id="printBtn" style="display:none;">Print / Save PDF</button>
     </div>
   </form>
   <div class="preview" id="preview">
     <strong>Live preview</strong>
     <p class="tool-note">Fill the form to see your resume here.</p>
   </div>
+  <div id="toolChainWrap" style="display:none; margin-top:20px;"></div>
 </div>
 <script>
   const form = document.getElementById('resumeForm');
   const preview = document.getElementById('preview');
+  const printBtn = document.getElementById('printBtn');
+  const toolChainWrap = document.getElementById('toolChainWrap');
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -163,6 +167,22 @@
       <h3>Skills</h3>
       <p>${skills || 'Add skills…'}</p>
     `;
+
+    printBtn.style.display = 'inline-flex';
+    window.suvidhaAnalytics?.toolCompleted('resume-builder');
+    window.suvidhaChaining?.render(toolChainWrap, {
+      toolSlug: 'resume-builder',
+      onReset: () => {
+        form.reset();
+        preview.innerHTML = '<strong>Live preview</strong><p class="tool-note">Fill the form to see your resume here.</p>';
+        printBtn.style.display = 'none';
+        toolChainWrap.style.display = 'none';
+      }
+    });
+  });
+
+  printBtn.addEventListener('click', () => {
+    window.print();
   });
 </script>
 </body>

@@ -97,7 +97,7 @@
 
   <div class="header">
     <h1>PDF Unlocker</h1>
-    <p class="sub">Remove passwords from protected PDFs locally — your files never leave your device.</p>
+    <p class="sub">Remove passwords from protected PDFs locally. Processed directly in your browser and not uploaded to Suvidha's servers.</p>
   </div>
 
   <div class="card">
@@ -144,6 +144,7 @@
     </div>
 
     <a class="download-btn" id="downloadBtn" download="unlocked.pdf">Download Unlocked PDF</a>
+    <div id="toolChainWrap" style="display:none"></div>
 
     <button class="reset-link" id="resetBtn" style="display:none">Start over with another file</button>
   </div>
@@ -167,6 +168,7 @@
   const errorMsg      = document.getElementById('errorMsg');
   const downloadBtn   = document.getElementById('downloadBtn');
   const resetBtn      = document.getElementById('resetBtn');
+  const toolChainWrap = document.getElementById('toolChainWrap');
 
   let selectedFile = null;
 
@@ -181,6 +183,7 @@
     statusSuccess.classList.remove('visible');
     statusError.classList.remove('visible');
     downloadBtn.classList.remove('visible');
+    if (toolChainWrap) toolChainWrap.style.display = 'none';
   }
 
   function showError(msg) {
@@ -352,12 +355,22 @@
       successMsg.textContent = `Done! ${totalPages} page${totalPages !== 1 ? 's' : ''} · ${formatSize(unlockedBytes.length)}`;
       statusSuccess.classList.add('visible');
       downloadBtn.classList.add('visible');
+      window.suvidhaAnalytics?.toolCompleted('pdf-unlock');
+      window.suvidhaChaining?.render(toolChainWrap, {
+        toolSlug: 'pdf-unlock',
+        payload: { file: blob, name: downloadBtn.download, mime: 'application/pdf' },
+        onReset: () => resetBtn.click()
+      });
       resetBtn.style.display = 'block';
       unlockBtn.disabled = false;
 
     } catch (err) {
       showError('Unexpected error: ' + (err.message || 'Please try again'));
     }
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    window.suvidhaAnalytics?.toolDownloaded('pdf-unlock');
   });
 </script>
 </body>
