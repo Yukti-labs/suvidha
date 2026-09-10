@@ -128,6 +128,7 @@
     <div class="tool-actions">
       <button type="submit" class="tool-btn">Update preview</button>
       <button type="button" class="tool-btn tool-btn-ghost" id="printBtn" style="display:none;">Print / Save PDF</button>
+      <button type="button" class="tool-btn tool-btn-ghost" id="shareBtn" style="display:none;">Share</button>
     </div>
   </form>
   <div class="preview" id="preview">
@@ -140,7 +141,10 @@
   const form = document.getElementById('resumeForm');
   const preview = document.getElementById('preview');
   const printBtn = document.getElementById('printBtn');
+  const shareBtn = document.getElementById('shareBtn');
   const toolChainWrap = document.getElementById('toolChainWrap');
+
+  let currentResumeBlob = null;
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -168,14 +172,20 @@
       <p>${skills || 'Add skills…'}</p>
     `;
 
+    const resumeHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${name || 'Resume'} - Suvidha</title><style>body{font-family:system-ui,sans-serif;max-width:800px;margin:40px auto;padding:20px;line-height:1.6;}h2{margin-bottom:4px;}hr{margin:16px 0;border:0;border-top:1px solid #ccc;}</style></head><body>${preview.innerHTML}</body></html>`;
+    currentResumeBlob = new Blob([resumeHtml], { type: 'text/html;charset=utf-8;' });
+
     printBtn.style.display = 'inline-flex';
+    shareBtn.style.display = 'inline-flex';
     window.suvidhaAnalytics?.toolCompleted('resume-builder');
     window.suvidhaChaining?.render(toolChainWrap, {
       toolSlug: 'resume-builder',
       onReset: () => {
         form.reset();
         preview.innerHTML = '<strong>Live preview</strong><p class="tool-note">Fill the form to see your resume here.</p>';
+        currentResumeBlob = null;
         printBtn.style.display = 'none';
+        shareBtn.style.display = 'none';
         toolChainWrap.style.display = 'none';
       }
     });
@@ -183,6 +193,17 @@
 
   printBtn.addEventListener('click', () => {
     window.print();
+  });
+
+  shareBtn.addEventListener('click', () => {
+    if (!currentResumeBlob) return;
+    const cleanName = (document.getElementById('fullName').value.trim() || 'resume').replace(/[^a-zA-Z0-9_-]/g, '_');
+    window.suvidhaShare?.shareFile(currentResumeBlob, {
+      filename: `${cleanName}_resume.html`,
+      toolSlug: 'resume-builder',
+      action: 'Created resume',
+      mime: 'text/html'
+    });
   });
 </script>
 </body>

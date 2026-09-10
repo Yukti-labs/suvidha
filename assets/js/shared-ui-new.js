@@ -10,6 +10,7 @@ import { initFloatingTellSuvidha, openTellSuvidhaModal, closeTellSuvidhaModal } 
 import { recordRecentTool, getRecentTools, clearRecentTools, getRecentToolObjects, renderRecentToolsShelf } from './modules/workspace.js';
 import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainPayload, setChainTextPayload, consumeChainTextPayload } from './modules/tool-chaining.js';
 import { shareFile, shareText, canShareFiles, getAttributionText } from './modules/share-utils.js';
+import { isHeicFile, isValidImageFile, convertHeicToBrowserImage, prepareImageFiles } from './modules/heic-utils.js';
 
 (() => {
   if (document.querySelector('.site-header-shell')) return;
@@ -1307,6 +1308,12 @@ import { shareFile, shareText, canShareFiles, getAttributionText } from './modul
     shareText,
     canShareFiles,
     getAttributionText
+  };
+  window.suvidhaHeic = {
+    isHeicFile,
+    isValidImageFile,
+    convertHeicToBrowserImage,
+    prepareImageFiles
   };
   initAnalytics();
   initPWA({ serviceWorkerPath: `${homePrefix}sw.js` });

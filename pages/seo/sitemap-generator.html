@@ -103,6 +103,7 @@
       <button type="button" class="tool-btn" id="generateBtn">Generate sitemap</button>
       <a href="#" class="tool-btn tool-btn-ghost" id="downloadLink" download="sitemap.xml" style="display:none;">Download XML</a>
       <button type="button" class="tool-btn tool-btn-ghost" id="copyBtn" style="display:none;">Copy</button>
+      <button type="button" class="tool-btn tool-btn-ghost" id="shareBtn" style="display:none;">Share</button>
     </div>
   </div>
   <p class="tool-note">Leave the list blank to use this page URL as the only entry.</p>
@@ -116,6 +117,7 @@ const generateBtn = document.getElementById('generateBtn');
 const outputDiv = document.getElementById('output');
 const downloadLink = document.getElementById('downloadLink');
 const copyBtn = document.getElementById('copyBtn');
+const shareBtn = document.getElementById('shareBtn');
 const toolChainWrap = document.getElementById('toolChainWrap');
 
 function escapeXml(str) {
@@ -128,6 +130,7 @@ function escapeXml(str) {
 }
 
 let currentDownloadUrl = null;
+let currentXmlBlob = null;
 
 generateBtn.addEventListener('click', () => {
   const text = urlsInput.value.trim();
@@ -149,11 +152,13 @@ generateBtn.addEventListener('click', () => {
 
   outputDiv.textContent = xml;
   const blob = new Blob([xml], {type: 'application/xml;charset=utf-8;'});
+  currentXmlBlob = blob;
   if (currentDownloadUrl) URL.revokeObjectURL(currentDownloadUrl);
   currentDownloadUrl = URL.createObjectURL(blob);
   downloadLink.href = currentDownloadUrl;
   downloadLink.style.display = 'inline-flex';
   copyBtn.style.display = 'inline-flex';
+  shareBtn.style.display = 'inline-flex';
 
   window.suvidhaAnalytics?.toolCompleted('sitemap-generator');
   window.suvidhaChaining?.render(toolChainWrap, {
@@ -165,8 +170,10 @@ generateBtn.addEventListener('click', () => {
         URL.revokeObjectURL(currentDownloadUrl);
         currentDownloadUrl = null;
       }
+      currentXmlBlob = null;
       downloadLink.style.display = 'none';
       copyBtn.style.display = 'none';
+      shareBtn.style.display = 'none';
       toolChainWrap.style.display = 'none';
       urlsInput.focus();
     }
@@ -181,6 +188,16 @@ copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(outputDiv.textContent).then(() => {
     copyBtn.textContent = 'Copied';
     setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+  });
+});
+
+shareBtn.addEventListener('click', () => {
+  if (!currentXmlBlob) return;
+  window.suvidhaShare?.shareFile(currentXmlBlob, {
+    filename: 'sitemap.xml',
+    toolSlug: 'sitemap-generator',
+    action: 'Created sitemap',
+    mime: 'application/xml'
   });
 });
 </script>

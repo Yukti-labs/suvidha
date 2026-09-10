@@ -98,6 +98,7 @@
     <div class="tool-actions">
       <button type="button" class="tool-btn" id="convertBtn">Convert to CSV</button>
       <a href="#" class="tool-btn tool-btn-ghost" id="downloadLink" download="data.csv" style="display:none;">Download CSV</a>
+      <button type="button" class="tool-btn tool-btn-ghost" id="shareBtn" style="display:none;">Share</button>
     </div>
   </div>
   <div id="result" class="result"></div>
@@ -108,9 +109,11 @@ const input = document.getElementById('jsonInput');
 const resultDiv = document.getElementById('result');
 const convertBtn = document.getElementById('convertBtn');
 const downloadLink = document.getElementById('downloadLink');
+const shareBtn = document.getElementById('shareBtn');
 const toolChainWrap = document.getElementById('toolChainWrap');
 
 let currentDownloadUrl = null;
+let currentCsvBlob = null;
 
 convertBtn.addEventListener('click', () => {
   const text = input.value.trim();
@@ -175,11 +178,13 @@ convertBtn.addEventListener('click', () => {
     resultDiv.innerHTML = '<strong>CSV preview</strong><pre>' + csvRows.slice(0,6).join('\n') + '</pre>';
     resultDiv.className = 'result valid';
     const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+    currentCsvBlob = blob;
     if (currentDownloadUrl) URL.revokeObjectURL(currentDownloadUrl);
     currentDownloadUrl = URL.createObjectURL(blob);
     downloadLink.href = currentDownloadUrl;
     downloadLink.style.display = 'inline-flex';
     downloadLink.textContent = 'Download CSV';
+    shareBtn.style.display = 'inline-flex';
     window.suvidhaAnalytics?.toolCompleted('json-to-csv');
     window.suvidhaChaining?.render(toolChainWrap, {
       toolSlug: 'json-to-csv',
@@ -192,7 +197,9 @@ convertBtn.addEventListener('click', () => {
           URL.revokeObjectURL(currentDownloadUrl);
           currentDownloadUrl = null;
         }
+        currentCsvBlob = null;
         downloadLink.style.display = 'none';
+        shareBtn.style.display = 'none';
         toolChainWrap.style.display = 'none';
         input.focus();
       }
@@ -204,13 +211,25 @@ convertBtn.addEventListener('click', () => {
       URL.revokeObjectURL(currentDownloadUrl);
       currentDownloadUrl = null;
     }
+    currentCsvBlob = null;
     downloadLink.style.display = 'none';
+    shareBtn.style.display = 'none';
     toolChainWrap.style.display = 'none';
   }
 });
 
 downloadLink.addEventListener('click', () => {
   window.suvidhaAnalytics?.toolDownloaded('json-to-csv');
+});
+
+shareBtn.addEventListener('click', () => {
+  if (!currentCsvBlob) return;
+  window.suvidhaShare?.shareFile(currentCsvBlob, {
+    filename: 'data.csv',
+    toolSlug: 'json-to-csv',
+    action: 'Converted to CSV',
+    mime: 'text/csv'
+  });
 });
 
 // Consume carried-over text payload if navigating from another JSON tool
