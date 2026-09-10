@@ -1552,11 +1552,21 @@ body:not(#top) .preview {
   border-style: dashed;
 }
 
+@media (max-width: 768px) {
+  .tool-page,
+  body:not(#top) .content,
+  body:not(#top) .container,
+  body:not(#top) main {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
 @media (max-width: 640px) {
   .tool-page,
   body:not(#top) .content,
   body:not(#top) .container {
     padding: 16px 14px 84px !important;
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
   }
   body:not(#top) .card,
   .tool-panel {

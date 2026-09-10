@@ -849,6 +849,11 @@ function handleHashChange() {
   const hash = window.location.hash.toLowerCase();
   if (hash.includes('tools')) {
     setAllToolsVisible(true);
+  } else if (hash.includes('recent')) {
+    const recentEl = document.getElementById('recent-tools');
+    if (recentEl && recentEl.style.display !== 'none') {
+      recentEl.scrollIntoView({ behavior: 'smooth' });
+    }
   } else if (hash.includes('pdf')) {
     switchCategory('pdf');
   } else if (hash.includes('image')) {

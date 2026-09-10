@@ -297,21 +297,118 @@ import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainP
       color: var(--accent);
       font-size: 14px;
     }
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       .floating-tell-btn {
-        bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-        right: 18px;
-        width: 46px;
-        height: 46px;
-        padding: 0;
+        display: none !important;
+      }
+    }
+
+    /* Mobile Bottom Navigation */
+    .mobile-bottom-nav {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .mobile-bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 995;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        height: calc(62px + env(safe-area-inset-bottom, 0px));
+        padding: 5px 8px calc(5px + env(safe-area-inset-bottom, 0px));
+        background: color-mix(in srgb, var(--surface) 92%, transparent);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid var(--border);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12);
+      }
+      .mobile-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
-        border-radius: 50%;
+        gap: 3px;
+        flex: 1;
+        min-width: 0;
+        min-height: 48px;
+        padding: 4px 2px;
+        color: var(--muted);
+        text-decoration: none;
+        background: transparent;
+        border: none;
+        border-radius: var(--radius-sm, 8px);
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 1.2;
+        transition: color 0.15s ease, background-color 0.15s ease;
+        -webkit-tap-highlight-color: transparent;
       }
-      .floating-tell-label {
-        display: none;
+      .mobile-nav-item:hover,
+      .mobile-nav-item:focus-visible {
+        color: var(--text);
       }
-      .floating-tell-icon {
-        font-size: 18px;
+      .mobile-nav-item:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: -2px;
+      }
+      .mobile-nav-item.is-active {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .mobile-nav-item.is-active .mobile-nav-icon {
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        color: var(--accent);
+      }
+      .mobile-nav-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 24px;
+        border-radius: 12px;
+        color: currentColor;
+        transition: all 0.15s ease;
+      }
+      .mobile-nav-icon svg {
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.75;
+      }
+      .mobile-nav-label {
+        font-size: 11px;
+        letter-spacing: -0.01em;
+      }
+
+      /* Tell Suvidha Icon-First Prominence */
+      .mobile-nav-tell {
+        color: var(--text);
+      }
+      .mobile-nav-tell-icon,
+      .mobile-nav-tell .mobile-nav-icon {
+        color: var(--accent);
+        width: 36px;
+        height: 26px;
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+      }
+      .mobile-nav-tell .mobile-nav-icon svg {
+        width: 22px;
+        height: 22px;
+        stroke-width: 2;
+      }
+      .mobile-nav-tell.is-active .mobile-nav-icon {
+        background: color-mix(in srgb, var(--accent) 24%, transparent);
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .mobile-nav-tell .mobile-nav-label {
+        font-weight: 600;
+        color: var(--accent);
       }
     }
 
@@ -850,6 +947,7 @@ import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainP
       .site-footer {
         flex-direction: column;
         align-items: flex-start;
+        padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
       }
     }
   `;
@@ -935,6 +1033,32 @@ import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainP
       </footer>
     `;
     document.body.insertAdjacentHTML('beforeend', footerHtml);
+  }
+
+  // Mobile Bottom Navigation HTML
+  if (!document.querySelector('.mobile-bottom-nav')) {
+    const recentUrl = isHome ? '#recent-tools' : `${homePrefix}index.html#recent-tools`;
+    const bottomNavHtml = `
+      <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+        <a href="${homeUrl}" class="mobile-nav-item" data-nav-target="home" aria-label="Home">
+          <span class="mobile-nav-icon">${icons.home}</span>
+          <span class="mobile-nav-label">Home</span>
+        </a>
+        <a href="${toolsUrl}" class="mobile-nav-item" data-nav-target="tools" aria-label="Tools">
+          <span class="mobile-nav-icon">${icons.tools}</span>
+          <span class="mobile-nav-label">Tools</span>
+        </a>
+        <a href="${recentUrl}" class="mobile-nav-item" data-nav-target="recent" aria-label="Recently Used Tools">
+          <span class="mobile-nav-icon">${icons.history}</span>
+          <span class="mobile-nav-label">Recent</span>
+        </a>
+        <button type="button" class="mobile-nav-item mobile-nav-tell" data-nav-target="tell" aria-label="Tell Suvidha">
+          <span class="mobile-nav-icon mobile-nav-tell-icon">${icons.sparkle}</span>
+          <span class="mobile-nav-label">Tell</span>
+        </button>
+      </nav>
+    `;
+    document.body.insertAdjacentHTML('beforeend', bottomNavHtml);
   }
 
   // Tool Page Enhancements (Standardized Shell)
@@ -1041,6 +1165,119 @@ import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainP
     analytics.toolOpened(toolSlug, currentGroup.label);
     recordRecentTool(toolSlug);
   }
+
+  // Mobile Bottom Navigation Interactions
+  const initMobileBottomNav = () => {
+    const bottomNav = document.querySelector('.mobile-bottom-nav');
+    if (!bottomNav) return;
+
+    const navItems = bottomNav.querySelectorAll('.mobile-nav-item');
+    const itemHome = bottomNav.querySelector('[data-nav-target="home"]');
+    const itemTools = bottomNav.querySelector('[data-nav-target="tools"]');
+    const itemRecent = bottomNav.querySelector('[data-nav-target="recent"]');
+    const itemTell = bottomNav.querySelector('[data-nav-target="tell"]');
+
+    const setActive = (target) => {
+      navItems.forEach(item => {
+        const isActive = item.getAttribute('data-nav-target') === target;
+        item.classList.toggle('is-active', isActive);
+        if (isActive) {
+          item.setAttribute('aria-current', target === 'tell' ? 'true' : 'page');
+        } else {
+          item.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    let lastActive = isHome ? 'home' : 'tools';
+
+    const updateActiveFromLocation = () => {
+      if (isHome) {
+        const hash = window.location.hash.toLowerCase();
+        if (hash.includes('recent')) {
+          lastActive = 'recent';
+        } else if (hash.includes('tool') || hash.includes('pdf') || hash.includes('image') || hash.includes('finan') || hash.includes('dev') || hash.includes('seo') || hash.includes('util')) {
+          lastActive = 'tools';
+        } else {
+          lastActive = 'home';
+        }
+      } else {
+        lastActive = 'tools';
+      }
+      setActive(lastActive);
+    };
+
+    updateActiveFromLocation();
+
+    if (itemHome && isHome) {
+      itemHome.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        history.pushState(null, '', '#top');
+        lastActive = 'home';
+        setActive('home');
+      });
+    }
+
+    if (itemTools && isHome) {
+      itemTools.addEventListener('click', (e) => {
+        e.preventDefault();
+        const toggleBtn = document.getElementById('toggleAllToolsBtn');
+        const toolsContent = document.getElementById('allToolsContent');
+        if (toolsContent && (toolsContent.style.display === 'none' || !toolsContent.classList.contains('is-open'))) {
+          if (toggleBtn) {
+            toggleBtn.click();
+          } else {
+            toolsContent.style.display = 'block';
+          }
+        }
+        const toolsEl = document.getElementById('tools');
+        if (toolsEl) {
+          toolsEl.scrollIntoView({ behavior: 'smooth' });
+        }
+        history.pushState(null, '', '#tools');
+        lastActive = 'tools';
+        setActive('tools');
+      });
+    }
+
+    if (itemRecent && isHome) {
+      itemRecent.addEventListener('click', (e) => {
+        e.preventDefault();
+        const recentEl = document.getElementById('recent-tools');
+        if (recentEl && recentEl.style.display !== 'none') {
+          recentEl.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          const fallbackEl = document.getElementById('discovery') || document.getElementById('tools');
+          if (fallbackEl) fallbackEl.scrollIntoView({ behavior: 'smooth' });
+        }
+        history.pushState(null, '', '#recent-tools');
+        lastActive = 'recent';
+        setActive('recent');
+      });
+    }
+
+    if (itemTell) {
+      itemTell.addEventListener('click', (e) => {
+        e.preventDefault();
+        openTellSuvidhaModal({ toolSlug });
+      });
+    }
+
+    window.addEventListener('suvidha:tell-modal-open', () => {
+      setActive('tell');
+    });
+
+    window.addEventListener('suvidha:tell-modal-close', () => {
+      setActive(lastActive);
+    });
+
+    if (isHome) {
+      window.addEventListener('hashchange', updateActiveFromLocation);
+    }
+  };
+
+  initMobileBottomNav();
 
   // Initialize PWA, Analytics, Floating Tell Suvidha & Chaining/Workspace APIs
   window.suvidhaAnalytics = analytics;
