@@ -6,7 +6,9 @@ import { getPathInfo, getCurrentPageInfo, getHrefs, initMobileNavigation } from 
 import { initCommandPalette } from './modules/search.js';
 import { initPWA } from './modules/pwa.js';
 import { initAnalytics, analytics, buildShareUrl } from './modules/analytics.js';
-import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
+import { initFloatingTellSuvidha, openTellSuvidhaModal, closeTellSuvidhaModal } from './modules/tell-suvidha-modal.js';
+import { recordRecentTool, getRecentTools, clearRecentTools, getRecentToolObjects, renderRecentToolsShelf } from './modules/workspace.js';
+import { renderContinueWithSuvidha, getToolChain } from './modules/tool-chaining.js';
 
 (() => {
   if (document.querySelector('.site-header-shell')) return;
@@ -1037,10 +1039,24 @@ import { initFloatingTellSuvidha } from './modules/tell-suvidha-modal.js';
 
   if (toolSlug && currentGroup) {
     analytics.toolOpened(toolSlug, currentGroup.label);
+    recordRecentTool(toolSlug);
   }
 
-  // Initialize PWA, Analytics, Floating Tell Suvidha
+  // Initialize PWA, Analytics, Floating Tell Suvidha & Chaining/Workspace APIs
   window.suvidhaAnalytics = analytics;
+  window.suvidhaChaining = {
+    render: renderContinueWithSuvidha,
+    getChain: getToolChain
+  };
+  window.suvidhaWorkspace = {
+    recordRecentTool,
+    getRecentTools,
+    clearRecentTools,
+    getRecentToolObjects,
+    renderRecentToolsShelf
+  };
+  window.openTellSuvidhaModal = openTellSuvidhaModal;
+  window.closeTellSuvidhaModal = closeTellSuvidhaModal;
   initAnalytics();
   initPWA({ serviceWorkerPath: `${homePrefix}sw.js` });
   initFloatingTellSuvidha({ toolSlug });
