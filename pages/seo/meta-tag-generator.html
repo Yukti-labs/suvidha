@@ -3,11 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Meta Tag Generator — Suvidha Tools</title>
+<title>Meta Tag Generator — Preview Google & Social Tags | Suvidha</title>
+<!-- SEO & Metadata -->
+<meta name="description" content="Generate SEO meta tags, OpenGraph data, and Twitter cards for your website. Real-time preview with zero server uploads and one-click copy.">
+<link rel="canonical" href="https://www.suvidhatools.in/pages/seo/meta-tag-generator.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Meta Tag Generator — Preview Google & Social Tags | Suvidha">
+<meta property="og:description" content="Generate SEO meta tags, OpenGraph data, and Twitter cards for your website. Real-time preview with zero server uploads and one-click copy.">
+<meta property="og:url" content="https://www.suvidhatools.in/pages/seo/meta-tag-generator.html">
+<meta property="og:site_name" content="Suvidha">
+<meta property="og:locale" content="en_IN">
+<meta property="og:image" content="https://www.suvidhatools.in/icon-512.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Meta Tag Generator — Preview Google & Social Tags | Suvidha">
+<meta name="twitter:description" content="Generate SEO meta tags, OpenGraph data, and Twitter cards for your website. Real-time preview with zero server uploads and one-click copy.">
+<meta name="twitter:image" content="https://www.suvidhatools.in/icon-512.png">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Suvidha Meta Tag Generator",
+      "url": "https://www.suvidhatools.in/pages/seo/meta-tag-generator.html",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "HTML title and description tag generation",
+        "OpenGraph and Twitter Card markup",
+        "Live search snippet preview",
+        "One-click clipboard copy"
+      ],
+      "description": "Generate SEO meta tags, OpenGraph data, and Twitter cards for your website. Real-time preview with zero server uploads and one-click copy."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.suvidhatools.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "SEO Tools",
+          "item": "https://www.suvidhatools.in/#seo-tools"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Meta Tag Generator",
+          "item": "https://www.suvidhatools.in/pages/seo/meta-tag-generator.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 <script type="module" src="../../assets/js/shared-ui-new.js"></script>
 </head>
 <body>
 <div class="tool-page">
+  <nav class="tool-breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">Suvidha</a>
+    <span class="crumb-sep">/</span>
+    <a href="../../index.html#seo-tools">SEO</a>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-current">Meta Tag Generator</span>
+  </nav>
+
   <header class="tool-header">
     <div class="tool-eyebrow">SEO</div>
     <h1>Meta Tag Generator</h1>
@@ -83,19 +160,19 @@ generateBtn.addEventListener('click', () => {
 
   let tags = '';
   if (title) tags += `<title>${escapeHtml(title)}</title>\n`;
-  if (description) tags += `<meta name="description" content="${escapeHtml(description)}">\n`;
+  if (description) tags += `\n`;
   if (keywords) tags += `<meta name="keywords" content="${escapeHtml(keywords)}">\n`;
   if (author) tags += `<meta name="author" content="${escapeHtml(author)}">\n`;
-  tags += `<meta property="og:title" content="${escapeHtml(title)}">\n`;
-  tags += `<meta property="og:description" content="${escapeHtml(description)}">\n`;
-  if (ogImage) tags += `<meta property="og:image" content="${escapeHtml(ogImage)}">\n`;
-  tags += `<meta property="og:url" content="${escapeHtml(url || window.location.href)}">\n`;
-  tags += `<meta property="og:type" content="website">\n`;
-  tags += `<meta name="twitter:card" content="summary_large_image">\n`;
-  if (twitterHandle) tags += `<meta name="twitter:site" content="${escapeHtml(twitterHandle)}">\n`;
-  tags += `<meta name="twitter:title" content="${escapeHtml(title)}">\n`;
-  tags += `<meta name="twitter:description" content="${escapeHtml(description)}">\n`;
-  if (ogImage) tags += `<meta name="twitter:image" content="${escapeHtml(ogImage)}">\n`;
+  tags += `\n`;
+  tags += `\n`;
+  if (ogImage) tags += `\n`;
+  tags += `\n`;
+  tags += `\n`;
+  tags += `\n`;
+  if (twitterHandle) tags += `\n`;
+  tags += `\n`;
+  tags += `\n`;
+  if (ogImage) tags += `\n`;
 
   outputDiv.textContent = tags;
   copyBtn.style.display = 'inline-flex';

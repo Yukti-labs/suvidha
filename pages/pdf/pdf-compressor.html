@@ -3,8 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>PDF Compressor — Suvidha</title>
-<meta name="description" content="Compress PDF files locally to 1MB, 500KB or custom targets without uploading.">
+<title>Compress PDF Without Uploading — Reduce PDF Size | Suvidha</title>
+<!-- SEO & Metadata -->
+<meta name="description" content="Reduce PDF file size directly in your browser. Compress to 1MB, 500KB, or custom targets without uploading sensitive documents to external servers.">
+<link rel="canonical" href="https://www.suvidhatools.in/pages/pdf/pdf-compressor.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Compress PDF Without Uploading — Reduce PDF Size | Suvidha">
+<meta property="og:description" content="Reduce PDF file size directly in your browser. Compress to 1MB, 500KB, or custom targets without uploading sensitive documents to external servers.">
+<meta property="og:url" content="https://www.suvidhatools.in/pages/pdf/pdf-compressor.html">
+<meta property="og:site_name" content="Suvidha">
+<meta property="og:locale" content="en_IN">
+<meta property="og:image" content="https://www.suvidhatools.in/icon-512.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Compress PDF Without Uploading — Reduce PDF Size | Suvidha">
+<meta name="twitter:description" content="Reduce PDF file size directly in your browser. Compress to 1MB, 500KB, or custom targets without uploading sensitive documents to external servers.">
+<meta name="twitter:image" content="https://www.suvidhatools.in/icon-512.png">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Suvidha PDF Compressor",
+      "url": "https://www.suvidhatools.in/pages/pdf/pdf-compressor.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Client-side PDF compression",
+        "Zero server file uploads",
+        "Preset target sizes (1MB, 500KB)",
+        "Local canvas and Web Worker processing"
+      ],
+      "description": "Reduce PDF file size directly in your browser. Compress to 1MB, 500KB, or custom targets without uploading sensitive documents to external servers."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.suvidhatools.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "PDF Tools",
+          "item": "https://www.suvidhatools.in/#pdf-tools"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "PDF Compressor",
+          "item": "https://www.suvidhatools.in/pages/pdf/pdf-compressor.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -12,6 +81,14 @@
 </head>
 <body>
 <div class="content">
+  <nav class="tool-breadcrumb" aria-label="Breadcrumb">
+    <a href="../../index.html">Suvidha</a>
+    <span class="crumb-sep">/</span>
+    <a href="../../index.html#pdf-tools">PDF</a>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-current">PDF Compressor</span>
+  </nav>
+
   <div class="header">
     <h1>PDF Compressor</h1>
     <p class="sub">Reduce PDF file size locally. Runs entirely in your browser.</p>
