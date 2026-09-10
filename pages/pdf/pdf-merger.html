@@ -110,6 +110,7 @@
     <div class="status success" id="statusSuccess"><span>✓</span><span id="successMsg"></span></div>
     <div class="status error" id="statusError"><span>✕</span><span id="errorMsg"></span></div>
     <a class="dl-btn" id="dlBtn">Download Merged PDF</a>
+    <div id="toolChainWrap" style="display:none"></div>
     <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
 </div>
@@ -128,12 +129,13 @@ const successMsg=document.getElementById('successMsg');
 const errorMsg=document.getElementById('errorMsg');
 const dlBtn=document.getElementById('dlBtn');
 const resetBtn=document.getElementById('resetBtn');
+const toolChainWrap=document.getElementById('toolChainWrap');
 
 let files=[];
 let dragSrc=null;
 
 function fmt(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(2)+'MB'}
-function hideStatus(){statusSuccess.classList.remove('visible');statusError.classList.remove('visible');dlBtn.classList.remove('visible');progressWrap.classList.remove('visible')}
+function hideStatus(){statusSuccess.classList.remove('visible');statusError.classList.remove('visible');dlBtn.classList.remove('visible');progressWrap.classList.remove('visible');if(toolChainWrap)toolChainWrap.style.display='none'}
 function showError(m){hideStatus();errorMsg.textContent=m;statusError.classList.add('visible')}
 
 function renderList(){
@@ -193,9 +195,35 @@ mergeBtn.addEventListener('click',async()=>{
     dlBtn.download='merged.pdf';
     progressWrap.classList.remove('visible');
     successMsg.textContent=`Done! ${merged.getPageCount()} pages · ${fmt(bytes.length)}`;
-    statusSuccess.classList.add('visible');dlBtn.classList.add('visible');resetBtn.style.display='block';mergeBtn.disabled=false;
+    statusSuccess.classList.add('visible');
+    dlBtn.classList.add('visible');
+    window.suvidhaAnalytics?.toolCompleted('pdf-merger');
+    window.suvidhaChaining?.render(toolChainWrap, {
+      toolSlug: 'pdf-merger',
+      payload: { file: blob, name: 'merged.pdf', mime: 'application/pdf' },
+      onReset: () => resetBtn.click()
+    });
+    resetBtn.style.display='block';
+    mergeBtn.disabled=false;
   }catch(e){showError('Error: '+(e.message||'Unknown error'));mergeBtn.disabled=false}
 });
+
+dlBtn.addEventListener('click', () => {
+  window.suvidhaAnalytics?.toolDownloaded('pdf-merger');
+});
+
+// Consume carried-over PDF payload if navigating from another tool (e.g. PDF Unlock)
+(async () => {
+  try {
+    const payload = await window.suvidhaChaining?.consumePayload();
+    if (payload && payload.file) {
+      const file = payload.file instanceof File
+        ? payload.file
+        : new File([payload.file], payload.name || 'document.pdf', { type: payload.mime || 'application/pdf' });
+      addFiles([file]);
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

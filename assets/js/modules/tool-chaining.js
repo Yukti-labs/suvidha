@@ -119,15 +119,152 @@ export function getToolChain(identifier) {
   });
 }
 
+// In-memory fallback for test runners or environments without IndexedDB
+let _memoryPayload = null;
+let _memoryTextPayload = null;
+
+const DB_NAME = 'suvidha_chain_db';
+const STORE_NAME = 'payloads';
+const KEY = 'active_chain_payload';
+const TEXT_KEY = 'suvidha_chain_text';
+const TTL_MS = 5 * 60 * 1000; // 5 minutes max
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+    if (typeof indexedDB === 'undefined') {
+      return reject(new Error('IndexedDB not supported'));
+    }
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME);
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+/**
+ * Stores a binary File or Blob payload locally for the next chained tool.
+ * Single-use and short-lived. Never leaves browser.
+ * @param {Object} data - { file: Blob|File, name?: string, mime?: string }
+ */
+export async function setChainPayload(data) {
+  if (!data || !data.file) return false;
+  const entry = {
+    file: data.file,
+    name: data.name || (data.file.name || 'document'),
+    mime: data.mime || (data.file.type || 'application/octet-stream'),
+    timestamp: Date.now()
+  };
+
+  try {
+    const db = await openDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      tx.objectStore(STORE_NAME).put(entry, KEY);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => {
+        _memoryPayload = entry;
+        resolve(true);
+      };
+    });
+  } catch (e) {
+    _memoryPayload = entry;
+    return true;
+  }
+}
+
+/**
+ * Consumes and immediately deletes the active chained payload.
+ * Returns null if empty or expired.
+ * @returns {Promise<{file: Blob|File, name: string, mime: string}|null>}
+ */
+export async function consumeChainPayload() {
+  // Check memory fallback first
+  if (_memoryPayload) {
+    const entry = _memoryPayload;
+    _memoryPayload = null;
+    if (Date.now() - entry.timestamp < TTL_MS) {
+      return entry;
+    }
+    return null;
+  }
+
+  try {
+    const db = await openDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.get(KEY);
+      req.onsuccess = () => {
+        const result = req.result;
+        if (result) {
+          store.delete(KEY); // Single-use consumption
+          if (Date.now() - result.timestamp < TTL_MS) {
+            resolve(result);
+            return;
+          }
+        }
+        resolve(null);
+      };
+      req.onerror = () => resolve(null);
+    });
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Stores a text payload (e.g. JSON string) for the next chained tool.
+ * @param {string} text
+ */
+export function setChainTextPayload(text) {
+  if (typeof text !== 'string') return;
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem(TEXT_KEY, text);
+      return;
+    }
+  } catch (e) {}
+  _memoryTextPayload = text;
+}
+
+/**
+ * Consumes and immediately deletes the active text payload.
+ * @returns {string|null}
+ */
+export function consumeChainTextPayload() {
+  if (_memoryTextPayload !== null) {
+    const txt = _memoryTextPayload;
+    _memoryTextPayload = null;
+    return txt;
+  }
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      const txt = sessionStorage.getItem(TEXT_KEY);
+      if (txt !== null) {
+        sessionStorage.removeItem(TEXT_KEY);
+        return txt;
+      }
+    }
+  } catch (e) {}
+  return null;
+}
+
 /**
  * Renders the standardized "Continue with Suvidha" task chaining box into a container.
  * @param {HTMLElement} container - DOM element to render into
  * @param {Object} options
  * @param {string} options.toolSlug - Slug of current tool
+ * @param {Object} [options.payload] - Optional binary File/Blob to carry into next tool
+ * @param {string} [options.textPayload] - Optional string to carry into next tool
  * @param {Function} [options.onReset] - Callback when "Start over / another" is clicked
  * @param {Function} [options.onTellSuvidha] - Callback when "Tell Suvidha" is clicked
  */
-export function renderContinueWithSuvidha(container, { toolSlug, onReset, onTellSuvidha } = {}) {
+export function renderContinueWithSuvidha(container, { toolSlug, payload, textPayload, onReset, onTellSuvidha } = {}) {
   if (!container) return;
 
   const actions = getToolChain(toolSlug);
@@ -139,7 +276,7 @@ export function renderContinueWithSuvidha(container, { toolSlug, onReset, onTell
         <div class="task-chain-title">Continue with Suvidha</div>
       </div>
       <div class="task-chain-actions">
-        ${actions.map((act, i) => {
+        ${actions.map((act) => {
           if (act.action === 'reset') {
             return `
               <button type="button" class="task-chain-btn" data-chain-action="reset">
@@ -159,7 +296,7 @@ export function renderContinueWithSuvidha(container, { toolSlug, onReset, onTell
             `;
           }
           return `
-            <a href="${act.url}" class="task-chain-btn" data-chain-action="navigate">
+            <a href="${act.url}" class="task-chain-btn" data-chain-action="navigate" data-target-slug="${act.targetSlug || ''}">
               ${act.icon ? getToolIcon(act.icon) : ''}
               <span>${act.label}</span>
               <span class="task-chain-arrow">→</span>
@@ -186,6 +323,24 @@ export function renderContinueWithSuvidha(container, { toolSlug, onReset, onTell
       }
     });
   });
+
+  // Intercept navigation if payload is present to store it locally before redirect
+  if (payload || textPayload) {
+    container.querySelectorAll('[data-chain-action="navigate"]').forEach(link => {
+      link.addEventListener('click', async (e) => {
+        const dest = link.getAttribute('href');
+        if (!dest) return;
+        e.preventDefault();
+        if (payload) {
+          await setChainPayload(payload);
+        }
+        if (textPayload) {
+          setChainTextPayload(textPayload);
+        }
+        window.location.href = dest;
+      });
+    });
+  }
 
   container.style.display = 'block';
 }

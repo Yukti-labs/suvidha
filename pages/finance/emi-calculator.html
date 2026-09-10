@@ -147,6 +147,7 @@
       </table>
     </div>
   </div>
+  <div id="toolChainWrap" style="margin-top:24px;"></div>
 </div>
 <script>
 const loanAmt=document.getElementById('loanAmt'),loanRange=document.getElementById('loanRange'),loanDisplay=document.getElementById('loanDisplay');
@@ -154,6 +155,7 @@ const rateAmt=document.getElementById('rateAmt'),rateRange=document.getElementBy
 const tenureAmt=document.getElementById('tenureAmt'),tenureRange=document.getElementById('tenureRange'),tenureDisplay=document.getElementById('tenureDisplay');
 const emiVal=document.getElementById('emiVal'),principalVal=document.getElementById('principalVal'),interestVal=document.getElementById('interestVal'),totalVal=document.getElementById('totalVal'),interestPct=document.getElementById('interestPct');
 const amortToggle=document.getElementById('amortToggle'),amortTable=document.getElementById('amortTable'),amortBody=document.getElementById('amortBody');
+const toolChainWrap=document.getElementById('toolChainWrap');
 
 function fmtINR(n){return new Intl.NumberFormat('en-IN',{maximumFractionDigits:0}).format(Math.round(n))}
 function fmtINRFull(n){return '₹'+fmtINR(n)}
@@ -192,6 +194,21 @@ function calculate(){
     tr.innerHTML=`<td>${m}</td><td>${fmtINR(emi)}</td><td>${fmtINR(prinPart)}</td><td>${fmtINR(intPart)}</td><td>${fmtINR(balance)}</td>`;
     amortBody.appendChild(tr);
   }
+  window.suvidhaChaining?.render(toolChainWrap, {
+    toolSlug: 'emi-calculator',
+    onReset: () => {
+      loanAmt.value = 1000000;
+      loanRange.value = 1000000;
+      loanDisplay.textContent = '₹10,00,000';
+      rateAmt.value = 8.5;
+      rateRange.value = 8.5;
+      rateDisplay.textContent = '8.5% p.a.';
+      tenureAmt.value = 20;
+      tenureRange.value = 20;
+      tenureDisplay.textContent = '20 Years';
+      calculate();
+    }
+  });
 }
 
 // Sync inputs ↔ sliders

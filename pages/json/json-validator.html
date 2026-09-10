@@ -101,27 +101,47 @@
     </div>
   </div>
   <div id="result" class="result"></div>
+  <div id="toolChainWrap" style="display:none; margin-top:20px;"></div>
 </div>
 <script>
 const input = document.getElementById('jsonInput');
 const resultDiv = document.getElementById('result');
 const validateBtn = document.getElementById('validateBtn');
 const formatBtn = document.getElementById('formatBtn');
+const toolChainWrap = document.getElementById('toolChainWrap');
+
+function handleSuccess(html) {
+  resultDiv.innerHTML = html;
+  resultDiv.className = 'result valid';
+  window.suvidhaAnalytics?.toolCompleted('json-validator');
+  window.suvidhaChaining?.render(toolChainWrap, {
+    toolSlug: 'json-validator',
+    textPayload: input.value,
+    onReset: () => {
+      input.value = '';
+      resultDiv.innerHTML = '';
+      resultDiv.className = 'result';
+      toolChainWrap.style.display = 'none';
+      input.focus();
+    }
+  });
+}
 
 validateBtn.addEventListener('click', () => {
   const text = input.value.trim();
   if (!text) {
     resultDiv.textContent = 'Paste JSON first.';
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
     return;
   }
   try {
     const obj = JSON.parse(text);
-    resultDiv.innerHTML = '<strong>Valid JSON</strong><pre>' + JSON.stringify(obj, null, 2) + '</pre>';
-    resultDiv.className = 'result valid';
+    handleSuccess('<strong>Valid JSON</strong><pre>' + JSON.stringify(obj, null, 2) + '</pre>');
   } catch (e) {
     resultDiv.textContent = 'Invalid JSON: ' + e.message;
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
   }
 });
 
@@ -130,18 +150,30 @@ formatBtn.addEventListener('click', () => {
   if (!text) {
     resultDiv.textContent = 'Paste JSON first.';
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
     return;
   }
   try {
     const obj = JSON.parse(text);
     input.value = JSON.stringify(obj, null, 2);
-    resultDiv.textContent = 'Formatted in the editor.';
-    resultDiv.className = 'result valid';
+    handleSuccess('Formatted in the editor.');
   } catch (e) {
     resultDiv.textContent = 'Invalid JSON: ' + e.message;
     resultDiv.className = 'result invalid';
+    toolChainWrap.style.display = 'none';
   }
 });
+
+// Consume carried-over text payload if navigating from another JSON tool
+(() => {
+  try {
+    const text = window.suvidhaChaining?.consumeTextPayload();
+    if (text) {
+      input.value = text;
+      validateBtn.click();
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

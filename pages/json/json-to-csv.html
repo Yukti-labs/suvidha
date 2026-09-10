@@ -101,12 +101,14 @@
     </div>
   </div>
   <div id="result" class="result"></div>
+  <div id="toolChainWrap" style="display:none; margin-top:20px;"></div>
 </div>
 <script>
 const input = document.getElementById('jsonInput');
 const resultDiv = document.getElementById('result');
 const convertBtn = document.getElementById('convertBtn');
 const downloadLink = document.getElementById('downloadLink');
+const toolChainWrap = document.getElementById('toolChainWrap');
 
 convertBtn.addEventListener('click', () => {
   const text = input.value.trim();
@@ -114,6 +116,7 @@ convertBtn.addEventListener('click', () => {
     resultDiv.textContent = 'Paste JSON first.';
     resultDiv.className = 'result invalid';
     downloadLink.style.display = 'none';
+    toolChainWrap.style.display = 'none';
     return;
   }
   try {
@@ -122,12 +125,14 @@ convertBtn.addEventListener('click', () => {
       resultDiv.textContent = 'JSON must be an array of objects.';
       resultDiv.className = 'result invalid';
       downloadLink.style.display = 'none';
+      toolChainWrap.style.display = 'none';
       return;
     }
     if (data.length === 0) {
       resultDiv.textContent = 'Empty array.';
       resultDiv.className = 'result valid';
       downloadLink.style.display = 'none';
+      toolChainWrap.style.display = 'none';
       return;
     }
     const first = data[0];
@@ -135,6 +140,7 @@ convertBtn.addEventListener('click', () => {
       resultDiv.textContent = 'Array elements must be objects.';
       resultDiv.className = 'result invalid';
       downloadLink.style.display = 'none';
+      toolChainWrap.style.display = 'none';
       return;
     }
     const headers = Object.keys(first);
@@ -155,12 +161,41 @@ convertBtn.addEventListener('click', () => {
     downloadLink.href = url;
     downloadLink.style.display = 'inline-flex';
     downloadLink.textContent = 'Download CSV';
+    window.suvidhaAnalytics?.toolCompleted('json-to-csv');
+    window.suvidhaChaining?.render(toolChainWrap, {
+      toolSlug: 'json-to-csv',
+      textPayload: input.value,
+      onReset: () => {
+        input.value = '';
+        resultDiv.innerHTML = '';
+        resultDiv.className = 'result';
+        downloadLink.style.display = 'none';
+        toolChainWrap.style.display = 'none';
+        input.focus();
+      }
+    });
   } catch (e) {
     resultDiv.textContent = 'Invalid JSON: ' + e.message;
     resultDiv.className = 'result invalid';
     downloadLink.style.display = 'none';
+    toolChainWrap.style.display = 'none';
   }
 });
+
+downloadLink.addEventListener('click', () => {
+  window.suvidhaAnalytics?.toolDownloaded('json-to-csv');
+});
+
+// Consume carried-over text payload if navigating from another JSON tool
+(() => {
+  try {
+    const text = window.suvidhaChaining?.consumeTextPayload();
+    if (text) {
+      input.value = text;
+      convertBtn.click();
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

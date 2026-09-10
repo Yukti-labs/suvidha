@@ -134,6 +134,7 @@
         <a class="dl-btn" id="dlPng">⬇ PNG</a>
         <button class="dl-btn outline" id="copyBtn">⧉ Copy</button>
       </div>
+      <div id="toolChainWrap" style="display:none; margin-top:20px;"></div>
     </div>
   </div>
 </div>
@@ -187,7 +188,27 @@ function setupDownload(){
   const dlPng=document.getElementById('dlPng');
   dlPng.href=canvas.toDataURL('image/png');
   dlPng.download='qrcode.png';
+  window.suvidhaAnalytics?.toolCompleted('qr-generator');
+  const toolChainWrap = document.getElementById('toolChainWrap');
+  window.suvidhaChaining?.render(toolChainWrap, {
+    toolSlug: 'qr-generator',
+    onReset: () => {
+      document.getElementById('urlInput').value = '';
+      document.getElementById('textInput').value = '';
+      document.getElementById('upiId').value = '';
+      document.getElementById('upiName').value = '';
+      document.getElementById('upiAmt').value = '';
+      document.getElementById('cName').value = '';
+      document.getElementById('cPhone').value = '';
+      document.getElementById('cEmail').value = '';
+      document.getElementById('outputCard').style.display = 'none';
+    }
+  });
 }
+
+document.getElementById('dlPng').addEventListener('click', () => {
+  window.suvidhaAnalytics?.toolDownloaded('qr-generator');
+});
 
 document.getElementById('genBtn').addEventListener('click',generate);
 

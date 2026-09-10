@@ -342,7 +342,11 @@ compressBtn.addEventListener('click',async()=>{
     dlBtn.href=URL.createObjectURL(blob);
     dlBtn.download=selectedFile.name.replace(/\.pdf$/i,'')+'_compressed.pdf';
     dlBtn.classList.add('visible');
-    window.suvidhaChaining?.render(toolChainWrap, { toolSlug: 'pdf-compressor', onReset: resetAll });
+    window.suvidhaChaining?.render(toolChainWrap, {
+      toolSlug: 'pdf-compressor',
+      payload: { file: blob, name: dlBtn.download, mime: 'application/pdf' },
+      onReset: resetAll
+    });
     resetBtn.style.display='block';
     compressBtn.disabled=false;
     window.suvidhaAnalytics?.toolCompleted('pdf-compressor');
@@ -355,6 +359,24 @@ compressBtn.addEventListener('click',async()=>{
 dlBtn.addEventListener('click',()=>{
   window.suvidhaAnalytics?.toolDownloaded('pdf-compressor');
 });
+
+// Consume carried-over PDF payload if navigating from another tool (e.g. PDF Merger, PDF Unlock, Image to PDF)
+(async () => {
+  try {
+    const payload = await window.suvidhaChaining?.consumePayload();
+    if (payload && payload.file) {
+      const file = payload.file instanceof File
+        ? payload.file
+        : new File([payload.file], payload.name || 'document.pdf', { type: payload.mime || 'application/pdf' });
+      setFile(file);
+      statusBanner.style.display = 'block';
+      statusBanner.style.background = 'var(--surface2)';
+      statusBanner.style.border = '1px solid var(--accent)';
+      statusBanner.style.color = 'var(--text)';
+      statusBanner.innerHTML = 'Carried over from previous tool: <strong>' + (payload.name || 'document.pdf') + '</strong>';
+    }
+  } catch (e) {}
+})();
 </script>
 </body>
 </html>

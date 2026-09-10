@@ -43,6 +43,7 @@ const DEFAULT_SUGGESTIONS = [
 ];
 
 let modalEl = null;
+let previousActiveElement = null;
 
 export function getContextSuggestions(toolSlug = '') {
   if (toolSlug && CONTEXTUAL_SUGGESTIONS[toolSlug]) {
@@ -53,6 +54,12 @@ export function getContextSuggestions(toolSlug = '') {
 
 export function openTellSuvidhaModal({ toolSlug = '', initialQuery = '' } = {}) {
   analytics.tellSuvidhaOpened();
+
+  try {
+    previousActiveElement = document.activeElement;
+  } catch (e) {
+    previousActiveElement = null;
+  }
 
   if (!modalEl) {
     createModalDOM();
@@ -97,6 +104,12 @@ export function openTellSuvidhaModal({ toolSlug = '', initialQuery = '' } = {}) 
 export function closeTellSuvidhaModal() {
   if (modalEl) {
     modalEl.classList.remove('is-open');
+    if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+      try {
+        previousActiveElement.focus();
+      } catch (e) {}
+      previousActiveElement = null;
+    }
   }
 }
 
@@ -198,7 +211,7 @@ function createModalDOM() {
       <div class="floating-tell-head">
         <div class="floating-tell-title-wrap">
           <span class="floating-tell-eyebrow" id="floatingTellEyebrow">Tell Suvidha what you need</span>
-          <small class="floating-tell-sub">Parsed 100% locally · No files or text uploaded</small>
+          <small class="floating-tell-sub">Processed directly in your browser · Files aren't uploaded to Suvidha's servers</small>
         </div>
         <button type="button" class="floating-tell-close" id="floatingTellCloseBtn" aria-label="Close assistant">✕</button>
       </div>

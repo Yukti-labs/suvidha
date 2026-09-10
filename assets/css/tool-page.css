@@ -1556,7 +1556,7 @@ body:not(#top) .preview {
   .tool-page,
   body:not(#top) .content,
   body:not(#top) .container {
-    padding: 16px 14px 60px !important;
+    padding: 16px 14px 84px !important;
   }
   body:not(#top) .card,
   .tool-panel {
