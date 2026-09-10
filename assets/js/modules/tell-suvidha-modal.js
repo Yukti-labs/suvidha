@@ -140,7 +140,6 @@ function handleFloatingRequirement(query) {
       <div class="recommend-box">
         <div class="recommend-top">
           <span class="recommend-badge">I think you need</span>
-          <button type="button" class="recommend-close" id="floatingCardDismiss" aria-label="Dismiss">✕</button>
         </div>
         <div class="recommend-content">
           <div class="recommend-icon">${getToolIcon(result.tool.iconName)}</div>
@@ -159,7 +158,6 @@ function handleFloatingRequirement(query) {
       </div>
     `;
 
-    card.querySelector('#floatingCardDismiss').addEventListener('click', () => { card.style.display = 'none'; });
     card.querySelector('#floatingCardOpen').addEventListener('click', () => {
       analytics.tellSuvidhaRoute(toolSlug);
       closeTellSuvidhaModal();
@@ -170,7 +168,6 @@ function handleFloatingRequirement(query) {
       <div class="recommend-box is-ambiguous">
         <div class="recommend-top">
           <span class="recommend-badge">${result.message}</span>
-          <button type="button" class="recommend-close" id="floatingCardDismiss" aria-label="Dismiss">✕</button>
         </div>
         <div class="recommend-choices">
           ${result.matches.map(m => `
@@ -186,7 +183,6 @@ function handleFloatingRequirement(query) {
         </div>
       </div>
     `;
-    card.querySelector('#floatingCardDismiss').addEventListener('click', () => { card.style.display = 'none'; });
     card.querySelectorAll('.recommend-choice-item').forEach(el => {
       el.addEventListener('click', () => {
         const slug = el.dataset.toolSlug;
@@ -200,12 +196,10 @@ function handleFloatingRequirement(query) {
       <div class="recommend-box is-empty">
         <div class="recommend-top">
           <span class="recommend-badge" style="color:var(--muted)">Need help finding a tool?</span>
-          <button type="button" class="recommend-close" id="floatingCardDismiss" aria-label="Dismiss">✕</button>
         </div>
         <p class="recommend-empty-msg">${result.message}</p>
       </div>
     `;
-    card.querySelector('#floatingCardDismiss').addEventListener('click', () => { card.style.display = 'none'; });
   }
 }
 

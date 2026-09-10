@@ -88,16 +88,16 @@
 
   <div class="header">
     <h1>Image Compressor</h1>
-    <p class="sub">Shrink JPG, PNG, and WebP images locally — no upload needed</p>
+    <p class="sub">Shrink JPG, PNG, WebP, and HEIC images locally — no upload needed</p>
   </div>
   <div class="card">
     <div class="drop-zone" id="dropZone">
-      <input type="file" accept="image/*" id="fileInput">
+      <input type="file" accept="image/*,.heic,.heif" id="fileInput">
       <div style="margin-bottom:10px;color:var(--accent)">
         <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14V4h10"/><path d="M20 10v10H10"/><rect width="8" height="8" x="8" y="8" rx="1"/></svg>
       </div>
       <div class="drop-title">Drop an image here</div>
-      <div class="drop-sub">JPG · PNG · WEBP · GIF</div>
+      <div class="drop-sub">JPG · PNG · WebP · HEIC</div>
     </div>
 
     <div class="compare" id="compare">
@@ -365,17 +365,36 @@ shareBtn.addEventListener('click',()=>{
   });
 });
 
-function setFile(f){
-  if(!f||!f.type.startsWith('image/')){
-    showError('Please select a valid image file.');
+async function setFile(f){
+  if(!f) return;
+  if(!window.suvidhaHeic?.isValidImageFile(f) && !f.type.startsWith('image/')){
+    showError('Please select a valid image file (JPG, PNG, WebP, HEIC).');
     return;
   }
   hideError();
-  selectedFile=f;
+
+  let processedFile = f;
+  if (window.suvidhaHeic?.isHeicFile(f)) {
+    compressBtn.disabled = true;
+    compressBtn.textContent = 'Preparing HEIC image…';
+    try {
+      processedFile = await window.suvidhaHeic.convertHeicToBrowserImage(f, {
+        onProgress: (msg) => { compressBtn.textContent = msg; }
+      });
+    } catch (err) {
+      compressBtn.disabled = false;
+      compressBtn.textContent = 'Compress Image';
+      showError(err.message || "This HEIC image couldn't be processed in your browser. Please try another image.");
+      return;
+    }
+    compressBtn.textContent = 'Compress Image';
+  }
+
+  selectedFile=processedFile;
   if(currentOrigUrl) URL.revokeObjectURL(currentOrigUrl);
-  currentOrigUrl=URL.createObjectURL(f);
+  currentOrigUrl=URL.createObjectURL(processedFile);
   origImg.src=currentOrigUrl;
-  origSize.textContent=fmt(f.size);
+  origSize.textContent=fmt(processedFile.size);
   compare.classList.add('visible');
   compressBtn.disabled=false;
   statsWrap.classList.remove('visible');
