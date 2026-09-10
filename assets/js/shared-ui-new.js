@@ -9,6 +9,7 @@ import { initAnalytics, analytics, buildShareUrl } from './modules/analytics.js'
 import { initFloatingTellSuvidha, openTellSuvidhaModal, closeTellSuvidhaModal } from './modules/tell-suvidha-modal.js';
 import { recordRecentTool, getRecentTools, clearRecentTools, getRecentToolObjects, renderRecentToolsShelf } from './modules/workspace.js';
 import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainPayload, setChainTextPayload, consumeChainTextPayload } from './modules/tool-chaining.js';
+import { shareFile, shareText, canShareFiles, getAttributionText } from './modules/share-utils.js';
 
 (() => {
   if (document.querySelector('.site-header-shell')) return;
@@ -1106,20 +1107,23 @@ import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainP
         shareBtn.addEventListener('click', async () => {
           const toolSlug = currentPage.file.replace('.html', '');
           const shareUrl = buildShareUrl(window.location.href, toolSlug);
-          const shareText = `Use ${currentPage.label} on Suvidha — private browser tool with zero file uploads:`;
-          analytics.shareClicked(toolSlug);
-          if (navigator.share) {
-            try {
-              await navigator.share({ title: `${currentPage.label} — Suvidha`, text: shareText, url: shareUrl });
-              return;
-            } catch (err) {
-              // User cancelled share
-            }
+          const shareTextContent = `Use ${currentPage.label} on Suvidha — private browser tool with zero file uploads:`;
+          const res = await shareText({
+            title: `${currentPage.label} — Suvidha`,
+            text: shareTextContent,
+            url: shareUrl,
+            toolSlug
+          });
+          if (res && res.method === 'clipboard') {
+            const origText = shareBtn.innerHTML;
+            shareBtn.innerHTML = `<span style="color:var(--success)">✓ Link copied!</span>`;
+            setTimeout(() => { shareBtn.innerHTML = origText; }, 2200);
+          } else if (!res || (!res.success && !res.cancelled)) {
+            await navigator.clipboard?.writeText(shareUrl);
+            const origText = shareBtn.innerHTML;
+            shareBtn.innerHTML = `<span style="color:var(--success)">✓ Link copied!</span>`;
+            setTimeout(() => { shareBtn.innerHTML = origText; }, 2200);
           }
-          await navigator.clipboard.writeText(shareUrl);
-          const origText = shareBtn.innerHTML;
-          shareBtn.innerHTML = `<span style="color:var(--success)">✓ Link copied!</span>`;
-          setTimeout(() => { shareBtn.innerHTML = origText; }, 2200);
         });
         metaRow.appendChild(shareBtn);
 
@@ -1298,6 +1302,12 @@ import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainP
   };
   window.openTellSuvidhaModal = openTellSuvidhaModal;
   window.closeTellSuvidhaModal = closeTellSuvidhaModal;
+  window.suvidhaShare = {
+    shareFile,
+    shareText,
+    canShareFiles,
+    getAttributionText
+  };
   initAnalytics();
   initPWA({ serviceWorkerPath: `${homePrefix}sw.js` });
   initFloatingTellSuvidha({ toolSlug });

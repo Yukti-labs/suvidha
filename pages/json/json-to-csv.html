@@ -110,11 +110,17 @@ const convertBtn = document.getElementById('convertBtn');
 const downloadLink = document.getElementById('downloadLink');
 const toolChainWrap = document.getElementById('toolChainWrap');
 
+let currentDownloadUrl = null;
+
 convertBtn.addEventListener('click', () => {
   const text = input.value.trim();
   if (!text) {
     resultDiv.textContent = 'Paste JSON first.';
     resultDiv.className = 'result invalid';
+    if (currentDownloadUrl) {
+      URL.revokeObjectURL(currentDownloadUrl);
+      currentDownloadUrl = null;
+    }
     downloadLink.style.display = 'none';
     toolChainWrap.style.display = 'none';
     return;
@@ -124,6 +130,10 @@ convertBtn.addEventListener('click', () => {
     if (!Array.isArray(data)) {
       resultDiv.textContent = 'JSON must be an array of objects.';
       resultDiv.className = 'result invalid';
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+      }
       downloadLink.style.display = 'none';
       toolChainWrap.style.display = 'none';
       return;
@@ -131,6 +141,10 @@ convertBtn.addEventListener('click', () => {
     if (data.length === 0) {
       resultDiv.textContent = 'Empty array.';
       resultDiv.className = 'result valid';
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+      }
       downloadLink.style.display = 'none';
       toolChainWrap.style.display = 'none';
       return;
@@ -139,6 +153,10 @@ convertBtn.addEventListener('click', () => {
     if (typeof first !== 'object' || first === null) {
       resultDiv.textContent = 'Array elements must be objects.';
       resultDiv.className = 'result invalid';
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+      }
       downloadLink.style.display = 'none';
       toolChainWrap.style.display = 'none';
       return;
@@ -157,8 +175,9 @@ convertBtn.addEventListener('click', () => {
     resultDiv.innerHTML = '<strong>CSV preview</strong><pre>' + csvRows.slice(0,6).join('\n') + '</pre>';
     resultDiv.className = 'result valid';
     const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    downloadLink.href = url;
+    if (currentDownloadUrl) URL.revokeObjectURL(currentDownloadUrl);
+    currentDownloadUrl = URL.createObjectURL(blob);
+    downloadLink.href = currentDownloadUrl;
     downloadLink.style.display = 'inline-flex';
     downloadLink.textContent = 'Download CSV';
     window.suvidhaAnalytics?.toolCompleted('json-to-csv');
@@ -169,6 +188,10 @@ convertBtn.addEventListener('click', () => {
         input.value = '';
         resultDiv.innerHTML = '';
         resultDiv.className = 'result';
+        if (currentDownloadUrl) {
+          URL.revokeObjectURL(currentDownloadUrl);
+          currentDownloadUrl = null;
+        }
         downloadLink.style.display = 'none';
         toolChainWrap.style.display = 'none';
         input.focus();
@@ -177,6 +200,10 @@ convertBtn.addEventListener('click', () => {
   } catch (e) {
     resultDiv.textContent = 'Invalid JSON: ' + e.message;
     resultDiv.className = 'result invalid';
+    if (currentDownloadUrl) {
+      URL.revokeObjectURL(currentDownloadUrl);
+      currentDownloadUrl = null;
+    }
     downloadLink.style.display = 'none';
     toolChainWrap.style.display = 'none';
   }

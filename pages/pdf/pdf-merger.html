@@ -109,7 +109,10 @@
     </div>
     <div class="status success" id="statusSuccess"><span>✓</span><span id="successMsg"></span></div>
     <div class="status error" id="statusError"><span>✕</span><span id="errorMsg"></span></div>
-    <a class="dl-btn" id="dlBtn">Download Merged PDF</a>
+    <div class="dl-row" id="dlRow" style="display:none;margin-top:12px;">
+      <a class="dl-btn" id="dlBtn" style="margin-top:0;">Download Merged PDF</a>
+      <button type="button" class="dl-btn outline" id="shareBtn" style="margin-top:0;">Share</button>
+    </div>
     <div id="toolChainWrap" style="display:none"></div>
     <button class="reset" id="resetBtn" style="display:none">Start over</button>
   </div>
@@ -128,14 +131,18 @@ const statusError=document.getElementById('statusError');
 const successMsg=document.getElementById('successMsg');
 const errorMsg=document.getElementById('errorMsg');
 const dlBtn=document.getElementById('dlBtn');
+const shareBtn=document.getElementById('shareBtn');
+const dlRow=document.getElementById('dlRow');
 const resetBtn=document.getElementById('resetBtn');
 const toolChainWrap=document.getElementById('toolChainWrap');
 
 let files=[];
 let dragSrc=null;
+let currentPdfBlob=null;
+let currentPdfUrl=null;
 
 function fmt(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';return(b/1048576).toFixed(2)+'MB'}
-function hideStatus(){statusSuccess.classList.remove('visible');statusError.classList.remove('visible');dlBtn.classList.remove('visible');progressWrap.classList.remove('visible');if(toolChainWrap)toolChainWrap.style.display='none'}
+function hideStatus(){statusSuccess.classList.remove('visible');statusError.classList.remove('visible');dlBtn.classList.remove('visible');if(dlRow)dlRow.style.display='none';progressWrap.classList.remove('visible');if(toolChainWrap)toolChainWrap.style.display='none'}
 function showError(m){hideStatus();errorMsg.textContent=m;statusError.classList.add('visible')}
 
 function renderList(){
@@ -169,7 +176,12 @@ dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.a
 dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('over'));
 dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('over');addFiles(e.dataTransfer.files)});
 
-resetBtn.addEventListener('click',()=>{files=[];renderList();hideStatus();resetBtn.style.display='none'});
+resetBtn.addEventListener('click',()=>{
+  files=[];
+  if(currentPdfUrl){ URL.revokeObjectURL(currentPdfUrl); currentPdfUrl=null; }
+  currentPdfBlob=null;
+  renderList();hideStatus();resetBtn.style.display='none';
+});
 
 mergeBtn.addEventListener('click',async()=>{
   if(files.length<2)return;
@@ -191,12 +203,16 @@ mergeBtn.addEventListener('click',async()=>{
     const bytes=await merged.save();
     progressFill.style.width='100%';
     const blob=new Blob([bytes],{type:'application/pdf'});
-    dlBtn.href=URL.createObjectURL(blob);
+    currentPdfBlob=blob;
+    if(currentPdfUrl) URL.revokeObjectURL(currentPdfUrl);
+    currentPdfUrl=URL.createObjectURL(blob);
+    dlBtn.href=currentPdfUrl;
     dlBtn.download='merged.pdf';
     progressWrap.classList.remove('visible');
     successMsg.textContent=`Done! ${merged.getPageCount()} pages · ${fmt(bytes.length)}`;
     statusSuccess.classList.add('visible');
     dlBtn.classList.add('visible');
+    if(dlRow) dlRow.style.display='flex';
     window.suvidhaAnalytics?.toolCompleted('pdf-merger');
     window.suvidhaChaining?.render(toolChainWrap, {
       toolSlug: 'pdf-merger',
@@ -210,6 +226,15 @@ mergeBtn.addEventListener('click',async()=>{
 
 dlBtn.addEventListener('click', () => {
   window.suvidhaAnalytics?.toolDownloaded('pdf-merger');
+});
+
+shareBtn.addEventListener('click', () => {
+  if(!currentPdfBlob) return;
+  window.suvidhaShare?.shareFile(currentPdfBlob, {
+    filename: dlBtn.download || 'merged.pdf',
+    toolSlug: 'pdf-merger',
+    action: 'Merged PDF'
+  });
 });
 
 // Consume carried-over PDF payload if navigating from another tool (e.g. PDF Unlock)

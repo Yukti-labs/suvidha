@@ -11,6 +11,8 @@ const ALLOWED_EVENTS = new Set([
   'tell_suvidha_route',
   'search_used',
   'share_clicked',
+  'share_success',
+  'share_fallback_download',
   'install_clicked',
   'app_installed'
 ]);
@@ -155,6 +157,12 @@ export const analytics = {
   },
   shareClicked(toolSlug) {
     return trackEvent('share_clicked', { tool: toolSlug });
+  },
+  shareSuccess(toolSlug) {
+    return trackEvent('share_success', { tool: toolSlug });
+  },
+  shareFallbackDownload(toolSlug) {
+    return trackEvent('share_fallback_download', { tool: toolSlug });
   },
   installClicked(platform) {
     return trackEvent('install_clicked', { platform });
