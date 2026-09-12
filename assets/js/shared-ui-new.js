@@ -11,6 +11,7 @@ import { recordRecentTool, getRecentTools, clearRecentTools, getRecentToolObject
 import { renderContinueWithSuvidha, getToolChain, setChainPayload, consumeChainPayload, setChainTextPayload, consumeChainTextPayload } from './modules/tool-chaining.js';
 import { shareFile, shareText, canShareFiles, getAttributionText } from './modules/share-utils.js';
 import { isHeicFile, isValidImageFile, convertHeicToBrowserImage, prepareImageFiles } from './modules/heic-utils.js';
+import { initFeedbackSystem, openFeedbackModal, closeFeedbackModal } from './modules/feedback.js';
 
 (() => {
   if (document.querySelector('.site-header-shell')) return;
@@ -998,6 +999,7 @@ import { isHeicFile, isValidImageFile, convertHeicToBrowserImage, prepareImageFi
         <a class="drawer-link" href="${toolsUrl}">Tools</a>
         <a class="drawer-link" href="${privacyUrl}">Why Private?</a>
         <a class="drawer-link" href="${aboutUrl}">About</a>
+        <a class="drawer-link drawer-feedback-link" href="#feedback" data-suvidha-feedback>Feedback</a>
         <button type="button" class="mobile-nav-install-btn" data-pwa-install aria-label="Install Suvidha App" style="display:none;">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span>Install Suvidha</span>
@@ -1026,6 +1028,7 @@ import { isHeicFile, isValidImageFile, convertHeicToBrowserImage, prepareImageFi
             <a class="footer-link" href="${privacyUrl}">Privacy</a>
             <a class="footer-link" href="${homeUrl}#faq">FAQ</a>
             <a class="footer-link" href="${aboutUrl}">About</a>
+            <a class="footer-link footer-feedback-link" href="#feedback" id="footerFeedbackBtn" data-suvidha-feedback>Feedback</a>
           </div>
           <div class="footer-sub">
             <span>Built with privacy in mind · Processed locally in your browser</span>
@@ -1303,6 +1306,8 @@ import { isHeicFile, isValidImageFile, convertHeicToBrowserImage, prepareImageFi
   };
   window.openTellSuvidhaModal = openTellSuvidhaModal;
   window.closeTellSuvidhaModal = closeTellSuvidhaModal;
+  window.openFeedbackModal = openFeedbackModal;
+  window.closeFeedbackModal = closeFeedbackModal;
   window.suvidhaShare = {
     shareFile,
     shareText,
@@ -1316,6 +1321,7 @@ import { isHeicFile, isValidImageFile, convertHeicToBrowserImage, prepareImageFi
     prepareImageFiles
   };
   initAnalytics();
+  initFeedbackSystem();
   initPWA({ serviceWorkerPath: `${homePrefix}sw.js` });
   initFloatingTellSuvidha({ toolSlug });
 })();

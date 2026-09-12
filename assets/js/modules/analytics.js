@@ -14,13 +14,17 @@ const ALLOWED_EVENTS = new Set([
   'share_success',
   'share_fallback_download',
   'install_clicked',
-  'app_installed'
+  'app_installed',
+  'feedback_opened',
+  'feedback_submitted',
+  'feedback_failed'
 ]);
 
 // Allowed sanitized property keys
 const ALLOWED_KEYS = new Set([
   'tool',
   'category',
+  'feedback_type',
   'target',
   'platform',
   'utm_source',
@@ -169,6 +173,21 @@ export const analytics = {
   },
   appInstalled() {
     return trackEvent('app_installed');
+  },
+  feedbackOpened() {
+    return trackEvent('feedback_opened');
+  },
+  feedbackSubmitted(feedbackType, toolSlug) {
+    const payload = {};
+    if (feedbackType) payload.feedback_type = feedbackType;
+    if (toolSlug) payload.tool = toolSlug;
+    return trackEvent('feedback_submitted', payload);
+  },
+  feedbackFailed(feedbackType, toolSlug) {
+    const payload = {};
+    if (feedbackType) payload.feedback_type = feedbackType;
+    if (toolSlug) payload.tool = toolSlug;
+    return trackEvent('feedback_failed', payload);
   }
 };
 
